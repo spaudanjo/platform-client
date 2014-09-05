@@ -1,3 +1,4 @@
-module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
+module.exports = ['$scope', 'PostData', function($scope, PostData) {
     $scope.title = 'Posts';
+    $scope.posts = PostData.query();
 }];
