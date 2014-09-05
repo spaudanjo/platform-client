@@ -20,8 +20,8 @@ function errorHandler (err) {
 // Options
 // - (bool) vm: enable docker builds, default: false
 var options = {
-    vm: true,
-    nodeserver: false,
+    vm: false,
+    nodeserver: true,
     www: 'server/www'
 };
 
@@ -171,6 +171,7 @@ gulp.task('vm', ['watch'], function() {
 gulp.task('nodeserver', ['watch', 'direct'], function() {
     connect.server({
         root: options.www,
+        port: 8081, 
         middleware: function (/*connect, opt*/) {
             return [
                 function (req, res, next) {
