@@ -20,7 +20,7 @@ function errorHandler (err) {
 // Options
 // - (bool) vm: enable docker builds, default: false
 var options = {
-    vm: false,
+    vm: true,
     nodeserver: false,
     www: 'server/www'
 };
