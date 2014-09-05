@@ -1,7 +1,10 @@
 module.exports = function(app){
   app.factory("Authentication", ['$http', function($http){
-    var accessToken = "";
     var signinStatus = false;
+
+    var setAccessToken = function(accessToken){
+      localStorage.setItem('access_token', accessToken);
+    };
 
     // instead of using Angular's $watch
     // (which could results in performance issues when not used carefully),
@@ -29,8 +32,15 @@ module.exports = function(app){
         };
         $http.post("http://localhost:8000/oauth/access_token", payload)
         .success(function(data){
-          accessToken = data.access_token;
-          localStorage.setItem('access_token', data.access_token);
+          setAccessToken(data.access_token);
+
+          signinStatus = true;
+          notifyObservers();
+        })
+        .error(function(data, status, headers, config){
+          setAccessToken("");
+
+          signinStatus = false;
           notifyObservers();
         });
       },
@@ -41,6 +51,6 @@ module.exports = function(app){
         return signinStatus;
       }
     };
-    
+
   }]);
 };

@@ -1,6 +1,6 @@
 module.exports = ['$location', 'Authentication', function($location, Authentication){
   var onSigninStatusChanged = function(){
-    $location.path("/posts");
+    Authentication.getSigninStatus() ? $location.path("/posts") : $location.path("/signin");
   };
   Authentication.registerObserverCallback(onSigninStatusChanged);
 }];
