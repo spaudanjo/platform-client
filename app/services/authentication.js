@@ -18,9 +18,11 @@ module.exports = function(app){
     };
 
     return {
+
       registerObserverCallback: function(callback){
         observerCallbacks.push(callback);
       },
+
       signin: function(username, password)
       {
         var payload = {
@@ -44,9 +46,11 @@ module.exports = function(app){
           notifyObservers();
         });
       },
+
       getAccessToken: function(){
         return accessToken;
       },
+
       getSigninStatus: function(){
         return signinStatus;
       }

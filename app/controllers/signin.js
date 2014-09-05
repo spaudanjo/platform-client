@@ -4,8 +4,8 @@ module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
   $scope.password = "testing";
 
   $scope.signinSubmit = function(){
+    Authentication.signin($scope.username, $scope.password);
     $scope.username = "";
     $scope.password = "";
-    Authentication.signin($scope.username, $scope.password);
   };
 }];
