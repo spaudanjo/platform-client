@@ -4,7 +4,9 @@ require('./modules/ui-tabs');
 require('angular-ui-bootstrap/src/dropdown/dropdown');
 
 var app = angular.module('app', ['ngRoute', 'ui.bootstrap.dropdown', 'ui.tabs'])
-    .config(require('./routes'));
+    .config(require('./routes'))
+    .run(require('./global-event-handlers.js'));
+
 
 require('./controllers/navigation.js')(app);
 require('./services/authentication.js')(app);
