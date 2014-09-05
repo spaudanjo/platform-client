@@ -1,6 +1,7 @@
 module.exports = function(app){
   app.factory("Authentication", ['$http', function($http){
     var accessToken = "";
+    var signinStatus = false;
     return {
       signin: function(username, password)
       {
@@ -13,14 +14,15 @@ module.exports = function(app){
         };
         $http.post("http://localhost:8000/oauth/access_token", payload)
         .success(function(data){
-          debugger;
           accessToken = data.access_token;
           localStorage.setItem('access_token', data.access_token);
         });
       },
       getAccessToken: function(){
         return accessToken;
+      },
+      getSigninStatus: function(){
+        return signinStatus;
       }
-    }
   }]);
 };
