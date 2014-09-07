@@ -1,26 +1,11 @@
-module.exports = ['$http', function($http){
+module.exports = ['$rootScope', '$http', function($rootScope, $http){
   var signinStatus = false;
 
   var setAccessToken = function(accessToken){
     localStorage.setItem('access_token', accessToken);
   };
 
-  // instead of using Angular's $watch
-  // (which could results in performance issues when not used carefully),
-  // we are using the good old observer pattern to inform other actors
-  // when the signinStatus has changed
-  var observerCallbacks = [];
-  var notifyObservers = function(){
-    angular.forEach(observerCallbacks, function(callback){
-      callback();
-    });
-  };
-
   return {
-
-    registerObserverCallback: function(callback){
-      observerCallbacks.push(callback);
-    },
 
     signin: function(username, password)
     {
@@ -36,13 +21,13 @@ module.exports = ['$http', function($http){
         setAccessToken(data.access_token);
 
         signinStatus = true;
-        notifyObservers();
+        $rootScope.$broadcast('event:authentication:succeeded');
       })
       .error(function(data, status, headers, config){
         setAccessToken("");
 
         signinStatus = false;
-        notifyObservers();
+        $rootScope.$broadcast('event:authentication:failed');
       });
     },
 
