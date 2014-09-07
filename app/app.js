@@ -9,6 +9,6 @@ var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap.dropdown
     .service('Authentication', require('./services/authentication.js'))
     .service('PostData', require('./services/data/post.js'))
     .controller('navigation', require('./controllers/navigation.js'))
-    .config(require('./interceptors/unauthorized.js'))
+    .config(require('./interceptors/authentication.js'))
     .config(require('./routes'))
     .run(require('./global-event-handlers.js'));

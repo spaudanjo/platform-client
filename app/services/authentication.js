@@ -31,10 +31,6 @@ module.exports = ['$rootScope', '$http', function($rootScope, $http){
       });
     },
 
-    getAccessToken: function(){
-      return accessToken;
-    },
-
     getSigninStatus: function(){
       return signinStatus;
     }

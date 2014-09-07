@@ -1,9 +1,20 @@
 module.exports = ['$provide', '$httpProvider', function($provide, $httpProvider){
   // register the interceptor as a service
-  $provide.factory('authInterceptor', ['$rootScope', '$q', function($rootScope, $q) {
+  $provide.factory('authInterceptor',
+  ['$rootScope', '$q', '$location', function($rootScope, $q, $location) {
     return {
 
-      // optional method
+      'request': function(config) {
+        $location;
+        if(config.url.indexOf("localhost:8000") != -1)
+        {
+          var accessToken = localStorage.getItem('access_token');
+          var sep = config.url.indexOf('?') === -1 ? '?' : '&';
+          config.url = config.url + sep + 'access_token=' + accessToken;
+        }
+        return config;
+      },
+
       'responseError': function(rejection) {
         if ( rejection.status == 401) {
           var deferred = $q.defer();
