@@ -5,7 +5,7 @@ module.exports = ['$rootScope', '$location', function($rootScope, $location){
     $location.path("/posts");
   };
 
-  var switchToSignedout = function(){
+  var switchToSignedoutAndShowSigninPage = function(){
     $rootScope.signedin = false;
     $location.path("/signin");
   };
@@ -15,15 +15,16 @@ module.exports = ['$rootScope', '$location', function($rootScope, $location){
   });
 
   $rootScope.$on('event:authentication:signin:failed', function(){
-    switchToSignedout();
+    switchToSignedoutAndShowSigninPage();
   });
 
   $rootScope.$on('event:authentication:signout:succeeded', function(){
-    switchToSignedout();
+    $rootScope.signedin = false;
+    $location.path("/");
   });
 
   $rootScope.$on('event:unauthorized', function(){
-    switchToSignedout();
+    switchToSignedoutAndShowSigninPage();
   });
 
 }];

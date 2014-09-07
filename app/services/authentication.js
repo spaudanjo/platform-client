@@ -5,6 +5,11 @@ module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, 
     localStorage.setItem('access_token', accessToken);
   };
 
+  var setToSignoutState = function(){
+     setAccessToken("");
+     signinStatus = false;
+  };
+
   return {
 
     signin: function(username, password)
@@ -24,11 +29,16 @@ module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, 
         $rootScope.$broadcast('event:authentication:signin:succeeded');
       })
       .error(function(data, status, headers, config){
-        setAccessToken("");
-
-        signinStatus = false;
+        setToSignoutState();
         $rootScope.$broadcast('event:authentication:signin:failed');
       });
+    },
+
+    signout: function(){
+      //TODO: ASK THE BACKEND TO DESTROY SESSION
+
+      setToSignoutState();
+      $rootScope.$broadcast('event:authentication:signout:succeeded');
     },
 
     getSigninStatus: function(){
