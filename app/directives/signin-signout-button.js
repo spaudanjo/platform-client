@@ -5,6 +5,6 @@ module.exports = [function(){
     scope: {
       signedIn: '='
     },
-    templateUrl: 'templates/posts/preview.html',
+    templateUrl: 'templates/partials/signin-signout-button.html',
   };
 }];
