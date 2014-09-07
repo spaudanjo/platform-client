@@ -4,8 +4,8 @@ module.exports = function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
         .when('/', {
-            controller: require('./controllers/posts.js'),
-            templateUrl: 'templates/posts.html'
+            controller: require('./controllers/home.js'),
+            templateUrl: 'templates/home.html'
         })
         .when('/signin', {
             controller: require('./controllers/signin.js'),
