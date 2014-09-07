@@ -1,5 +1,15 @@
-module.exports = ['$rootScope', '$location', 'Authentication', function($rootScope, $location, Authentication){
+module.exports = ['$rootScope', '$location', function($rootScope, $location){
+
   $rootScope.$on('event:authentication:succeeded', function(){
-    Authentication.getSigninStatus() ? $location.path("/posts") : $location.path("/signin");
+    $location.path("/posts");
   });
+
+  $rootScope.$on('event:authentication:failed', function(){
+    $location.path("/signin");
+  });
+
+  $rootScope.$on('event:unauthorized', function(){
+    $location.path("/signin");
+  });
+
 }];
