@@ -33,7 +33,7 @@
         </div> <!-- end .list-filter -->
 
         <div class="list-view-wrapper">
-          <post-preview></post-preview>
+          <post-preview ng-repeat="post in posts" post="post"></post-preview>
         </div> <!-- end .list-view-wrapper -->
 
         <div class="pagination">

@@ -5,7 +5,7 @@
     </div> <!-- end .list-view-image -->
 
     <div class="list-view-details">
-      <h4 class="list-view-header"><a ng-href="/posts/detail">Zombies Made of Entire University Faculty.</a></h4>
+      <h4 class="list-view-header"><a ng-href="/posts/detail">{{post.title}}</a></h4>
       <div class="list-view-time">
         <p> <i class="fa  fa-clock-o"></i>Today 12:20 pm</p>
       </div> <!-- end .list-view-time -->
@@ -16,7 +16,7 @@
       </div>
 
       <div class="list-view-excerpt">
-        <p>A zombie outbreak has been confirmed on this college campus. The attack took place sometime between the hours of 5:00 and 10:00 am on March 31st, 2010. While most of the students escaped unscathed, thanks to the valiant efforts of the faculty, the unfortunate faculty members have been infected. They are presently continuing their classes as scheduled, however, they are luring students, one by one, to isolated locations and infecting them. All students should take caution when dealing with their profesors.<a ng-href="/posts/detail"><span class="read-more"> &nbsp;... Read&nbsp;More</span></a></p>
+        <p>{{post.description}}<a ng-href="/posts/detail"><span class="read-more"> &nbsp;... Read&nbsp;More</span></a></p>
       </div> <!-- end .list-view-excerpt -->
 
       <div class="list-view-tags-wrapper">
