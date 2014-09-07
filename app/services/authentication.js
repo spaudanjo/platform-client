@@ -1,4 +1,4 @@
-module.exports = ['$rootScope', '$http', function($rootScope, $http){
+module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, API_URL){
   var signinStatus = false;
 
   var setAccessToken = function(accessToken){
@@ -16,7 +16,7 @@ module.exports = ['$rootScope', '$http', function($rootScope, $http){
         client_id: 'test_id',
         client_secret: 'test_secret'
       };
-      $http.post("http://localhost:8000/oauth/access_token", payload)
+      $http.post(API_URL + "/oauth/access_token", payload)
       .success(function(data){
         setAccessToken(data.access_token);
 

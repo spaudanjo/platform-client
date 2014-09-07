@@ -5,6 +5,7 @@ require('./modules/ui-tabs');
 require('angular-ui-bootstrap/src/dropdown/dropdown');
 
 var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap.dropdown', 'ui.tabs'])
+    .constant('API_URL', 'http://localhost:8000')
     .directive('postPreview', require('./directives/post-preview.js'))
     .service('Authentication', require('./services/authentication.js'))
     .service('PostData', require('./services/data/post.js'))

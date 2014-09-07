@@ -1,5 +1,5 @@
-module.exports = ['$resource', function($resource){
-  return $resource('http://localhost:8000/posts.json/:postId', {}, {
+module.exports = ['$resource', 'API_URL', function($resource, API_URL){
+  return $resource(API_URL + '/posts.json/:postId', {}, {
     query: {method: 'GET', isArray: true}
   });
 }];
