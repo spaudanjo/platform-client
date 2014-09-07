@@ -3,7 +3,7 @@ module.exports = [function(){
     restrict: 'E',
     replace: true,
     scope: {
-      signedIn: '='
+      signedin: '='
     },
     templateUrl: 'templates/partials/signin-signout-button.html',
   };

@@ -21,13 +21,13 @@ module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, 
         setAccessToken(data.access_token);
 
         signinStatus = true;
-        $rootScope.$broadcast('event:authentication:succeeded');
+        $rootScope.$broadcast('event:authentication:signin:succeeded');
       })
       .error(function(data, status, headers, config){
         setAccessToken("");
 
         signinStatus = false;
-        $rootScope.$broadcast('event:authentication:failed');
+        $rootScope.$broadcast('event:authentication:signin:failed');
       });
     },
 

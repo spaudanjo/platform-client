@@ -3,7 +3,7 @@ module.exports = [function(){
     restrict: 'E',
     replace: true,
     scope: {
-      signedIn: '='
+      post: '='
     },
     templateUrl: 'templates/posts/preview.html',
   };

@@ -1,18 +1,29 @@
 module.exports = ['$rootScope', '$location', function($rootScope, $location){
 
-  $rootScope.$on('event:authentication:succeeded', function(){
-    $rootScope.signedIn = true;
+  var switchToSignedin = function(){
+    $rootScope.signedin = true;
     $location.path("/posts");
+  };
+
+  var switchToSignedout = function(){
+    $rootScope.signedin = false;
+    $location.path("/signin");
+  };
+
+  $rootScope.$on('event:authentication:signin:succeeded', function(){
+    switchToSignedin();
   });
 
-  $rootScope.$on('event:authentication:failed', function(){
-    $rootScope.signedIn = false;
-    $location.path("/signin");
+  $rootScope.$on('event:authentication:signin:failed', function(){
+    switchToSignedout();
+  });
+
+  $rootScope.$on('event:authentication:signout:succeeded', function(){
+    switchToSignedout();
   });
 
   $rootScope.$on('event:unauthorized', function(){
-    $rootScope.signedIn = false;
-    $location.path("/signin");
+    switchToSignedout();
   });
 
 }];
