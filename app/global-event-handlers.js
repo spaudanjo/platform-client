@@ -1,4 +1,6 @@
-module.exports = ['$rootScope', '$location', function($rootScope, $location){
+module.exports = ['$rootScope', '$location', 'Authentication', function($rootScope, $location, Authentication){
+
+  $rootScope.signedin = Authentication.getSigninStatus();
 
   var switchToSignedin = function(){
     $rootScope.signedin = true;

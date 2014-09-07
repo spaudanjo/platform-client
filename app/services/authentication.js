@@ -1,13 +1,16 @@
 module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, API_URL){
-  var signinStatus = false;
+  // check if initially we have an old access_token and assume that,
+  // if yes, we are still signedin
+  var signinStatus = !!localStorage.getItem('access_token');
 
-  var setAccessToken = function(accessToken){
+  var setToSigninState = function(accessToken){
     localStorage.setItem('access_token', accessToken);
+    signinStatus = true;
   };
 
   var setToSignoutState = function(){
-     setAccessToken("");
-     signinStatus = false;
+    localStorage.removeItem('access_token');
+    signinStatus = false;
   };
 
   return {
@@ -23,9 +26,8 @@ module.exports = ['$rootScope', '$http', 'API_URL', function($rootScope, $http, 
       };
       $http.post(API_URL + "/oauth/access_token", payload)
       .success(function(data){
-        setAccessToken(data.access_token);
+        setToSigninState(data.access_token);
 
-        signinStatus = true;
         $rootScope.$broadcast('event:authentication:signin:succeeded');
       })
       .error(function(data, status, headers, config){
