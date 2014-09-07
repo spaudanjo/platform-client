@@ -6,6 +6,8 @@ module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
   };
 
   $scope.signoutClick = function(){
+    event.preventDefault();
+    event.stopPropagation();
     Authentication.signout();
   };
 
