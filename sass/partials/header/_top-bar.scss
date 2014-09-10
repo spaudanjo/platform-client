@@ -118,6 +118,10 @@ header.navigation {
 		float: right;
 		padding: 0;
 
+		.sign-in [class*='fa-'] {
+			background-color: $darkBlue;
+		}
+
 		.create-post [class*='fa-'] {
 			background-color: $success-color;
 		}
