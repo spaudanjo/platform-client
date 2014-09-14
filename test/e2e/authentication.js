@@ -1,7 +1,7 @@
 'use strict';
 
 var getLastUrlPart = function(url){
-  return url.substr(url.lastIndexOf('/') + 1);
+  return url.substr(url.lastIndexOf('/'));
 };
 
 var httpBackendMock = function() {
@@ -57,7 +57,7 @@ describe('sign in', function() {
 
       it('should go to the signin page', function(){
         ptor.getCurrentUrl().then(function(url){
-          expect(getLastUrlPart(url)).toBe('signin');
+          expect(getLastUrlPart(url)).toBe('/signin');
         });
       });
   });
@@ -90,7 +90,7 @@ describe('sign in', function() {
 
         it('should stay on the sign in page', function(){
           ptor.getCurrentUrl().then(function(url){
-            expect(getLastUrlPart(url)).toBe('signin');
+            expect(getLastUrlPart(url)).toBe('/signin');
           });
         });
 
