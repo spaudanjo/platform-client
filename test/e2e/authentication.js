@@ -4,36 +4,7 @@ var getLastUrlPart = function(url){
   return url.substr(url.lastIndexOf('/'));
 };
 
-var httpBackendMock = function() {
-  angular.module('httpBackendMock', ['ngMockE2E', 'myApp'])
-    .run(function($httpBackend) {
-      var authenticated = false;
-      var testAccount = {
-        email: 'test@example.com'
-      };
-
-      $httpBackend.whenGET('/api/auth').respond(function(method, url, data, headers) {
-        return authenticated ? [200, testAccount, {}] : [401, {}, {}];
-      });
-
-      $httpBackend.whenPOST('/api/auth').respond(function(method, url, data, headers) {
-        authenticated = true;
-        return [200, testAccount, {}];
-      });
-
-      $httpBackend.whenDELETE('/api/auth').respond(function(method, url, data, headers) {
-        authenticated = false;
-        return [204, {}, {}];
-      });
-
-      $httpBackend.whenGET(/.*/).passThrough();
-    })
-};
-
 var ptor = protractor.getInstance();
-// ptor.addMockModule('httpBackendMock', httpBackendMock);
-
-
 
 describe('sign in', function() {
 
@@ -91,6 +62,21 @@ describe('sign in', function() {
         it('should stay on the sign in page', function(){
           ptor.getCurrentUrl().then(function(url){
             expect(getLastUrlPart(url)).toBe('/signin');
+          });
+        });
+
+      });
+
+      describe('submit form with correct credentials', function(){
+        beforeEach(function(){
+          usernameField.sendKeys("admin");
+          passwordField.sendKeys("admin");
+          submitButton.click();
+        });
+
+        it('should go to the home page', function(){
+          ptor.getCurrentUrl().then(function(url){
+            expect(getLastUrlPart(url)).toBe('/');
           });
         });
 
