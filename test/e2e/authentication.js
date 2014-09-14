@@ -14,20 +14,20 @@ describe('sign in', function() {
 
   describe('menu', function(){
 
-    var signinButton;
+    var signinLink;
 
     beforeEach(function() {
       browser.get('/');
-      signinButton = element(by.css('a[href="signin"]'));
+      signinLink = element(by.css('a[href="signin"]'));
     });
 
     it("should have sign in button", function(){
-      expect(signinButton.getText()).toBe('Sign in');
+      expect(signinLink.getText()).toBe('Sign in');
     });
 
     describe('clicking the signin button', function(){
       beforeEach(function(){
-        signinButton.click();
+        signinLink.click();
       });
 
       it('should go to the signin page', function(){
@@ -35,16 +35,31 @@ describe('sign in', function() {
           expect(getLastUrlPart(url)).toBe('signin');
         });
       });
+  });
+
+  describe('sign in form', function(){
+
+    var usernameField;
+    var passwordField;
+    var submitButton;
+
+    beforeEach(function(){
+      browser.get('/signin');
+      usernameField = element(by.model("username"));
+      passwordField = element(by.model("password"));
+      submitButton = element(by.css("button[type='submit']"));
+    });
 
       it('should have a sign in form', function(){
-        var usernameField = element(by.model("username"));
         expect(usernameField.isDisplayed()).toBeTruthy();
-
-        var passwordField = element(by.model("password"));
         expect(passwordField.isDisplayed()).toBeTruthy();
-
-        var submitButton = element(by.css("button[type='submit']"));
         expect(submitButton.isDisplayed()).toBeTruthy();
+      });
+
+      describe('submit form with wrong credentials', function(){
+        beforeEach(function(){
+
+        });
       });
 
     });
