@@ -36,7 +36,20 @@ describe('sign in', function() {
         });
       });
 
+      it('should have a sign in form', function(){
+        var usernameField = element(by.model("username"));
+        expect(usernameField.isDisplayed()).toBeTruthy();
+
+        var passwordField = element(by.model("password"));
+        expect(passwordField.isDisplayed()).toBeTruthy();
+
+        var submitButton = element(by.css("button[type='submit']"));
+        expect(submitButton.isDisplayed()).toBeTruthy();
+      });
+
     });
+
+        // expect(usernameField.getText()).toBe('')
 
     	// element.all(by.css(".phones li a")).first().click();
     	// browser.getLocationAbsUrl().then(function(url){
