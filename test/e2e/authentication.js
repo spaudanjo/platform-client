@@ -1,20 +1,42 @@
 'use strict';
 
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
+var getLastUrlPart = function(url){
+  return url.substr(url.lastIndexOf('/') + 1);
+};
+
+var ptor;
+
+beforeEach(function() {
+  ptor = protractor.getInstance();
+});
 
 describe('sign in', function() {
 
   describe('menu', function(){
 
+    var signinButton;
+
     beforeEach(function() {
       browser.get('/');
+      signinButton = element(by.css('a[href="signin"]'));
     });
 
     it("should have sign in button", function(){
-      expect(element(by.css('a[href="signin"]')).getText()).toBe('Sign in');
+      expect(signinButton.getText()).toBe('Sign in');
     });
 
-    // describe('clicking the signin button')
+    describe('clicking the signin button', function(){
+      beforeEach(function(){
+        signinButton.click();
+      });
+
+      it('should go to the signin page', function(){
+        ptor.getCurrentUrl().then(function(url){
+          expect(getLastUrlPart(url)).toBe('signin');
+        });
+      });
+
+    });
 
     	// element.all(by.css(".phones li a")).first().click();
     	// browser.getLocationAbsUrl().then(function(url){
