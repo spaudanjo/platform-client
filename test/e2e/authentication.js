@@ -4,11 +4,36 @@ var getLastUrlPart = function(url){
   return url.substr(url.lastIndexOf('/') + 1);
 };
 
-var ptor;
+var httpBackendMock = function() {
+  angular.module('httpBackendMock', ['ngMockE2E', 'myApp'])
+    .run(function($httpBackend) {
+      var authenticated = false;
+      var testAccount = {
+        email: 'test@example.com'
+      };
 
-beforeEach(function() {
-  ptor = protractor.getInstance();
-});
+      $httpBackend.whenGET('/api/auth').respond(function(method, url, data, headers) {
+        return authenticated ? [200, testAccount, {}] : [401, {}, {}];
+      });
+
+      $httpBackend.whenPOST('/api/auth').respond(function(method, url, data, headers) {
+        authenticated = true;
+        return [200, testAccount, {}];
+      });
+
+      $httpBackend.whenDELETE('/api/auth').respond(function(method, url, data, headers) {
+        authenticated = false;
+        return [204, {}, {}];
+      });
+
+      $httpBackend.whenGET(/.*/).passThrough();
+    })
+};
+
+var ptor = protractor.getInstance();
+// ptor.addMockModule('httpBackendMock', httpBackendMock);
+
+
 
 describe('sign in', function() {
 
@@ -58,8 +83,17 @@ describe('sign in', function() {
 
       describe('submit form with wrong credentials', function(){
         beforeEach(function(){
-
+          usernameField.sendKeys("foo");
+          passwordField.sendKeys("bar");
+          submitButton.click();
         });
+
+        it('should stay on the sign in page', function(){
+          ptor.getCurrentUrl().then(function(url){
+            expect(getLastUrlPart(url)).toBe('signin');
+          });
+        });
+
       });
 
     });
