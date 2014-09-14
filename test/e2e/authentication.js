@@ -6,22 +6,27 @@ var getLastUrlPart = function(url){
 
 var ptor = protractor.getInstance();
 
+var signinLinkSelector = 'a[href="signin"]';
+var signoutLinkSelector = 'a[href="signout"]';
+
+
 describe('sign in', function() {
 
-  describe('menu', function(){
+  describe('sign in link in main menu', function(){
 
     var signinLink;
 
     beforeEach(function() {
       browser.get('/');
-      signinLink = element(by.css('a[href="signin"]'));
+      signinLink = element(by.css(signinLinkSelector));
     });
 
-    it("should have sign in button", function(){
+    it("should exist and have the correct text", function(){
+      expect(signinLink.isDisplayed()).toBe(true);
       expect(signinLink.getText()).toBe('Sign in');
     });
 
-    describe('clicking the signin button', function(){
+    describe('clicking the signin link', function(){
       beforeEach(function(){
         signinLink.click();
       });
@@ -77,6 +82,17 @@ describe('sign in', function() {
         it('should go to the home page', function(){
           ptor.getCurrentUrl().then(function(url){
             expect(getLastUrlPart(url)).toBe('/');
+          });
+        });
+
+        describe('signout link in the main menu', function(){
+          var signoutLink;
+
+          it('should exist instead of the signin link', function(){
+            signoutLink = element(by.css(signoutLinkSelector));
+            expect(element(by.css(signoutLinkSelector)).isDisplayed()).toBeTruthy();
+
+            expect(element(by.css(signinLinkSelector)).isDisplayed()).toBeFalsy();
           });
         });
 
