@@ -6,8 +6,8 @@ var getLastUrlPart = function(url){
 
 var ptor = protractor.getInstance();
 
-var signinLinkSelector = 'a[href="signin"]';
-var signoutLinkSelector = 'a[href="signout"]';
+var signinLinkSelector = 'a#signin-link';
+var signoutLinkSelector = 'a#signout-link';
 
 
 describe('sign in', function() {
