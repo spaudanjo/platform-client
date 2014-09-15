@@ -18,7 +18,8 @@
   },
   "napa": {
     "angular": "angular/bower-angular",
-    "angular-route": "angular/bower-angular-route"
+    "angular-route": "angular/bower-angular-route",
+    "angular-resource": "angular/bower-angular-resource"
   },
   "devDependencies": {
     "angular-ui-bootstrap": "git+https://github.com/angular-ui/bootstrap.git#0.11.0",
