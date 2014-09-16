@@ -9,8 +9,7 @@ module.exports = ['$provide', '$httpProvider', function($provide, $httpProvider)
         if (config.url.indexOf(API_URL) !== -1)
         {
           var accessToken = localStorage.getItem('access_token');
-          var sep = config.url.indexOf('?') === -1 ? '?' : '&';
-          config.url = config.url + sep + 'access_token=' + accessToken;
+          config.headers.Authorization = 'Bearer ' + accessToken;
         }
         return config;
       },
