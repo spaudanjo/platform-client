@@ -4,7 +4,7 @@ require('angular-resource/angular-resource');
 require('./modules/ui-tabs');
 require('angular-ui-bootstrap/src/dropdown/dropdown');
 
-var backendUrl = 'http://localhost:8000';
+var backendUrl = 'http://lamu';
 
 angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap.dropdown', 'ui.tabs'])
   .constant('BACKEND_URL', backendUrl)

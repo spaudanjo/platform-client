@@ -21,10 +21,10 @@ module.exports = ['$rootScope', '$http', 'BACKEND_URL', function($rootScope, $ht
         username: username,
         password: password,
         grant_type: 'password',
-        client_id: 'test_id',
-        client_secret: 'test_secret'
+        client_id: 'ushahidiui',
+        client_secret: '35e7f0bca957836d05ca0492211b0ac707671261'
       };
-      $http.post(BACKEND_URL + '/oauth/access_token', payload)
+      $http.post(BACKEND_URL + '/oauth/token', payload)
       .success(function(data){
         setToSigninState(data.access_token);
 
