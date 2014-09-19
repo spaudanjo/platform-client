@@ -1,4 +1,5 @@
 module.exports = ['$rootScope', '$http', 'BACKEND_URL', function($rootScope, $http, BACKEND_URL){
+
   // check if initially we have an old access_token and assume that,
   // if yes, we are still signedin
   var signinStatus = !!localStorage.getItem('access_token'),
@@ -17,14 +18,19 @@ module.exports = ['$rootScope', '$http', 'BACKEND_URL', function($rootScope, $ht
 
     signin: function(username, password)
     {
-      var payload = {
+      var claimedScopes = [
+        'posts'
+      ],
+      payload = {
         username: username,
         password: password,
         grant_type: 'password',
-        client_id: 'test_id',
-        client_secret: 'test_secret'
+        client_id: 'ushahidiui',
+        client_secret: '35e7f0bca957836d05ca0492211b0ac707671261',
+        scope: claimedScopes.join(' ')
       };
-      $http.post(BACKEND_URL + '/oauth/access_token', payload)
+
+      $http.post(BACKEND_URL + '/oauth/token', payload)
       .success(function(data){
         setToSigninState(data.access_token);
 
