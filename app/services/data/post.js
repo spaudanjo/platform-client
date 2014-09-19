@@ -3,7 +3,7 @@ module.exports = ['$resource', 'API_URL', function($resource, API_URL){
     query: {
       method: 'GET',
       isArray: true,
-      transformResponse: function(data, header) {
+      transformResponse: function(data /*, header*/) {
         var parsedData = angular.fromJson(data);
         return parsedData.results;
       }

@@ -1,5 +1,3 @@
-var fs = require('fs');
-
 module.exports = function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 
