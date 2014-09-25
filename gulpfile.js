@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     connect = require('gulp-connect'),
     path = require('path'),
+    karma = require('karma').server,
     url = require('url');
 
 function errorHandler (err) {
@@ -195,10 +196,31 @@ gulp.task('direct', ['watch'], function() {
     });
 });
 
+
+/**
+ * Run test once and exit
+ */
+gulp.task('test', function (done) {
+  karma.start({
+    configFile: __dirname + '/test/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+/**
+ * Watch for file changes and re-run tests on each change
+ */
+gulp.task('tdd', function (done) {
+  karma.start({
+    configFile: __dirname + '/test/karma.conf.js',
+  }, done);
+});
+
+
 /**
  * Task: `default`
  * Default task optimized for development
  */
 var mode = options.vm ? 'vm' : 'direct';
 var mode = options.nodeserver ? 'nodeserver' : mode;
-gulp.task('default', ['build', mode]);
+gulp.task('default', ['build', 'tdd', mode]);
