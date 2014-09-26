@@ -1,4 +1,7 @@
-module.exports = ['$rootScope', '$http', 'BACKEND_URL', function($rootScope, $http, BACKEND_URL){
+module.exports = ['$rootScope', '$http',
+  'BACKEND_URL', 'OAUTH_CLIENT_ID', 'OAUTH_CLIENT_SECRET',
+  function($rootScope, $http,
+    BACKEND_URL, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET){
 
   // check if initially we have an old access_token and assume that,
   // if yes, we are still signedin
@@ -25,8 +28,8 @@ module.exports = ['$rootScope', '$http', 'BACKEND_URL', function($rootScope, $ht
         username: username,
         password: password,
         grant_type: 'password',
-        client_id: 'ushahidiui',
-        client_secret: '35e7f0bca957836d05ca0492211b0ac707671261',
+        client_id: OAUTH_CLIENT_ID,
+        client_secret: OAUTH_CLIENT_SECRET,
         scope: claimedScopes.join(' ')
       };
 
