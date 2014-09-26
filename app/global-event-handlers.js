@@ -9,6 +9,7 @@ module.exports = ['$rootScope', '$location', 'Authentication', function($rootSco
 
   var switchToSignedoutAndShowSigninPage = function(){
     $rootScope.signedin = false;
+    alert("You need to sign in to get access to this resource.");
     $location.path('/signin');
   };
 
