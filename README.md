@@ -1,6 +1,13 @@
 Ushahidi Platform Prototype
 ===========================
 
+[![Build Status](https://img.shields.io/travis/spaudanjo/platform-client/adding_karma3.svg?style=flat)](https://travis-ci.org/spaudanjo/platform-client)
+[![Coverage Status](https://coveralls.io/repos/spaudanjo/platform-client/badge.png?branch=adding_karma3)](https://coveralls.io/r/spaudanjo/platform-client?branch=adding_karma3)
+[![Dependency Status](https://david-dm.org/spaudanjo/platform-client/dev-status.svg?style=flat)](https://david-dm.org/spaudanjo/platform-client#info=devDependencies)
+[![Codacy Badge](https://www.codacy.com/project/badge/7a36b501ca1a414bbdbdd725af386ea0)](https://www.codacy.com/public/spaudanjo/platformclient)
+
+___
+
 ### Libraries/Packages/Dependencies
 
 * Nodejs
@@ -92,7 +99,7 @@ To run the Docker container, run `gulp --docker-server`
 >
 > Issue `sudo gpasswd -a ${USER} docker` to add the current logged in user to the `docker` group. Log out and then log back in to effect the changes.
 
-**Note:** The first build of the Docker server can take several minutes. Wait till you see `server is live @ http://<ip_address_or_localhost/` before attempting to view the site. 
+**Note:** The first build of the Docker server can take several minutes. Wait till you see `server is live @ http://<ip_address_or_localhost/` before attempting to view the site.
 
 ### I'm a developer, should I contribute to Ushahidi 3.x?
 

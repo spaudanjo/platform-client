@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    glob        = require('glob'),
     sass = require('gulp-sass'),
     livereload = require('gulp-livereload'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -12,8 +13,10 @@ var gulp = require('gulp'),
     envify = require('envify/custom'),
     fs = require('fs'),
     merge = require('merge'),
+    karma = require('karma').server,
 
     mockBackendFlag = gutil.env['mock-backend'],
+    mockBackendWithAngularHttpMockFlag = gutil.env['angular-mock-backend'],
     useNodeServerFlag = gutil.env['node-server'],
     useDockerServerFlag = gutil.env['docker-server'];
 
@@ -38,35 +41,48 @@ if (fs.existsSync('.gulpconfig.json')) {
 }
 
 var helpers = {
-  browserifyConfig:
-    {
-      entries : './app/app.js',
-      debug : true,
-    },
-  setBackendUrl: function(){
-    return envify({
-      backend_url: mockBackendFlag ?
-        options.mockedBackendUrl : options.backendUrl
-    });
-  },
-  createDefaultTaskDependencies: function (){
-    var mode = options.dockerServer ? 'docker-server' : 'direct';
-    mode = options.nodeServer ? 'node-server' : mode;
-    // when the command line flag '--node-server' is passed in,
-    // we want to force using node server
-    // when the command line flag '--docker-server' is passed in,
-    // we want to force using docker server
-    // (even if it is set to 'false' in the options hash)
-    mode = useNodeServerFlag ? 'node-server' : mode;
-    mode = useDockerServerFlag ? 'docker-server' : mode;
 
-    var dependencies = ['build', mode];
-    if(mockBackendFlag)
-    {
-      dependencies.push('mock-backend');
+    getBrowserifyConfig: function(mainEntryFile){
+        var mainEntryFile = (typeof mainEntryFile === "undefined") ?
+          './app/app.js' : mainEntryFile;
+
+        var entries = [mainEntryFile];
+        if(mockBackendWithAngularHttpMockFlag)
+        {
+            entries.push('./app/mock-backend-config.js');
+        }
+
+        return {
+            entries : entries,
+            debug : true,
+        };
+    },
+
+    setBackendUrl: function(){
+        return envify({
+            backend_url: mockBackendFlag ?
+                options.mockedBackendUrl : options.backendUrl
+        });
+    },
+
+    createDefaultTaskDependencies: function (){
+        var mode = options.dockerServer ? 'docker-server' : 'direct';
+        mode = options.nodeServer ? 'node-server' : mode;
+        // when the command line flag '--node-server' is passed in,
+        // we want to force using node server
+        // when the command line flag '--docker-server' is passed in,
+        // we want to force using docker server
+        // (even if it is set to 'false' in the options hash)
+        mode = useNodeServerFlag ? 'node-server' : mode;
+        mode = useDockerServerFlag ? 'docker-server' : mode;
+
+        var dependencies = ['build', mode];
+        if(mockBackendFlag)
+        {
+            dependencies.push('mock-backend');
+        }
+        return dependencies;
     }
-    return dependencies;
-  }
 };
 
 /**
@@ -119,7 +135,7 @@ gulp.task('font', function() {
  * Bundle js with browserify
  */
 gulp.task('browserify', function() {
-    browserify(helpers.browserifyConfig)
+    browserify(helpers.getBrowserifyConfig())
         .transform('brfs')
         .transform(helpers.setBackendUrl())
         .bundle()
@@ -132,7 +148,7 @@ gulp.task('browserify', function() {
  * Watch js and rebundle with browserify
  */
 gulp.task('watchify', function() {
-    var bundler = watchify(browserify(helpers.browserifyConfig, watchify.args))
+    var bundler = watchify(browserify(helpers.getBrowserifyConfig(), watchify.args))
     .transform('brfs')
     .transform(helpers.setBackendUrl())
     .on('update', rebundle);
@@ -216,12 +232,13 @@ gulp.task('docker-server', ['watch'], function() {
     gulp.watch(['Dockerfile', options.www + '/**/*'], ['docker']);
 });
 
-/**
- * Task: mock-backend`
+
+/** Task: mock-backend`
  * Runs a simple node connect server
  * and delivers the json files under the 'mocked_backend' folder
  */
 gulp.task('mock-backend', [], require('./gulp/mock-backend')('mocked_backend'));
+
 
 /**
  * Task: `node-server`
@@ -237,6 +254,53 @@ gulp.task('direct', ['watch'], function() {
     gulp.watch([options.www + '/**/*']).on('change', function(file) {
         livereload.changed(file);
     });
+});
+
+/**
+ * Run test once and exit
+ */
+gulp.task('test', function (done) {
+    karma.start({
+        configFile: __dirname + '/test/karma.conf.js',
+        browsers: ['Chrome'],
+        singleRun: true
+    }, done);
+});
+
+
+/**
+ * Run test once with Firefox and exit
+ */
+gulp.task('test-for-ci', function (done) {
+    karma.start({
+        configFile: __dirname + '/test/karma.conf.js',
+        browsers: ['Firefox'],
+        singleRun: true
+    }, done);
+});
+
+
+/**
+ * Send coverage stats to coveralls.io
+ */
+gulp.task('send-stats-to-coveralls', function (done) {
+    var coveralls = require('gulp-coveralls');
+    gulp.src('test/coverage/**/lcov.info')
+    .pipe(coveralls());
+
+});
+
+
+/**
+ * Watch for file changes and re-run tests on each change
+ */
+gulp.task('tdd', function (done) {
+    karma.start({
+        configFile: __dirname + '/test/karma.conf.js',
+        browsers: ['Chrome'],
+        autoWatch : true,
+        singleRun: false
+    }, done);
 });
 
 /**
