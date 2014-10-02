@@ -15,7 +15,7 @@ var gulp = require('gulp'),
     envify = require('envify/custom'),
 
     mockBackendFlag = gutil.env['mock-backend'],
-    useNodeserverFlag = gutil.env['nodeserver'];
+    useNodeserverFlag = gutil.env.nodeserver;
 
 function errorHandler (err) {
     gutil.beep();
