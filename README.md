@@ -68,7 +68,7 @@ Two things will happen then:
   * which delivers all json files within the 'mocked_backend' folder to localhost:8081
   * the json extension will be truncated
     * so 'mocked_backend/test.json' maps to 'localhost:8081/test'
-* 2. the backendUrl env variable, which is used in app.js for configuring the api backend, will be reset to the url of just started node mock server
+* 2. the backendUrl env variable, which is used in app.js for configuring the api backend, will be reset to the url of the just started node mock server
 
 ### I'm a developer, should I contribute to Ushahidi 3.x?
 
