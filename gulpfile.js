@@ -14,7 +14,8 @@ var gulp = require('gulp'),
     url = require('url'),
     envify = require('envify/custom'),
 
-    mockBackendFlag = gutil.env['mock-backend'];
+    mockBackendFlag = gutil.env['mock-backend'],
+    useNodeserverFlag = gutil.env['nodeserver'];
 
 function errorHandler (err) {
     gutil.beep();
@@ -25,7 +26,7 @@ function errorHandler (err) {
 // - (bool) vm: enable docker builds, default: false
 var options = {
     vm: false,
-    nodeserver: true,
+    nodeserver: false,
     www: 'server/www',
     backendUrl: 'http://ushahidi-backend',
     mockedBackendUrl: 'http://localhost:8081'
@@ -46,6 +47,11 @@ var helpers = {
   createDefaultTaskDependencies: function (){
     var mode = options.vm ? 'vm' : 'direct';
     mode = options.nodeserver ? 'nodeserver' : mode;
+    // when the command line flag '--nodeserver' is passed in,
+    // we want to force using nodeserver
+    // (even if it is set to 'false' in the options hash)
+    mode = useNodeserverFlag ? 'nodeserver' : mode;
+
     var dependencies = ['build', mode];
     if(mockBackendFlag)
     {
