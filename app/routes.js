@@ -2,7 +2,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
 
     $locationProvider.html5Mode(true);
 
-    $urlRouterProvider.otherwise("/posts");
+    // $urlRouterProvider.otherwise("/posts");
 
     $stateProvider
         .state('home', {
