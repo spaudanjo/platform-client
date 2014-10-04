@@ -4,12 +4,12 @@ module.exports = ['$rootScope', '$state', 'Authentication', function($rootScope,
 
     var switchToSignedin = function(){
         $rootScope.signedin = true;
-        $state.go('home')
+        $state.go('home');
     };
 
     var switchToSignedoutAndShowSigninPage = function(){
         $rootScope.signedin = false;
-        $state.go('signin')
+        $state.go('signin');
     };
 
     $rootScope.$on('event:authentication:signin:succeeded', function(){
