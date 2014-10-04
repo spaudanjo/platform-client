@@ -2,9 +2,14 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
 
     $locationProvider.html5Mode(true);
 
-    // $urlRouterProvider.otherwise("/posts");
+    $urlRouterProvider.otherwise("/posts/");
 
     $stateProvider
+        .state('home', {
+            url: '/',
+            controller: require('./controllers/posts.js'),
+            templateUrl: 'templates/posts.html'
+        })
         .state('posts', {
             url: '/posts/',
             controller: require('./controllers/posts.js'),

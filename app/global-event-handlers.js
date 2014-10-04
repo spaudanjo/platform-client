@@ -1,15 +1,15 @@
-module.exports = ['$rootScope', '$location', 'Authentication', function($rootScope, $location, Authentication){
+module.exports = ['$rootScope', '$state', 'Authentication', function($rootScope, $state, Authentication){
 
     $rootScope.signedin = Authentication.getSigninStatus();
 
     var switchToSignedin = function(){
         $rootScope.signedin = true;
-        $location.path('/');
+        $state.go('home')
     };
 
     var switchToSignedoutAndShowSigninPage = function(){
         $rootScope.signedin = false;
-        $location.path('/signin');
+        $state.go('signin')
     };
 
     $rootScope.$on('event:authentication:signin:succeeded', function(){
@@ -22,7 +22,7 @@ module.exports = ['$rootScope', '$location', 'Authentication', function($rootSco
 
     $rootScope.$on('event:authentication:signout:succeeded', function(){
         $rootScope.signedin = false;
-        $location.path('/');
+        $state.go('home')
     });
 
     $rootScope.$on('event:unauthorized', function(){
