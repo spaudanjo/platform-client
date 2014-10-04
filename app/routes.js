@@ -2,21 +2,16 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
 
     $locationProvider.html5Mode(true);
 
-    // $urlRouterProvider.otherwise("/state1");
+    // $urlRouterProvider.otherwise("/posts");
 
     $stateProvider
         .state('posts', {
             url: '/posts/',
             controller: require('./controllers/posts.js'),
-            // controller: function(){
-            //     alert("ROUTER");
-            //     3;
-            //     debugger;
-            //     3
-            // },
             templateUrl: 'templates/posts.html'
         })
-        .state('/signin', {
+        .state('signin', {
+            url: '/signin/',
             controller: require('./controllers/signin.js'),
             templateUrl: 'templates/signin.html'
         });
