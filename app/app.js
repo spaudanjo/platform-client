@@ -27,4 +27,14 @@ angular.module('app', ['ui.router', 'ngResource', 'ui.bootstrap.dropdown', 'ui.b
     .config(require('./routes'))
     .config(require('./modules/ui-accordion'))
 
+    // .run(function ($rootScope, $state, Authentication) {
+    //     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+    //         debugger;
+    //         if (toState.authenticate && !Authentication.getSigninStatus()){
+    //             // User isn’t authenticated
+    //             $state.transitionTo("login");
+    //             event.preventDefault();
+    //         }
+    //     })
+    // })
     .run(require('./global-event-handlers.js'));

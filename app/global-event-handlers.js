@@ -22,6 +22,7 @@ module.exports = ['$rootScope', '$state', 'Authentication', function($rootScope,
 
     $rootScope.$on('event:authentication:signout:succeeded', function(){
         $rootScope.signedin = false;
+        $state.reload();
         $state.go('root.home')
     });
 

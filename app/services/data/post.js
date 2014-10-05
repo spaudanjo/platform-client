@@ -11,9 +11,9 @@ module.exports = ['$resource', 'API_URL', '$rootScope', function($resource, API_
         }
     });
 
-    $rootScope.$on('event:authentication:signout:succeeded', function(){
-        PostData.query();
-    });
+    // $rootScope.$on('event:authentication:signout:succeeded', function(){
+        // PostData.query();
+    // });
 
     return PostData;
 }];
