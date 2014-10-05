@@ -63,15 +63,6 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
                 }
             }
         })
-        .state('root.test', {
-            url: 'test/',
-            // controller: require('./controllers/posts/detail.js'),
-            // templateUrl: 'templates/posts/detail.html'
-            controller: function(){
-                alert("PSTS DETAIL CNTRL INLINE");
-            },
-            template: "POSTS DETAIL INLINE TEMPLATE"
-        })
         .state('root.posts.detail', {
             url: ':postId/',
             views: {
