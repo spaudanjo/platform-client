@@ -12,8 +12,15 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
             url: '',
             views: {
                 'menu': {
+                    templateUrl: 'templates/partials/menu.html',
                     controller: require('./controllers/navigation.js'),
-                    templateUrl: 'templates/partials/menu.html'
+                    views: {
+                        'workspace-accordion': {
+                            templateUrl: 'templates/partials/workspace-accordion.html',
+                            controller: require('./workspace.js'),
+                        }
+
+                    }
                 },
                 'footer': {
                     templateUrl: 'templates/partials/footer.html'

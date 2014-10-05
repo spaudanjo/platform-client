@@ -54,31 +54,7 @@
                             </ul>
                         </div> <!-- end .workspace-stats-wrapper -->
 
-                        <div ng-controller="workspaceAccordion">
-                            <accordion>
-                                <accordion-group heading="Posts" is-open="status.isFirstOpen">
-                                    <ul>
-                                        <li>
-                                            <a href="/posts/detail"><i class="fa  fa-th-list"></i>Post Detail</a>
-                                        </li>
-                                    </ul>
-                                </accordion-group>
-                                <accordion-group heading="Settings">
-                                    <ul>
-                                        <li>
-                                            <a href="/settings" class="js-accordion-trigger"><i class="fa  fa-cogs"></i>Site Settings</a>
-                                        </li>
-                                    </ul>
-                                </accordion-group>
-                                <accordion-group heading="Tools">
-                                    <ul>
-                                        <li>
-                                            <a href="/users" class="js-accordion-trigger"><i class="fa  fa-group"></i>Manage Users</a>
-                                        </li>
-                                    </ul>
-                                </accordion-group>
-                            </accordion>
-                        </div> <!-- end ng-controller workspaceAccordion -->
+                        <div ui-view="workspace-accordion"></div>
                     </nav> <!-- end .sliding-menu-content -->
 
                     <div class="js-menu-screen  menu-screen" ng-class="{ 'is-visible': workspaceMenu }" ng-click="toggle('workspaceMenu')"></div>
