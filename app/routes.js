@@ -9,7 +9,6 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
 
     $stateProvider
         .state('root', {
-            url: '',
             views: {
                 'menu': {
                     templateUrl: 'templates/partials/menu.html',
@@ -34,16 +33,29 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
         })
         .state('root.posts', {
             url: '/posts/',
-            controller: require('./controllers/posts.js'),
-            templateUrl: 'templates/posts.html',
+            views: {
+                '@': {
+                    controller: require('./controllers/posts.js'),
+                    templateUrl: 'templates/posts.html',
+                }
+            },
             resolve: {
                 posts: ['PostData', function(PostData){
                     return PostData.query();
                 }]
             }
         })
+        .state('root.signin', {
+            url: '/signin/',
+            views: {
+                '@': {
+                    controller: require('./controllers/signin.js'),
+                    templateUrl: 'templates/signin.html'
+                }
+            }
+        })
         .state('root.test', {
-            url: '/test/',
+            url: 'test/',
             // controller: require('./controllers/posts/detail.js'),
             // templateUrl: 'templates/posts/detail.html'
             controller: function(){
@@ -51,30 +63,41 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
             },
             template: "POSTS DETAIL INLINE TEMPLATE"
         })
-        .state('root.signin', {
-            url: '/signin/',
-            controller: require('./controllers/signin.js'),
-            templateUrl: 'templates/signin.html'
-        })
         .state('root.posts.detail', {
-            url: '/:postId/',
-            controller: require('./controllers/posts/detail.js'),
-            templateUrl: 'templates/posts/detail.html'
+            url: ':postId/',
+            views: {
+                '@': {
+                    controller: require('./controllers/posts/detail.js'),
+                    templateUrl: 'templates/posts/detail.html'
+                }
+            }
         })
         .state('root.posts.add-to-set', {
-            url: '/add-to-set/',
-            controller: require('./controllers/sets/add-to-set.js'),
-            templateUrl: 'templates/sets/add-to-set.html'
+            url: 'add-to-set/',
+            views: {
+                '@root': {
+                    controller: require('./controllers/sets/add-to-set.js'),
+                    templateUrl: 'templates/sets/add-to-set.html'
+                }
+            }
         })
         .state('root.settings', {
-            url: '/settings/',
-            controller: require('./controllers/admin/settings.js'),
-            templateUrl: 'templates/admin/settings.html'
+            url: 'settings/',
+            views: {
+                '@root': {
+                    controller: require('./controllers/admin/settings.js'),
+                    templateUrl: 'templates/admin/settings.html'
+                }
+            }
         })
         .state('root.users', {
-            url: '/users/',
-            controller: require('./controllers/users/users.js'),
-            templateUrl: 'templates/users/users.html'
+            url: 'users/',
+            views: {
+                '@root': {
+                    controller: require('./controllers/users/users.js'),
+                    templateUrl: 'templates/users/users.html'
+                }
+            }
         });
 
 }];
