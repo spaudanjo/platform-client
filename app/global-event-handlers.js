@@ -4,12 +4,12 @@ module.exports = ['$rootScope', '$state', 'Authentication', function($rootScope,
 
     var switchToSignedin = function(){
         $rootScope.signedin = true;
-        $state.go('home');
+        $state.go('root.home');
     };
 
     var switchToSignedoutAndShowSigninPage = function(){
         $rootScope.signedin = false;
-        $state.go('signin');
+        $state.go('root.signin');
     };
 
     $rootScope.$on('event:authentication:signin:succeeded', function(){
@@ -22,7 +22,7 @@ module.exports = ['$rootScope', '$state', 'Authentication', function($rootScope,
 
     $rootScope.$on('event:authentication:signout:succeeded', function(){
         $rootScope.signedin = false;
-        $state.go('home')
+        $state.go('root.home')
     });
 
     $rootScope.$on('event:unauthorized', function(){
