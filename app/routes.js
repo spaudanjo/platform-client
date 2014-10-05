@@ -28,8 +28,17 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', f
         })
         .state('root.home', {
             url: '/',
-            controller: require('./controllers/posts.js'),
-            templateUrl: 'templates/posts.html'
+            views: {
+                '@': {
+                    controller: require('./controllers/posts.js'),
+                    templateUrl: 'templates/posts.html',
+                }
+            },
+            resolve: {
+                posts: ['PostData', function(PostData){
+                    return PostData.query();
+                }]
+            }
         })
         .state('root.posts', {
             url: '/posts/',
