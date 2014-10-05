@@ -8,9 +8,9 @@
     </head>
 
     <body>
-        <ng-include src=" 'templates/partials/menu.html' "></ng-include>
-        <div ui-view></div>
-        <ng-include src=" 'templates/partials/footer.html' "></ng-include>
+        <div ui-view="menu"></div>
+        <div ui-view="main"></div>
+        <div ui-view="footer"></div>
 
         <script src="/js/bundle.js"></script>
     </body>

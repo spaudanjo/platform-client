@@ -1,4 +1,5 @@
-module.exports = ['$scope', 'PostData', function($scope, PostData) {
+module.exports = ['$scope', 'posts', function($scope, posts) {
+		debugger;
 		$scope.title = 'Posts';
-		$scope.posts = PostData.query();
+		$scope.posts = posts;
 }];

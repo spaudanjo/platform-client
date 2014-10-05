@@ -22,9 +22,6 @@ angular.module('app', ['ui.router', 'ngResource', 'ui.bootstrap.dropdown', 'ui.b
     .service('Authentication', require('./services/authentication.js'))
     .service('PostData', require('./services/data/post.js'))
 
-    .controller('navigation', require('./controllers/navigation.js'))
-    .controller('workspaceAccordion', require('./workspace'))
-    .controller('userFilter', require('./controllers/users/filter.js'))
 
     .config(require('./interceptors/authentication.js'))
     .config(require('./routes'))
