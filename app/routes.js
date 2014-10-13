@@ -7,6 +7,11 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
       url: "/",
       controller: require('./controllers/posts.js'),
       templateUrl: 'templates/posts.html'
+    })
+    .state('signin', {
+      url: "/signin",
+      controller: require('./controllers/signin.js'),
+      templateUrl: 'templates/signin.html'
     });
 
     // var postRouteConfig = {
