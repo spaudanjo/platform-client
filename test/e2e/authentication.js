@@ -1,5 +1,13 @@
+function stripTrailingSlash(str) {
+    if(str.substr(-1) == '/') {
+        return str.substr(0, str.length - 1);
+    }
+    return str;
+}
+
 var getLastUrlPart = function(url){
-    return url.substr(url.lastIndexOf('/'));
+    var sUrl = stripTrailingSlash(url);
+    return sUrl.substr(sUrl.lastIndexOf('/'));
 };
 
 var ptor = protractor.getInstance();

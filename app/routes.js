@@ -1,6 +1,20 @@
 module.exports = function($stateProvider, $urlRouterProvider, $locationProvider) {
+     $locationProvider.html5Mode(true);
 
-    $locationProvider.html5Mode(true);
+    $urlRouterProvider.rule(function ($injector, $location) {
+        var path = $location.url();
+
+        // check to see if the path already has a slash where it should be
+        if (path[path.length - 1] === '/' || path.indexOf('/?') > -1) {
+            return;
+        }
+
+        if (path.indexOf('?') > -1) {
+            return path.replace('?', '/?');
+        }
+
+        return path + '/';
+    });
 
     $stateProvider
     .state('home', {
@@ -9,7 +23,7 @@ module.exports = function($stateProvider, $urlRouterProvider, $locationProvider)
       templateUrl: 'templates/posts.html'
     })
     .state('signin', {
-      url: "/signin",
+      url: "/signin/",
       controller: require('./controllers/signin.js'),
       templateUrl: 'templates/signin.html'
     });
