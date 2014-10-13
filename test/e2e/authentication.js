@@ -7,7 +7,15 @@ function stripTrailingSlash(str) {
 
 var getLastUrlPart = function(url){
     var sUrl = stripTrailingSlash(url);
-    return sUrl.substr(sUrl.lastIndexOf('/'));
+
+    var lastIndex = sUrl.lastIndexOf('/');
+    if(lastIndex === 6)
+      return "";
+
+    return sUrl.substr(lastIndex);
+    console.log("SURL", sUrl);
+    console.log("firstPart", firstPart);
+
 };
 
 var ptor = protractor.getInstance();
@@ -87,7 +95,7 @@ describe('authentication:', function() {
 
             it('should go to the home page', function(){
                 ptor.getCurrentUrl().then(function(url){
-                    expect(getLastUrlPart(url)).toBe('/');
+                    expect(getLastUrlPart(url)).toBe('');
                 });
             });
 
