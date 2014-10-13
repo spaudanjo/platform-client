@@ -1,5 +1,5 @@
 require('angular/angular');
-require('angular-route/angular-route');
+require('angular-ui-router');
 require('angular-resource/angular-resource');
 require('./modules/ui-tabs');
 require('angular-ui-bootstrap/src/dropdown/dropdown');
@@ -10,7 +10,7 @@ require('angular-ui-bootstrap/src/accordion/accordion');
 // this 'environment variable' will be set within the gulpfile
 var backendUrl = process.env.backend_url;
 
-angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap.dropdown', 'ui.bootstrap.collapse', 'ui.bootstrap.accordion', 'ui.bootstrap.transition', 'ui.tabs'])
+angular.module('app', ['ui.router', 'ngResource', 'ui.bootstrap.dropdown', 'ui.bootstrap.collapse', 'ui.bootstrap.accordion', 'ui.bootstrap.transition', 'ui.tabs'])
     .constant('BACKEND_URL', backendUrl)
     .constant('API_URL', backendUrl + '/api/v2')
     .constant('OAUTH_CLIENT_ID', 'ushahidiui')
