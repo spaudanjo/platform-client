@@ -2,6 +2,7 @@ require('angular/angular');
 require('angular-route/angular-route');
 require('leaflet/dist/leaflet');
 require('angular-leaflet-directive/dist/angular-leaflet-directive');
+require('angular-ui-router');
 require('angular-resource/angular-resource');
 require('angular-translate');
 require('angular-ui-bootstrap/src/dropdown/dropdown');
@@ -47,7 +48,6 @@ angular.module('app',
         'user-profile',
         'workspace'
     ])
-
     .constant('CONST', {
         BACKEND_URL         : backendUrl,
         API_URL             : backendUrl + '/api/v2',
