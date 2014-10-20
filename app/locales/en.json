@@ -95,6 +95,35 @@
 		"workspace" : "Workspace",
 		"yes" : "Yes"
 	},
+	"search" : {
+		"nav" : {
+			"location" : "Location",
+			"tags" : "Tags",
+			"date" : "Date",
+			"keyword" : "Keyword"
+		},
+		"location" : {
+			"select_a_location" : "Select a location"
+		},
+		"tags" : {
+			"select_tags" : "Select tags",
+			"showing_x_to_y_from_n_tags" : "{{from}} to {{to}} from {{total}} Tags",
+			"tag_actions" : "Tag Actions",
+			"select" : "select",
+			"edit" : "edit"
+		},
+		"date" : {
+			"select_start_and_end_date" : "Select a start and end time",
+			"from" : "From",
+			"to" : "To",
+			"until_time" : "Untile time",
+		},
+		"keyword" : {
+			"enter_keyword" : "Enter a keyword to search",
+			"keyword_search" : "Keyword search",
+			"search" : "Search"
+		}
+	},
     "views-subnav" : {
         "full" : "Full",
         "map" : "Map",
@@ -115,6 +144,7 @@
 		"showing_records" : "Showing __startRecord__ to  __endRecord__ from __totalRecords__ __modelName__"
 	},
 	"post": {
+		"showing_x_to_y_from_n_posts" : "{{from}} to {{to}} from {{total}} posts",
 		"all_posts" : "All Posts",
 		"anonymous" : "Anonymous",
 		"awaiting_review" : "Awaiting review",
@@ -135,10 +165,73 @@
 		"read_more" : "Read More",
 		"sort_posts_by" : "Sort posts by",
 		"unpublish" : "Unpublish",
-		"unpublished" : "Unpublished"
+		"unpublished" : "Unpublished",
+		"location" : "Location",
+		"tags" : "Tags",
+		"geometry_test" : "Geometry Test",
+		"view_on_map" : "View on map",
+		"status" : "Status",
+		"links" : "Links",
+		"respond" : "Respond",
+		"send" : "Send",
+		"more" : "more",
+		"posts_with_same_tags" : " posts with same tags",
+		"post_actions" : {
+			"post_actions" : "Post Actions",
+			"select" : "select",
+			"edit" : "edit",
+			"set" : "set",
+			"publish" : "publish",
+			"unpublish" : "unpublish",
+			"delete" : "delete"
+		},
+		"side_menu" : {
+			"how_to_post" : {
+				"how_to_post" : "How to Post",
+				"channels": {
+					"via_sms" : "via SMS",
+					"via_email" : "via Email",
+					"via_this_deployment" : "via This Deployment"
+				}
+			},
+			"about" : "About",
+			"tags" : "Tags"
+
+		},
+		"filter_sort" : {
+			"sort_posts_by" : "Sort posts by",
+			"properties" : {
+				"filter" : "Filter",
+				"created" : "Created",
+				"updated" : "Updated",
+				"title_a_to_z" : "Title A to Z"
+			}
+		},
+		"details" : {
+			"post_details" : "Post Details",
+			"time_ago" : "{{time}} ago"
+		},
+		"preview" : {
+			"private" : "private",
+			"public" : "public",
+			"published" : "published",
+			"unpublished" : "unpublished",
+			"read_more" : "&nbsp;... Read&nbsp;More",
+			"tags" : "Tags",
+			"post_actions" : {
+				"post_actions" : "Post Actions",
+				"select" : "select",
+				"edit" : "edit",
+				"set" : "set",
+				"publish" : "publish",
+				"unpublish" : "unpublish",
+				"delete" : "delete"
+			}
+		}
 	},
 	"set": {
 		"add_a_photo" : "Add a photo",
+		"add_to_sets" : "Add to sets",
 		"add_to_set" : "Add to set",
 		"choose_a_tag" : "Choose a tag",
 		"click_or_tap_button_to_change" : "Click or tap button to change",
@@ -161,7 +254,22 @@
 		"no_description_given" : "No description given",
 		"number_of_tags_shown" : "Number of tags shown",
 		"sort_tags_by" : "Sort tags by",
-		"update_tag" : "Update Tag"
+		"update_tag" : "Update Tag",
+		"unselect_all" : "Unselect all",
+		"add_tag" : "Add tag",
+		"delete" : "Delete",
+		"showing_x_to_y_from_n_tags" : "{{from}} to {{to}} from {{total}} Tags",
+		"tag_actions" : "Tag Actions",
+		"number_of_tags_shown" : "Number of tags shown",
+		"sort_users_by" : "Sort users by",
+		"filter_sort" : {
+			"properties" : {
+				"filter" : "Filter",
+				"date_time_created" : "Date/Time Created",
+				"username_a_z" : "Username A-Z",
+				"id" : "ID"
+			}
+		}
 	},
 	"tool": {
 		"manage_forms" :  "Manage Forms",
@@ -181,21 +289,25 @@
         }
     },
 	"user": {
+		"user_actions" : "User Actions",
+		"select_all" : "Select All",
+		"unselect_all" : "Unselect All",
 		"add_user" : "Add User",
 		"change_role" : "Change role",
 		"change_user_role" : "Change user role",
 		"confirm_password" : "Confirm Password",
+		"showing_x_to_y_from_n_users" : "{{from}} to {{to}} from {{total}} Users",
 		"create_user" : "Create User",
 		"delete_this_user" : "Delete this user",
 		"edit_profile" : "Edit Profile",
 		"edit_this_post" : "Edit this post",
 		"edit_user" : "Edit User",
 		"email" : "Email",
-		"failed_attempts" : "Failed attempts",
+		"failed_attempts" : "Failed attempts: ",
 		"filter_by_roles" : "Filter by roles",
-		"full_name" : "Full name",
-		"last_attempt" : "Last attempt",
-		"last_login" : "Last login",
+		"full_name" : "Full name: ",
+		"last_attempt" : "Last attempt: ",
+		"last_login" : "Last login: ",
 		"login" : "Login",
 		"logout" : "Logout",
 		"never" : "Never",
@@ -203,10 +315,22 @@
 		"number_of_users_shown" : "Number of users shown",
 		"password" : "Password",
 		"register" : "Register",
-		"role" : "Role",
+		"role" : "Role: ",
+		"roles" : "Roles",
 		"sort_users_by" : "Sort users by",
 		"update_user" : "Update User",
-		"username" : "Username"
+		"username" : "Username",
+		"click_to_select" : "Click To Select",
+		"keyword_search" : "Keyword Search",
+		"go" : "Go",
+		"filter_sort" : {
+			"properties" : {
+				"filter" : "Filter",
+				"date_time_created" : "Date/Time Created",
+				"username_a_z" : "Username A-Z",
+				"id" : "ID"
+			}
+		}
 	},
     "footer" : {
         "copyright_info" : "Powered by Ushahidi. | &copy; Copyright {{owner_name}}, 2013"
