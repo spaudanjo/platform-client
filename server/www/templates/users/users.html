@@ -70,7 +70,7 @@
                     <ul class="filter-tabs-list  js-filter-tabs-list">
                         <li ng-repeat="tab in tabs" ng-click="select(tab)" ng-class="{active : isActive(tab)}" class="filter-tabs-list__item  js-user-filter-role">
                             <a href="">
-                                <span class="role-title">{{tab}}
+                                <span class="role-title">{{"user.roles." + tab | translate}}
                                     <span class="{{name}}-count-number"><span class="count-number">0</span></span>
                                 </span>
                             </a>

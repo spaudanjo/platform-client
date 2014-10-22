@@ -144,6 +144,7 @@
 		"showing_records" : "Showing __startRecord__ to  __endRecord__ from __totalRecords__ __modelName__"
 	},
 	"post": {
+		"posts" : "Posts",
 		"showing_x_to_y_from_n_posts" : "{{from}} to {{to}} from {{total}} posts",
 		"all_posts" : "All Posts",
 		"anonymous" : "Anonymous",
@@ -250,6 +251,7 @@
 	"tag": {
 		"add_tag" : "Add Tag",
 		"create_tag" : "Create Tag",
+		"manage_tags" : "Manage Tags",
 		"edit_tag" : "Edit Tag",
 		"no_description_given" : "No description given",
 		"number_of_tags_shown" : "Number of tags shown",
@@ -279,7 +281,11 @@
 		"site_settings" : "Site Settings",
 		"tools" : "Tools"
 	},
+	"map_settings" : {
+		"admin_map_settings" : "Admin: Map Settings"
+	},
     "settings" :{
+		"admin_settings" : "Admin: Settings",
         "site_name" : "Site Name",
         "site_owner" : "Site Owner",
         "save" : "save",
@@ -330,7 +336,14 @@
 				"username_a_z" : "Username A-Z",
 				"id" : "ID"
 			}
+		},
+		"roles" : {
+			"all" : "All",
+			"admin" : "Admin",
+			"member" : "Member",
+			"guest" : "Guest"
 		}
+
 	},
     "footer" : {
         "copyright_info" : "Powered by Ushahidi. | &copy; Copyright {{owner_name}}, 2013"
