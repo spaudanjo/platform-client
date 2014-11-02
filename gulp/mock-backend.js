@@ -2,7 +2,6 @@ var connect = require('gulp-connect'),
     url = require('url'),
     path = require('path'),
     cors = require('cors'),
-    gutil = require('gulp-util'),
     _s = require('underscore.string'),
     bodyParser = require('body-parser');
 
@@ -26,10 +25,10 @@ module.exports = function(root) {
                         var pathname = url.parse(req.url).pathname;
 
                         // handle sign in
-                        if(_s.endsWith(pathname, 'oauth/token') && req.method === "POST")
+                        if(_s.endsWith(pathname, 'oauth/token') && req.method === 'POST')
                         {
                             // check for correct credentials
-                            if(req.body.username === "admin" && req.body.password === "admin")
+                            if(req.body.username === 'admin' && req.body.password === 'admin')
                             {
                                 res.writeHead(200);
                                 res.write(JSON.stringify({

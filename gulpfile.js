@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-    glob        = require('glob'),
     sass = require('gulp-sass'),
     livereload = require('gulp-livereload'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -43,7 +42,7 @@ if (fs.existsSync('.gulpconfig.json')) {
 var helpers = {
 
     getBrowserifyConfig: function(mainEntryFile){
-        var mainEntryFile = (typeof mainEntryFile === "undefined") ?
+        mainEntryFile = (typeof mainEntryFile === 'undefined') ?
           './app/app.js' : mainEntryFile;
 
         var entries = [mainEntryFile];
@@ -283,7 +282,7 @@ gulp.task('test-for-ci', function (done) {
 /**
  * Send coverage stats to coveralls.io
  */
-gulp.task('send-stats-to-coveralls', function (done) {
+gulp.task('send-stats-to-coveralls', function () {
     var coveralls = require('gulp-coveralls');
     gulp.src('test/coverage/**/lcov.info')
     .pipe(coveralls());

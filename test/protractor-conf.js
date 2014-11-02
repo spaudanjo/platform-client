@@ -29,7 +29,7 @@ if (process.env.TRAVIS_BUILD_NUMBER) {
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER,
     'name': 'Ushahidi Angular Client: Protractor e2e specs'
-  }
+  };
 }
 
 exports.config = config;

@@ -1,6 +1,6 @@
 describe('PostEndpoint', function(){
 
-    var $rootScope, scope, $httpBackend, BACKEND_URL, PostEndpoint, mockPostResponse;
+    var $rootScope, $httpBackend, BACKEND_URL, PostEndpoint, mockPostResponse;
 
     beforeEach(function(){
         var testApp = angular.module('testApp', [

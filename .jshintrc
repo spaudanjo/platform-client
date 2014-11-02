@@ -31,6 +31,8 @@
     "element",
     "it",
     "expect",
+    "inject",
+    "jasmine",
     "describe",
     "beforeEach",
     "afterEach"
