@@ -1,9 +1,9 @@
 Ushahidi Platform Prototype
 ===========================
 
-[![Build Status](https://img.shields.io/travis/spaudanjo/platform-client/adding_karma3.svg?style=flat)](https://travis-ci.org/spaudanjo/platform-client)
-[![Coverage Status](https://coveralls.io/repos/spaudanjo/platform-client/badge.png?branch=adding_karma3)](https://coveralls.io/r/spaudanjo/platform-client?branch=adding_karma3)
-[![Dependency Status](https://david-dm.org/spaudanjo/platform-client/dev-status.svg?style=flat)](https://david-dm.org/spaudanjo/platform-client#info=devDependencies)
+[![Build Status](https://img.shields.io/travis/ushahidi/platform-client/adding_karma3.svg?style=flat)](https://travis-ci.org/ushahidi/platform-client)
+[![Coverage Status](https://coveralls.io/repos/ushahidi/platform-client/badge.png?branch=master)](https://coveralls.io/r/ushahidi/platform-client?branch=master)
+[![Dependency Status](https://david-dm.org/ushahidi/platform-client/dev-status.svg?style=flat)](https://david-dm.org/ushahidi/platform-client#info=devDependencies)
 [![Codacy Badge](https://www.codacy.com/project/badge/7a36b501ca1a414bbdbdd725af386ea0)](https://www.codacy.com/public/spaudanjo/platformclient)
 
 ___
