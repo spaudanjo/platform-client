@@ -32,20 +32,20 @@ module.exports = function(root) {
                             {
                                 res.writeHead(200);
                                 res.write(JSON.stringify({
-                                    "access_token":"mock-backend-token",
-                                    "token_type":"Bearer",
-                                    "expires":1414349228,
-                                    "expires_in":3600,
-                                    "refresh_token":"mock-backend-refresh-token",
-                                    "refresh_token_expires_in":604800
+                                    'access_token':'mock-backend-token',
+                                    'token_type':'Bearer',
+                                    'expires':1414349228,
+                                    'expires_in':3600,
+                                    'refresh_token':'mock-backend-refresh-token',
+                                    'refresh_token_expires_in':604800
                                 }));
                             }
                             else
                             {
                                 res.writeHead(400);
                                 res.write(JSON.stringify({
-                                    "error":"invalid_request",
-                                    "error_description":"The user credentials were incorrect."
+                                    'error':'invalid_request',
+                                    'error_description':'The user credentials were incorrect.'
                                 }));
                             }
 
