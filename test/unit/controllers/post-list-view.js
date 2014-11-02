@@ -29,7 +29,7 @@ describe('PostsController', function(){
             }
         };
 
-        $controller("postsController", {
+        $controller('postsController', {
             $scope: $scope,
             PostEndpoint: mockPostEndpoint
         });
@@ -38,18 +38,18 @@ describe('PostsController', function(){
         $rootScope.$apply();
     });
 
-    it("should have the right title", function(){
+    it('should have the right title', function(){
 		expect($scope.title).toBe('Posts');
     });
 
-    describe("PostEndpoint usage", function(){
+    describe('PostEndpoint usage', function(){
 
         beforeEach(inject(function($q){
 
             mockPostResponse = [{
-                "id": "1",
-                "type": "report",
-                "title": "Test post"
+                'id': '1',
+                'type': 'report',
+                'title': 'Test post'
             }];
 
             var queryDeferred;
@@ -61,7 +61,7 @@ describe('PostsController', function(){
             };
             spyOn(mockPostEndpoint, 'query').andCallThrough();
 
-            $controller("postsController", {
+            $controller('postsController', {
                 $scope: $scope,
                 PostEndpoint: mockPostEndpoint
             });
@@ -71,11 +71,11 @@ describe('PostsController', function(){
             $rootScope.$apply();
         }));
 
-        it("should query the PostEndpoint", function(){
+        it('should query the PostEndpoint', function(){
             expect(mockPostEndpoint.query).toHaveBeenCalled();
         });
 
-        it("should set the response from PostEndpoint.query() to $scope.posts", function(){
+        it('should set the response from PostEndpoint.query() to $scope.posts', function(){
             expect($scope.posts).toEqual(mockPostResponse);
         });
 
