@@ -3,6 +3,7 @@ angular.module('e2e-mocks', ['ngMockE2E']).run(function($httpBackend, BACKEND_UR
     $httpBackend.whenPOST(BACKEND_URL + '/oauth/token').respond(function(method, url, data) {
         var reqPayload = JSON.parse(data);
         if(reqPayload.username === 'admin' && reqPayload.password === 'admin')
+        {
             return [200, {
                 'access_token':'UmexrkSXVsHeEzGH1TMjYjvX344iB94XZK34nIVw',
                 'token_type':'Bearer',
@@ -11,14 +12,15 @@ angular.module('e2e-mocks', ['ngMockE2E']).run(function($httpBackend, BACKEND_UR
                 'refresh_token':'o1sw8yr6b8BuH00RlIEeLv3v75bzZWZfymquNlKs',
                 'refresh_token_expires_in':604800
             }, {}];
+        }
         else
+        {
           return [400, {
               'error':'invalid_request',
               'error_description':'The user credentials were incorrect.'
           }, {}];
+        }
     });
-
-
 
     var apiHandlers = {
         'posts': function(){
@@ -41,7 +43,7 @@ angular.module('e2e-mocks', ['ngMockE2E']).run(function($httpBackend, BACKEND_UR
 
     var matcher = new RegExp(API_URL + '/.*');
 
-    $httpBackend.whenGET(matcher).respond(function(method, url, data) {
+    $httpBackend.whenGET(matcher).respond(function(method, url/*, data*/) {
         var resourceName = url.split('api/v2/')[1];
         return apiHandlers[resourceName]();
 
