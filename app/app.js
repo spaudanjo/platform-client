@@ -24,8 +24,7 @@ angular.module('app',
         'ui.bootstrap.accordion',
         'ui.bootstrap.transition',
         'ui.tabs',
-        'leaflet-directive',
-
+        'leaflet-directive'
     ])
 
     .constant('BACKEND_URL', backendUrl)
