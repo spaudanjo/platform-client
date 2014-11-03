@@ -47,7 +47,7 @@
     "karma-commonjs": "*",
     "karma-coverage": "^0.2.6",
     "karma-firefox-launcher": "*",
-    "karma-jasmine": "~0.1.0",
+    "karma-jasmine": "^0.2.3",
     "merge": "^1.2.0",
     "napa": "^0.4.1",
     "protractor": "^1.2.0",
