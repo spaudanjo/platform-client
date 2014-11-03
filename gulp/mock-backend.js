@@ -2,7 +2,7 @@ var connect = require('gulp-connect'),
     url = require('url'),
     path = require('path'),
     cors = require('cors'),
-    _s = require('underscore.string'),
+    strHelpers = require('underscore.string'),
     bodyParser = require('body-parser');
 
 
@@ -25,7 +25,7 @@ module.exports = function(root) {
                         var pathname = url.parse(req.url).pathname;
 
                         // handle sign in
-                        if(_s.endsWith(pathname, 'oauth/token') && req.method === 'POST')
+                        if(strHelpers.endsWith(pathname, 'oauth/token') && req.method === 'POST')
                         {
                             // check for correct credentials
                             if(req.body.username === 'admin' && req.body.password === 'admin')
