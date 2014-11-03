@@ -41,7 +41,7 @@
     "gulp-plumber": "^0.6.3",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^0.7.2",
-    "gulp-util": "^2.2.20",
+    "gulp-util": "^3.0.1",
     "karma": "^0.12.24",
     "karma-chrome-launcher": "*",
     "karma-commonjs": "0.0.12",
