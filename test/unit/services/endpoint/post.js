@@ -40,7 +40,7 @@ describe('PostEndpoint', function(){
 
         expect(successCallback).toHaveBeenCalled();
 
-        var actualFirstResource = successCallback.mostRecentCall.args[0][0];
+        var actualFirstResource = successCallback.calls.mostRecent().args[0][0];
         var expectedFirstResource = mockPostResponse.results[0];
         expect(actualFirstResource.id).toEqual(expectedFirstResource.id);
         expect(actualFirstResource.type).toEqual(expectedFirstResource.type);

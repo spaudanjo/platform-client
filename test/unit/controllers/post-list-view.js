@@ -59,7 +59,7 @@ describe('PostsController', function(){
                     return {$promise: queryDeferred.promise};
                 }
             };
-            spyOn(mockPostEndpoint, 'query').andCallThrough();
+            spyOn(mockPostEndpoint, 'query').and.callThrough();
 
             $controller('postsController', {
                 $scope: $scope,
