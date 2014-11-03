@@ -53,7 +53,7 @@
     "protractor": "^1.2.0",
     "underscore.string": "^2.3.3",
     "vinyl-source-stream": "^0.1.1",
-    "watchify": "^1.0.1"
+    "watchify": "^2.1.1"
   },
   "dependencies": {
     "leaflet": "~0.7.3",
