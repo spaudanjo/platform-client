@@ -101,6 +101,17 @@ To run the Docker container, run `gulp --docker-server`
 
 **Note:** The first build of the Docker server can take several minutes. Wait till you see `server is live @ http://<ip_address_or_localhost/` before attempting to view the site.
 
+### Running unit specs
+
+* for test driven development, there is the gulp task 'gulp tdd'
+  * when you run it:
+    * all unit specs under test/unit will be run once
+    * the following files will be watched and tests will be rerun on file changes
+      * all files under test/unit
+      * most of the files under app will be watched
+        * see the 'files' array in test/karma.conf.js for more details
+
+
 ### I'm a developer, should I contribute to Ushahidi 3.x?
 
 We would love your help, but the platform is in heavy development with a rapid rate
