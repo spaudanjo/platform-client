@@ -33,7 +33,7 @@ angular.module('app',
 
     .directive('postPreview', require('./directives/post-preview.js'))
     .directive('userMenu', require('./directives/user-menu.js'))
-    .directive('signinSignoutButton', require('./directives/signin-signout-button.js'))
+    .directive('signinButton', require('./directives/signin-button.js'))
 
     .directive('globalFilter', require('./directives/global-filter.js'))
     .directive('postViewTabs', require('./directives/post-view-tabs.js'))
