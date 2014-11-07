@@ -94,8 +94,8 @@ describe('authentication:', function() {
                 });
 
                 it('should exist instead of the signin link', function(){
-                    expect(signoutLink.isDisplayed()).toBeTruthy();
                     userMenuLink.click();
+                    expect(signoutLink.isDisplayed()).toBeTruthy();
                     expect(signinLink.isDisplayed()).toBeFalsy();
                 });
 
