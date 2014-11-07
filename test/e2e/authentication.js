@@ -84,19 +84,19 @@ describe('authentication:', function() {
                 });
             });
 
-            describe('signout link in the main menu', function(){
+            describe('signout link in the user menu', function(){
                 var signinLink, signoutLink, userMenuLink;
 
                 beforeEach(function(){
                     signinLink = element(by.css(signinLinkSelector));
-                    signoutLink = element(by.css(signoutLinkSelector));
                     userMenuLink = element(by.css(userMenuLinkSelector));
+                    signoutLink = element(by.css(signoutLinkSelector));
                 });
 
                 it('should exist instead of the signin link', function(){
+                    expect(signinLink.isDisplayed()).toBeFalsy();
                     userMenuLink.click();
                     expect(signoutLink.isDisplayed()).toBeTruthy();
-                    expect(signinLink.isDisplayed()).toBeFalsy();
                 });
 
                 describe('clicking the signout link', function(){
@@ -107,6 +107,7 @@ describe('authentication:', function() {
                     });
 
                     it('should change again to the signin link', function(){
+                        expect(userMenuLink.isDisplayed()).toBeFalsy();
                         expect(signoutLink.isDisplayed()).toBeFalsy();
                         expect(signinLink.isDisplayed()).toBeTruthy();
                     });
