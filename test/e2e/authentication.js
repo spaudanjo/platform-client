@@ -6,6 +6,7 @@ var ptor = protractor.getInstance();
 
 var signinLinkSelector = 'a#signin-link';
 var signoutLinkSelector = 'a#signout-link';
+var userMenuLinkSelector = 'a#user-menu-link';
 
 
 describe('authentication:', function() {
@@ -84,21 +85,24 @@ describe('authentication:', function() {
             });
 
             describe('signout link in the main menu', function(){
-                var signinLink, signoutLink;
+                var signinLink, signoutLink, userMenuLink;
 
                 beforeEach(function(){
                     signinLink = element(by.css(signinLinkSelector));
                     signoutLink = element(by.css(signoutLinkSelector));
+                    userMenuLink = element(by.css(userMenuLinkSelector));
                 });
 
                 it('should exist instead of the signin link', function(){
                     expect(signoutLink.isDisplayed()).toBeTruthy();
+                    userMenuLink.click();
                     expect(signinLink.isDisplayed()).toBeFalsy();
                 });
 
                 describe('clicking the signout link', function(){
 
                     beforeEach(function(){
+                        userMenuLink.click();
                         signoutLink.click();
                     });
 
