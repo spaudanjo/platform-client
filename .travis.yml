@@ -11,7 +11,7 @@ before_script:
   - sleep 3 # give Web server some time to bind to sockets, etc
 script:
   - gulp test-for-ci
-  - gulp send-stats-to-coveralls
+  # - gulp send-stats-to-coveralls
   - npm run protractor
 addons:
   sauce_connect: true
