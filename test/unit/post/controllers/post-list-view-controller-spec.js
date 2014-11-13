@@ -13,7 +13,7 @@ describe('posts list controller', function(){
         'pascalprecht.translate'
         ])
         .config(require(rootPath+'app/locale-config.js'))
-        .controller('postsListController', require(rootPath+'app/post/controllers/post-list-controller.js'));
+        .controller('postListViewController', require(rootPath+'app/post/controllers/post-list-view-controller.js'));
 
         require(rootPath+'test/unit/simple-test-app-config')(testApp);
 
@@ -35,7 +35,7 @@ describe('posts list controller', function(){
             }
         };
 
-        $controller('postsListController', {
+        $controller('postListViewController', {
             $scope: $scope,
             PostEndpoint: mockPostEndpoint
         });
@@ -67,7 +67,7 @@ describe('posts list controller', function(){
             };
             spyOn(mockPostEndpoint, 'query').and.callThrough();
 
-            $controller('postsListController', {
+            $controller('postListViewController', {
                 $scope: $scope,
                 PostEndpoint: mockPostEndpoint
             });
