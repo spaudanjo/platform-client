@@ -1,4 +1,4 @@
-var rootPath = "../../../../../"
+var rootPath = '../../../../../';
 
 describe('PostEndpoint', function(){
 

@@ -1,4 +1,4 @@
-var rootPath = "../../../../";
+var rootPath = '../../../../';
 
 describe('posts list controller', function(){
 
