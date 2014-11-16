@@ -11,24 +11,12 @@
                     <div class="tab-content">
                         <ul>
                             <li>
-                                <input type="checkbox" name="all-tags" value="all-tags">
+                                <input type="checkbox" name="all-tags" value="all-tags" ng-checked="selectedAll" ng-click="toggleSelectAll()">
                                 <label class="checkbox-label" for="all-tags" translate>globalFilter.categories.all_categories</label>
                             </li>
-                            <li>
-                                <input type="checkbox" name="tag" value="tag">
-                                <label class="checkbox-label" for="tag" translate>globalFilter.categories.category_1</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" name="tag" value="tag">
-                                <label class="checkbox-label" for="tag" translate>globalFilter.categories.category_2</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" name="tag" value="tag">
-                                <label class="checkbox-label" for="tag" translate>globalFilter.categories.category_3</label>
-                            </li>
-                            <li>
-                                <input type="checkbox" name="tag" value="tag">
-                                <label class="checkbox-label" for="tag" translate>globalFilter.categories.category_4</label>
+                            <li ng-repeat="tag in tags">
+                                <input type="checkbox" name="selectedTags[]" value="{{tag.id}}" ng-checked="selectedTags.indexOf(tag) > -1" ng-disabled="selectedAll" ng-click="toggleSelection(tag)">
+                                <label class="checkbox-label" for="tag">{{tag.tag}}</label>
                             </li>
                         </ul>
                         <input class="clear-button" type="button" name="clear-selection-button" value="{{'globalFilter.clear_selection' | translate }}" disabled>

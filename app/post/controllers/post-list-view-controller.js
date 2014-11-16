@@ -1,8 +1,14 @@
-module.exports = ['$scope', '$translate', 'PostEndpoint', function($scope, $translate, PostEndpoint) {
+module.exports = ['$scope', '$translate', 'PostEntityProvider', function($scope, $translate, PostEntityProvider) {
 	$translate('post.posts').then(function(postsTranslation){
 		$scope.title = postsTranslation;
 	});
-	PostEndpoint.query().$promise.then(function(posts){
-		$scope.posts = posts;
+
+	$scope.posts = PostEntityProvider.getPosts();
+
+	$scope.$watch(function(){
+		return PostEntityProvider.getPosts();
+	}, function(newPosts) {
+		$scope.posts = newPosts;
 	});
+
 }];

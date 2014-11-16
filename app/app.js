@@ -47,6 +47,7 @@ angular.module('app',
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))
     .service('PostEndpoint', require('./post/services/endpoints/post-endpoint.js'))
     .service('PostEntity', require('./post/services/entities/post-entity.js'))
+    .service('SelectedTags', require('./services/selected-tags.js'))
     .service('TagEndpoint', require('./services/endpoint/tag.js'))
     .service('Util', require('./services/util.js'))
 

@@ -5,6 +5,7 @@ angular.module('posts', [])
 .directive('postPreview', require('./directives/post-preview-directive.js'))
 
 .service('PostEndpoint', require('./services/endpoints/post-endpoint.js'))
+.service('PostEntityProvider', require('./services/entity-providers/post-entity-provider.js'))
 .service('PostEntity', require('./services/entities/post-entity.js'))
 
 .controller('postMapView', require('./controllers/post-map-view-controller.js'))
