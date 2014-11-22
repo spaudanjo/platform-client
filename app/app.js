@@ -12,6 +12,7 @@ require('angular-ui-bootstrap/src/accordion/accordion');
 require('angular-mocks/angular-mocks');
 
 require('./post/post-module.js');
+require('./user/user-module.js');
 
 // this 'environment variable' will be set within the gulpfile
 var backendUrl = process.env.backend_url;
@@ -27,7 +28,8 @@ angular.module('app',
         'ui.bootstrap.transition',
         'ui.tabs',
         'leaflet-directive',
-        'posts'
+        'posts',
+        'user'
     ])
 
     .constant('CONST', {
