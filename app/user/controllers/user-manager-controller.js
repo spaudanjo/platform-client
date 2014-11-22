@@ -15,10 +15,6 @@ function(
         $scope.title = title;
     });
 
-    $scope.getGravatar = function(user) {
-        return gravatar.url(user.email, {default: 'retro'});
-    };
-
     $scope.getRole = function(role) {
         for (var i = 0; i < $scope.roles.length; i++) {
             if ($scope.roles[i].name === role) {
@@ -54,6 +50,13 @@ function(
                 });
                 $q.all(calls).then($scope.filterRole);
             }
+        });
+    };
+
+    $scope.selectRole = function(role) {
+        $scope.role  = role;
+        $scope.users = UserEndpoint.query({
+            role: getRealRole(role)
         });
     };
 

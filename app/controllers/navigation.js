@@ -1,5 +1,19 @@
-module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
+module.exports = [
+    '$scope',
+    'Authentication',
+    'Session',
+function(
+    $scope, Authentication, Session
+) {
     $scope.mainMenu = false;
+
+    $scope.$watch(function(){
+        return Session.getSessionData();
+    }, function(newValue/*, oldValue*/) {
+        $scope.user_name = newValue.userName;
+        $scope.email = newValue.email;
+    }, true);
+
     $scope.toggle = function(param) {
         $scope[param] = $scope[param] === false ? true : false;
     };
@@ -9,5 +23,4 @@ module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
         event.stopPropagation();
         Authentication.signout();
     };
-
 }];
