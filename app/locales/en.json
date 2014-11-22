@@ -361,6 +361,7 @@
     },
     "user": {
         "user_actions" : "User Actions",
+        "realname" : "Realname",
         "select_all" : "Select All",
         "unselect_all" : "Unselect All",
         "add_user" : "Add User",
@@ -370,6 +371,8 @@
         "create_user" : "Create User",
         "delete_this_user" : "Delete this user",
         "edit_profile" : "Edit Profile",
+        "save_profile" : "Save Profile",
+        "cancel" : "Cancel",
         "edit_this_post" : "Edit this post",
         "edit_user" : "Edit User",
         "email" : "Email",
@@ -408,6 +411,9 @@
             "guest" : "Guest"
         }
 
+    },
+    "user_profile" : {
+        "title" : "Edit profile"
     },
     "footer" : {
         "copyright_info" : "Powered by Ushahidi. | &copy; Copyright {{owner_name}}, 2013"

@@ -1,26 +1,32 @@
 module.exports = [
     '$rootScope',
     '$http',
+    '$q',
     'Util',
     'CONST',
+    'Session',
 function(
     $rootScope,
     $http,
+    $q,
     Util,
-    CONST
+    CONST,
+    Session
 ) {
 
     // check if initially we have an old access_token and assume that,
     // if yes, we are still signedin
-    var signinStatus = !!localStorage.getItem('access_token'),
+    var signinStatus = !!Session.getSessionDataEntry('accessToken'),
 
-            setToSigninState = function(accessToken){
-                localStorage.setItem('access_token', accessToken);
+            setToSigninState = function(accessToken, userId, userName){
+                Session.setSessionDataEntry('accessToken', accessToken);
+                Session.setSessionDataEntry('userId', userId);
+                Session.setSessionDataEntry('userName', userName);
                 signinStatus = true;
             },
 
             setToSignoutState = function(){
-                localStorage.removeItem('access_token');
+                Session.clearSessionData();
                 signinStatus = false;
             };
 
@@ -51,19 +57,32 @@ function(
                 scope: claimedScopes.join(' ')
             };
 
-            var promise = $http.post(Util.url('/oauth/token'), payload);
 
-            promise.then(
-                function(response){
-                    setToSigninState(response.data.access_token);
-                    $rootScope.$broadcast('event:authentication:signin:succeeded');
-                },
-                function(){
-                    setToSignoutState();
-                    $rootScope.$broadcast('event:authentication:signin:failed');
-                }
-            );
-            return promise;
+            var deferred = $q.defer();
+            var handleRequestError = function(){
+                deferred.reject();
+                setToSignoutState();
+                $rootScope.$broadcast('event:authentication:signin:failed');
+            };
+
+            $http.post(Util.url('/oauth/token'), payload).then(
+                function(authResponse){
+                    var accessToken = authResponse.data.access_token;
+
+                    $http.get(
+                        Util.url(''),
+                        { headers: {'Authorization': 'Bearer ' +accessToken} }
+                    ).then(
+                        function(userDataResponse){
+                            var userId = userDataResponse.data.user.id;
+                            var userName = userDataResponse.data.user.username;
+                            setToSigninState(accessToken, userId, userName);
+                            $rootScope.$broadcast('event:authentication:signin:succeeded');
+                            deferred.resolve();
+                        }, handleRequestError);
+                }, handleRequestError);
+
+            return deferred.promise;
         },
 
         signout: function(){
