@@ -2,20 +2,22 @@ module.exports = [
     '$resource',
     '$rootScope',
     'CONST',
+    'Util',
 function(
     $resource,
     $rootScope,
-    CONST
+    CONST,
+    Util
 ) {
 
     var UserEndpoint = $resource(CONST.API_URL + '/users/:userId', {
-        postId: '@userId'
+        userId: '@userId'
     }, {
-        query: {
+        get: {
             method: 'GET',
-            isArray: true,
+            isArray: false,
             transformResponse: function(data /*, header*/) {
-                return angular.fromJson(data).results;
+                return Util.transformResponse(data);
             }
         }
     });
@@ -24,6 +26,6 @@ function(
         UserEndpoint.query();
     });
 
-    return PostEndpoint;
+    return UserEndpoint;
 
 }];

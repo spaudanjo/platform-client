@@ -1,1 +1,18 @@
-PROFILE STUFF HERE
+<ul>
+    <li>
+        <b translate>Username</b>
+        <span>{{user_data.username}}</span>
+    </li>
+    <li>
+        <b translate>Realname</b>
+        <span>{{user_data.realname}}</span>
+    </li>
+    <li>
+        <b translate>Email</b>
+        <span>{{user_data.email}}</span>
+    </li>
+    <button type="submit" ng-click="signinSubmit()" ng-disabled="form.$invalid || signing_in">
+        <i class="fa fa-cog fa-spin" ng-show="signing_in"></i>
+        <span translate>user.login</span>
+    </button>
+</ul>
