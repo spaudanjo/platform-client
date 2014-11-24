@@ -1,18 +1,21 @@
 module.exports = [
 function() {
 
-    var userId = null;
+    var user = {
+        id: null,
+        username: null
+    };
 
     var that = this;
     return {
 
-        setUserId: function(userId)
+        setUser: function(user)
         {
-            that.userId = userId;
+            that.user = user;
         },
 
-        getUserId: function(){
-            return that.userId;
+        getUser: function(){
+            return that.user;
         }
     };
 
