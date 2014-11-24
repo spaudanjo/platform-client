@@ -11,7 +11,7 @@
         <b translate>Email</b>
         <span>{{user_data.email}}</span>
     </li>
-    <button type="submit" ng-click="signinSubmit()" ng-disabled="form.$invalid || signing_in">
+    <button type="submit" ng-click="update()" ng-disabled="form.$invalid || signing_in">
         <i class="fa fa-cog fa-spin" ng-show="signing_in"></i>
         <span translate>user.login</span>
     </button>
