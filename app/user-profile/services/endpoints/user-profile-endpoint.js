@@ -8,19 +8,21 @@ function(
     _
 ) {
 
-    var UserProfileEndpoint = $resource(Util.url('/user'),
+    var accessToken = localStorage.getItem('access_token');
+    var UserProfileEndpoint = $resource(Util.url('/'),
     {
         get: {
-            method: 'GET'
+            method: 'GET',
+            headers:{'Authorization': 'Bearer ' + accessToken}
         },
         update: {
             method: 'PUT'
         }
     });
 
-    $rootScope.$on('event:authentication:signout:succeeded', function(){
-        UserProfileEndpoint.query();
-    });
+    // $rootScope.$on('event:authentication:signout:succeeded', function(){
+    //     UserProfileEndpoint.query();
+    // });
 
     return UserProfileEndpoint;
 
