@@ -1,14 +1,12 @@
 module.exports = [
     '$rootScope',
     '$http',
-    '$q',
     'Util',
     'CONST',
     'Session',
 function(
     $rootScope,
     $http,
-    $q,
     Util,
     CONST,
     Session
@@ -55,27 +53,19 @@ function(
                 scope: claimedScopes.join(' ')
             };
 
+            var promise = $http.post(Util.url('/oauth/token'), payload);
 
-            var deferred = $q.defer();
-            var handleRequestError = function(){
-                deferred.reject();
-                setToSignoutState();
-                $rootScope.$broadcast('event:authentication:signin:failed');
-            }
-            $http.post(Util.url('/oauth/token'), payload).then(
+            promise.then(
                 function(response){
-                    var accessToken = response.data.access_token;
-
-                    $http.get(Util.url('')).then(
-                        function(nestedResponse){
-                            setToSigninState(accessToken);
-                            Session.setUser(nestedResponse.data.user);
-                            $rootScope.$broadcast('event:authentication:signin:succeeded');
-                            deferred.resolve();
-                        }, handleRequestError);
-                }, handleRequestError);
-
-            return deferred.promise;
+                    setToSigninState(response.data.access_token);
+                    $rootScope.$broadcast('event:authentication:signin:succeeded');
+                },
+                function(){
+                    setToSignoutState();
+                    $rootScope.$broadcast('event:authentication:signin:failed');
+                }
+            );
+            return promise;
         },
 
         signout: function(){
