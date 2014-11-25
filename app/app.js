@@ -12,7 +12,7 @@ require('angular-ui-bootstrap/src/accordion/accordion');
 require('angular-mocks/angular-mocks');
 
 require('./post/post-module.js');
-require('./user/user-module.js');
+require('./user-profile/user-profile-module.js');
 
 // this 'environment variable' will be set within the gulpfile
 var backendUrl = process.env.backend_url;
@@ -45,8 +45,6 @@ angular.module('app',
     .directive('inFocus', require('./directives/focus.js'))
 
     .service('Authentication', require('./services/authentication.js'))
-    .service('UserProfileDatapool', require('./services/datapools/user-profile-datapool.js'))
-    .service('UserProfileEndpoint', require('./services/endpoint/user-profile-endpoint.js'))
     .service('ConfigEndpoint', require('./services/endpoint/config.js'))
     .service('FormEndpoint', require('./services/endpoint/form.js'))
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))

@@ -8,7 +8,7 @@ function(
     _
 ) {
 
-    var UserProfileEndpoint = $resource(Util.url('/user'), 
+    var UserProfileEndpoint = $resource(Util.url('/user'),
     {
         get: {
             method: 'GET'
@@ -16,6 +16,10 @@ function(
         update: {
             method: 'PUT'
         }
+    });
+
+    $rootScope.$on('event:authentication:signout:succeeded', function(){
+        UserProfileEndpoint.query();
     });
 
     return UserProfileEndpoint;
