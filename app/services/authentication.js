@@ -3,13 +3,11 @@ module.exports = [
     '$http',
     'Util',
     'CONST',
-    'Session',
 function(
     $rootScope,
     $http,
     Util,
-    CONST,
-    Session
+    CONST
 ) {
 
     // check if initially we have an old access_token and assume that,

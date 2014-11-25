@@ -1,8 +1,8 @@
-module.exports = ['$scope', '$routeParams', 'UserEndpoint', function($scope, $routeParams, UserEndpoint) {
+module.exports = ['$scope', 'UserProfileDatapool', 'UserProfileEndpoint', function($scope, UserProfileDatapool, UserProfileEndpoint) {
     $scope.title = 'User profile for user id ' + $routeParams.id;
 
-	UserEndpoint.get({userId: $routeParams.id}).$promise.then(function(userData){
-		$scope.user_data = userData;
+	UserProfileEndpoint.get().$promise.then(function(userProfileData){
+		$scope.user_profile_data = userProfileData;
 	});
 
 }];

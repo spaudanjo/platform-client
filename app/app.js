@@ -29,7 +29,7 @@ angular.module('app',
         'ui.tabs',
         'leaflet-directive',
         'posts',
-        'user'
+        'user-profile'
     ])
 
     .constant('CONST', {
