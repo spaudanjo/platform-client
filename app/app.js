@@ -44,8 +44,9 @@ angular.module('app',
     .directive('globalFilterMeta', require('./directives/global-filter-meta.js'))
     .directive('inFocus', require('./directives/focus.js'))
 
-    .service('Session', require('./services/session.js'))
     .service('Authentication', require('./services/authentication.js'))
+    .service('UserProfileDatapool', require('./services/datapools/user-profile-datapool.js'))
+    .service('UserProfileEndpoint', require('./services/endpoint/user-profile-endpoint.js'))
     .service('ConfigEndpoint', require('./services/endpoint/config.js'))
     .service('FormEndpoint', require('./services/endpoint/form.js'))
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))
