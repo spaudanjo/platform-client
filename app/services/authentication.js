@@ -63,16 +63,16 @@ function(
                 $rootScope.$broadcast('event:authentication:signin:failed');
             }
             $http.post(Util.url('/oauth/token'), payload).then(
-                function(response){
-                    var accessToken = response.data.access_token;
+                function(authResponse){
+                    var accessToken = authResponse.data.access_token;
 
                     $http.get(
                         Util.url(''),
                         { headers: {'Authorization': 'Bearer ' +accessToken} }
                     ).then(
-                        function(nestedResponse){
-                            var userId = nestedResponse.data.user.id;
-                            var userName = nestedResponse.data.user.name;
+                        function(userDataResponse){
+                            var userId = userDataResponse.data.user.id;
+                            var userName = userDataResponse.data.user.name;
                             setToSigninState(accessToken, userId, userName);
                             $rootScope.$broadcast('event:authentication:signin:succeeded');
                             deferred.resolve();
