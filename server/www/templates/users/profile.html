@@ -1,18 +1,18 @@
 <ul>
     <li>
         <b translate>Username</b>
-        <span>{{user_data.username}}</span>
+        <span>{{user_profile_data.username}}</span>
     </li>
     <li>
         <b translate>Realname</b>
-        <span>{{user_data.realname}}</span>
+        <span>{{user_profile_data.realname}}</span>
     </li>
     <li>
         <b translate>Email</b>
-        <span>{{user_data.email}}</span>
+        <span>{{user_profile_data.email}}</span>
     </li>
     <button type="submit" ng-click="update()" ng-disabled="form.$invalid || signing_in">
         <i class="fa fa-cog fa-spin" ng-show="signing_in"></i>
-        <span translate>user.login</span>
+        <span translate>user_profile_data.login</span>
     </button>
 </ul>

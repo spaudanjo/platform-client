@@ -9,11 +9,12 @@ function(
 ) {
 
     var accessToken = localStorage.getItem('access_token');
-    var UserProfileEndpoint = $resource(Util.url('/'),
+    var userId = localStorage.getItem('user_id');
+    debugger;
+    var UserProfileEndpoint = $resource(Util.apiUrl('/users/'+userId),
     {
         get: {
             method: 'GET',
-            headers:{'Authorization': 'Bearer ' + accessToken}
         },
         update: {
             method: 'PUT'

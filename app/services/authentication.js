@@ -16,8 +16,10 @@ function(
     // if yes, we are still signedin
     var signinStatus = !!localStorage.getItem('access_token'),
 
-            setToSigninState = function(accessToken){
+            setToSigninState = function(accessToken, userId, userName){
                 localStorage.setItem('access_token', accessToken);
+                localStorage.setItem('user_id', userId);
+                localStorage.setItem('user_name', userName);
                 signinStatus = true;
             },
 
@@ -64,10 +66,14 @@ function(
                 function(response){
                     var accessToken = response.data.access_token;
 
-                    $http.get(Util.url('')).then(
+                    $http.get(
+                        Util.url(''),
+                        { headers: {'Authorization': 'Bearer ' +accessToken} }
+                    ).then(
                         function(nestedResponse){
-                            setToSigninState(accessToken);
-                            Session.setUser(nestedResponse.data.user);
+                            var userId = nestedResponse.data.user.id;
+                            var userName = nestedResponse.data.user.name;
+                            setToSigninState(accessToken, userId, userName);
                             $rootScope.$broadcast('event:authentication:signin:succeeded');
                             deferred.resolve();
                         }, handleRequestError);
