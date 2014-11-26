@@ -10,7 +10,6 @@ function(
 
     var accessToken = localStorage.getItem('access_token');
     var userId = localStorage.getItem('user_id');
-    debugger;
     var UserProfileEndpoint = $resource(Util.apiUrl('/users/'+userId),
     {
         get: {
