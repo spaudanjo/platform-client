@@ -1,10 +1,12 @@
 module.exports = [
     '$resource',
     'Util',
+    '$q',
     '_',
 function(
     $resource,
     Util,
+    $q,
     _
 ) {
 
@@ -41,9 +43,12 @@ function(
             });
         },
         updateUserProfile: function(userProfileData){
+            var deferred = $q.defer();
+
             var userProfileResource = new UserProfileResource(userProfileData);
             userProfileResource.$save().then(function(){
                 that.userProfile = userProfileResource;
+                deferred.resolve();
             },function(response){
                 alert("Error in endpoint while saving user profile");
                 if(response.status === 400)
@@ -56,7 +61,9 @@ function(
                         });
                     }
                 }
+                deferred.reject();
             });
+            return deferred.promise;
         }
     };
 

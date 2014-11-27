@@ -1,4 +1,4 @@
-module.exports = ['$scope', 'UserProfileEndpoint', function($scope, UserProfileEndpoint) {
+module.exports = ['$scope', 'UserProfileEndpoint', 'Spinner', function($scope, UserProfileEndpoint, Spinner) {
 
     $scope.$watch(function(){
         return UserProfileEndpoint.getUserProfile();
@@ -7,7 +7,11 @@ module.exports = ['$scope', 'UserProfileEndpoint', function($scope, UserProfileE
     }, true);
 
     $scope.save_user_profile = function(){
-        UserProfileEndpoint.updateUserProfile($scope.user_profile_data_for_edit);
+        Spinner.startSpinner();
+        UserProfileEndpoint.updateUserProfile($scope.user_profile_data_for_edit).then(
+            function(){Spinner.stopSpinner();},
+            function(){Spinner.stopSpinner();}
+        );
     };
 
     $scope.on_user_profile_edit_form_show = function(){
