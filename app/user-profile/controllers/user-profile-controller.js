@@ -3,6 +3,7 @@ module.exports = ['$scope', 'UserProfileDatapool', 'UserProfileEndpoint', functi
 
 	UserProfileEndpoint.get().$promise.then(function(userProfileData){
 		$scope.user_profile_data = userProfileData;
+        $scope.user_profile_data_for_edit = angular.copy(userProfileData);
 	});
 
 }];
