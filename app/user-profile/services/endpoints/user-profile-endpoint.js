@@ -49,26 +49,26 @@ function(
             userProfileResource.$save().then(function(){
                 that.userProfile = userProfileResource;
                 deferred.resolve();
-            },function(response){
-                alert("Error in endpoint while saving user profile");
+            },
+            function(response){
+                var errorInfo = { httpStatus: response.status };
+
                 if(response.status === 400)
                 {
                     var errors = response.data && response.data.errors;
                     if(errors)
                     {
+                        errorInfo.errors = [];
                         errors.forEach(function(error){
-                            alert(error.message);
+                            errorInfo.errors.push(error.message);
                         });
                     }
                 }
-                deferred.reject();
+                deferred.reject(errorInfo);
             });
+
             return deferred.promise;
         }
     };
-
-    // $rootScope.$on('event:authentication:signout:succeeded', function(){
-    //     UserProfileEndpoint.query();
-    // });
 
 }];
