@@ -20,7 +20,9 @@ function(
 
     var UserProfileResource = $resource(Util.apiUrl('/users/:userId'),
     {
-        userId: '@id',
+        userId: '@id'
+    },
+    {
         get: {
             method: 'GET',
         },
@@ -40,12 +42,9 @@ function(
         },
         updateUserProfile: function(userProfileData){
             var userProfileResource = new UserProfileResource(userProfileData);
-            debugger;
             userProfileResource.$save().then(function(){
-                debugger;
                 that.userProfile = userProfileResource;
             },function(response){
-                debugger;
                 alert("Error in endpoint while saving user profile");
             });
             // resource.update(userProfileData);
