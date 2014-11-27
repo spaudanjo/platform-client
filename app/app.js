@@ -53,6 +53,7 @@ angular.module('app',
     .service('TagEndpoint', require('./services/endpoint/tag.js'))
     .service('Util', require('./services/util.js'))
     .service('Spinner', require('./services/spinner.js'))
+    .service('Notify', require('./services/notify.js'))
 
     .controller('navigation', require('./controllers/navigation.js'))
     .controller('workspaceAccordion', require('./workspace'))
