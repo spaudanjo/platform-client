@@ -1,18 +1,32 @@
-<ul>
-    <li>
-        <b translate>Username</b>
-        <span>{{user_profile_data.username}}</span>
-    </li>
-    <li>
-        <b translate>Realname</b>
-        <span>{{user_profile_data.realname}}</span>
-    </li>
-    <li>
-        <b translate>Email</b>
-        <span>{{user_profile_data.email}}</span>
-    </li>
-    <button type="submit" ng-click="update()" ng-disabled="form.$invalid || signing_in">
-        <i class="fa fa-cog fa-spin" ng-show="signing_in"></i>
-        <span translate>user_profile_data.login</span>
-    </button>
-</ul>
+<form editable-form name="editUserProfileForm" onaftersave="saveUserProfile()">
+    <ul>
+        <li>
+            <b translate>Username</b>
+            <span>{{user_profile_data.username}}</span>
+        </li>
+        <li>
+            <b translate>Realname</b>
+            <span editable-text="user_profile_data.realname" e-name="realname" e-required>{{user_profile_data.realname}}</span>
+        </li>
+        <li>
+            <b translate>Email</b>
+            <span editable-text="user_profile_data.email">{{user_profile_data.email}}</span>
+        </li>
+
+        <div class="buttons">
+            <!-- button to show form -->
+            <button type="button" class="btn btn-default" ng-click="editUserProfileForm.$show()" ng-show="!editUserProfileForm.$visible">
+                Edit
+            </button>
+            <!-- buttons to submit / cancel form -->
+            <span ng-show="editUserProfileForm.$visible">
+                <button type="submit" class="btn btn-primary" ng-disabled="editUserProfileForm.$waiting">
+                    Save
+                </button>
+                <button type="button" class="btn btn-default" ng-disabled="editUserProfileForm.$waiting" ng-click="editUserProfileForm.$cancel()">
+                    Cancel
+                </button>
+            </span>
+        </div>
+    </ul>
+</form>
