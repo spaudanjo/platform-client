@@ -46,6 +46,16 @@ function(
                 that.userProfile = userProfileResource;
             },function(response){
                 alert("Error in endpoint while saving user profile");
+                if(response.status === 400)
+                {
+                    var errors = response.data && response.data.errors;
+                    if(errors)
+                    {
+                        errors.forEach(function(error){
+                            alert(error.message);
+                        });
+                    }
+                }
             });
         }
     };
