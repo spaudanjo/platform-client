@@ -47,8 +47,6 @@ function(
             },function(response){
                 alert("Error in endpoint while saving user profile");
             });
-            // resource.update(userProfileData);
-            // this.fetchUserProfile();
         }
     };
 
