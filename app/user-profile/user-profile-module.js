@@ -1,4 +1,6 @@
-angular.module('user-profile', [])
+require('angular-xeditable');
+
+angular.module('user-profile', ['xeditable'])
 
 .service('UserProfileEndpoint', require('./services/endpoints/user-profile-endpoint.js'))
 
