@@ -4,9 +4,6 @@ module.exports = ['$scope', 'UserProfileEndpoint', function($scope, UserProfileE
         return UserProfileEndpoint.getUserProfile();
     },function(newValue, oldValue) {
 		$scope.user_profile_data = newValue;
-        // if(newValue != oldValue) {
-        //     $scope.dataHasChanged= angular.equals($scope.project,$scope.original);
-        // }
     }, true);
 
     $scope.save_user_profile = function(){
