@@ -1,5 +1,12 @@
-module.exports = ['$scope', 'Authentication', function($scope, Authentication) {
+module.exports = ['$scope', 'Authentication', 'Session', function($scope, Authentication, Session) {
     $scope.mainMenu = false;
+
+    $scope.$watch(function(){
+        return Session.getSessionDataEntry('userName');
+    }, function(newValue, oldValue) {
+        $scope.user_name = Session.getSessionDataEntry('userName');
+    }, true);
+
     $scope.toggle = function(param) {
         $scope[param] = $scope[param] === false ? true : false;
     };
