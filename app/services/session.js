@@ -36,13 +36,11 @@ function(
         Object.keys(that.sessionData).map(function(key){
             localStorageService.remove(key);
         });
-        that.sessionData = angular.copy(this.clearedSessionData);
+        that.sessionData = angular.copy(that.clearedSessionData);
     };
 
     // load already saved session data from earlierer session
-    // from local storage when session service is intialized
-    loadSessionData();
-
+    // from local storage when session service is intialized loadSessionData();
     return {
         setSessionDataEntry: setSessionDataEntry,
         getSessionDataEntry: getSessionDataEntry,
