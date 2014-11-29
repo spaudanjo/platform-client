@@ -10,6 +10,7 @@ require('angular-ui-bootstrap/src/collapse/collapse');
 require('angular-ui-bootstrap/src/transition/transition');
 require('angular-ui-bootstrap/src/accordion/accordion');
 require('angular-mocks/angular-mocks');
+require('angular-local-storage');
 
 require('./post/post-module.js');
 require('./user-profile/user-profile-module.js');
@@ -21,6 +22,7 @@ angular.module('app',
     [
         'ngRoute',
         'ngResource',
+        'LocalStorageModule',
         'pascalprecht.translate',
         'ui.bootstrap.dropdown',
         'ui.bootstrap.collapse',
@@ -45,6 +47,7 @@ angular.module('app',
     .directive('inFocus', require('./directives/focus.js'))
 
     .service('Authentication', require('./services/authentication.js'))
+    .service('Session', require('./services/session.js'))
     .service('ConfigEndpoint', require('./services/endpoint/config.js'))
     .service('FormEndpoint', require('./services/endpoint/form.js'))
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))
@@ -66,6 +69,9 @@ angular.module('app',
 
     .run(require('./global-event-handlers.js'))
     .run(require('./global-scope-variables.js'))
+    .run(['Session', function(Session){
+        Session.loadSessionData();
+    }])
 
     .factory('_', function() {
         return require('underscore/underscore');
