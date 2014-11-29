@@ -17,9 +17,6 @@ function(
 
     var that = this;
 
-    var accessToken = localStorage.getItem('access_token');
-    var userId = localStorage.getItem('user_id');
-
     var UserProfileResource = $resource(Util.apiUrl('/users/:userId'),
     {
         userId: '@id'
@@ -38,6 +35,7 @@ function(
             return that.userProfile;
         },
         fetchUserProfile: function(){
+            var userId = Session.getSessionDataEntry('userId');
             UserProfileResource.get({userId: userId}).$promise.then(function(userProfileData){
                 that.userProfile = userProfileData;
             });

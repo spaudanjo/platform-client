@@ -69,9 +69,6 @@ angular.module('app',
 
     .run(require('./global-event-handlers.js'))
     .run(require('./global-scope-variables.js'))
-    .run(['Session', function(Session){
-        Session.loadSessionData();
-    }])
 
     .factory('_', function() {
         return require('underscore/underscore');

@@ -4,27 +4,47 @@ function(
     localStorageService
 ) {
 
-    var sessionData = {
+    this.clearedSessionData = {
         userId: null,
-        userName: null
+        userName: null,
+        accessToken: null
     };
 
+    this.sessionData = angular.copy(this.clearedSessionData);
+
+    var that = this;
     var loadSessionData = function(){
-        this.sessionData = localStorageService.get('sessionData');
+        Object.keys(that.sessionData).map(function(key){
+            that.sessionData[key] = localStorageService.get(key);
+        });
     };
 
-    var setSessionData = function(sessionData){
-        this.sessionData = sessionData;
-        localStorageService.set('sessionData', sessionData);
+    var setSessionDataEntry = function(key, value){
+        that.sessionData[key] = value;
+        localStorageService.set(key, value);
+    };
+
+    var getSessionDataEntry = function(key){
+        return that.sessionData[key];
     };
 
     var getSessionData = function(){
-        return this.sessionData;
+        return that.sessionData;
     };
 
+    var clearSessionData = function(){
+        Object.keys(that.sessionData).map(function(key){
+            localStorageService.remove(key);
+        });
+        that.sessionData = angular.copy(this.clearedSessionData);
+    };
+
+    loadSessionData();
+
     return {
-        loadSessionData: loadSessionData,
-        setSessionData: setSessionData,
+        setSessionDataEntry: setSessionDataEntry,
+        getSessionDataEntry: getSessionDataEntry,
         getSessionData: getSessionData,
+        clearSessionData: clearSessionData
     };
 }];

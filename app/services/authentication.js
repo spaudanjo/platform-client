@@ -4,27 +4,29 @@ module.exports = [
     '$q',
     'Util',
     'CONST',
+    'Session',
 function(
     $rootScope,
     $http,
     $q,
     Util,
-    CONST
+    CONST,
+    Session
 ) {
 
     // check if initially we have an old access_token and assume that,
     // if yes, we are still signedin
-    var signinStatus = !!localStorage.getItem('access_token'),
+    var signinStatus = !!Session.getSessionDataEntry('accessToken'),
 
             setToSigninState = function(accessToken, userId, userName){
-                localStorage.setItem('access_token', accessToken);
-                localStorage.setItem('user_id', userId);
-                localStorage.setItem('user_name', userName);
+                Session.setSessionDataEntry('accessToken', accessToken);
+                Session.setSessionDataEntry('userId', userId);
+                Session.setSessionDataEntry('userName', userName);
                 signinStatus = true;
             },
 
             setToSignoutState = function(){
-                localStorage.removeItem('access_token');
+                Session.clearSessionData();
                 signinStatus = false;
             };
 
@@ -72,7 +74,7 @@ function(
                     ).then(
                         function(userDataResponse){
                             var userId = userDataResponse.data.user.id;
-                            var userName = userDataResponse.data.user.name;
+                            var userName = userDataResponse.data.user.username;
                             setToSigninState(accessToken, userId, userName);
                             $rootScope.$broadcast('event:authentication:signin:succeeded');
                             deferred.resolve();
