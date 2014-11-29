@@ -39,6 +39,8 @@ function(
         that.sessionData = angular.copy(this.clearedSessionData);
     };
 
+    // load already saved session data from earlierer session
+    // from local storage when session service is intialized
     loadSessionData();
 
     return {
