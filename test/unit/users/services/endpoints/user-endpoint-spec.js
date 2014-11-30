@@ -10,18 +10,18 @@ describe('UserEndpoint', function(){
         var testApp = angular.module('testApp', [
         'ngResource'
         ]);
-
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
         testApp.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
+        testApp.service('Session', require(rootPath+'app/services/session.js'));
 
         angular.mock.module('testApp');
     });
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _UserProfileEndpoint_){
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
-        // UserProfileEndpoint = _UserProfileEndpoint_;
+        UserProfileEndpoint = _UserProfileEndpoint_;
     }));
 
     describe('get user profile data for a specific userId', function(){
