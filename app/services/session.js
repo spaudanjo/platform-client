@@ -41,6 +41,9 @@ function(
 
     // load already saved session data from earlierer session
     // from local storage when session service is intialized loadSessionData();
+
+    loadSessionData();
+
     return {
         setSessionDataEntry: setSessionDataEntry,
         getSessionDataEntry: getSessionDataEntry,
