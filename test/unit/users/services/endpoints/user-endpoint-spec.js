@@ -5,31 +5,31 @@ describe('UserEndpoint', function(){
     var $rootScope,
         $httpBackend,
         BACKEND_URL,
-        UserEndpoint;
+        UserProfileEndpoint;
 
     beforeEach(function(){
         var testApp = angular.module('testApp', [
         'ngResource'
         ])
-        .service('UserEndpoint', require(rootPath+'app/user/services/endpoints/user-endpoint.js'));
+        .service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
         angular.mock.module('testApp');
     });
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _CONST_, _UserEndpoint_){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _CONST_, _UserProfileEndpoint_){
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
         BACKEND_URL = _CONST_.BACKEND_URL;
-        UserEndpoint = _UserEndpoint_;
+        UserProfileEndpoint = _UserProfileEndpoint_;
     }));
 
-    describe('get user data for a specific userId', function(){
+    describe('get user profile data for a specific userId', function(){
 
         it('should call the correct url and return the correct data', function(){
             var successCallback = jasmine.createSpy('success');
-            $httpBackend.expectGET(BACKEND_URL + '/api/v2/posts').respond(mockPostResponse);
+            $httpBackend.expectGET(BACKEND_URL + '/api/v2/users').respond(mockPostResponse);
 
             PostEndpoint.query().$promise.then(successCallback);
 
