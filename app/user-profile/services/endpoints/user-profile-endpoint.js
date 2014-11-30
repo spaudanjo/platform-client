@@ -1,11 +1,13 @@
 module.exports = [
     '$resource',
     'Util',
+    'Session',
     '$q',
     '_',
 function(
     $resource,
     Util,
+    Session,
     $q,
     _
 ) {
