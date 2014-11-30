@@ -10,6 +10,7 @@ module.exports = function(config){
         'node_modules/angular-mocks/angular-mocks.js',
         'node_modules/underscore/underscore.js',
         'app/post/**/*.js',
+        'app/user-profile/**/*.js',
         'app/controllers/**/*.js',
         'app/directives/**/*.js',
         'app/interceptors/**/*.js',

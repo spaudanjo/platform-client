@@ -4,7 +4,6 @@ describe('UserEndpoint', function(){
 
     var $rootScope,
         $httpBackend,
-        BACKEND_URL,
         UserProfileEndpoint;
 
     beforeEach(function(){
@@ -16,15 +15,13 @@ describe('UserEndpoint', function(){
 
         testApp.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
 
-
         angular.mock.module('testApp');
     });
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _CONST_, _UserProfileEndpoint_){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_){
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
-        BACKEND_URL = _CONST_.BACKEND_URL;
-        UserProfileEndpoint = _UserProfileEndpoint_;
+        // UserProfileEndpoint = _UserProfileEndpoint_;
     }));
 
     describe('get user profile data for a specific userId', function(){
