@@ -13,29 +13,23 @@ describe('UserEndpoint', function(){
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
+        testApp.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
+        testApp.service('Session', require(rootPath+'app/services/session.js'));
     });
 
-    beforeEach(angular.mock.module('testApp', function($provide){
-        $provide.value('localStorageService', function(){
-            return {
+    beforeEach(angular.mock.module('testApp'));
 
-            };
-        });
-        $provide.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
-        $provide.service('Session', require(rootPath+'app/services/session.js'));
-    }));
+    beforeEach(function(){
+        mockDependency = {
+          getSomething: function () {
+              return 'mockReturnValue';
+          }
+      };
 
-    // beforeEach(function(){
-    //     mockDependency = {
-    //       getSomething: function () {
-    //           return 'mockReturnValue';
-    //       }
-    //   };
-    //
-    //   module(function ($provide) {
-    //       $provide.value('myDependency', mockDependency);
-    //   });
-    // });
+      module(function ($provide) {
+          $provide.value('myDependency', mockDependency);
+      });
+    });
 
     beforeEach(inject(function(_$httpBackend_, _$rootScope_, _UserProfileEndpoint_){
         $rootScope = _$rootScope_;
