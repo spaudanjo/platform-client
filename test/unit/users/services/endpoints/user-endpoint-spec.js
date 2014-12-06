@@ -9,6 +9,23 @@ describe('UserEndpoint', function(){
         mockUserDataResponse;
 
     beforeEach(function(){
+        var store = {
+            'ls.userId': 2
+        };
+
+        spyOn(localStorage, 'getItem').and.callFake(function (key) {
+            debugger;
+            return store[key];
+        });
+        spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
+            return store[key] = value + '';
+        });
+        spyOn(localStorage, 'clear').and.callFake(function () {
+            debugger;
+            store = {};
+        });
+
+
         var testApp = angular.module('testApp', [
         'ngResource',
         'LocalStorageModule'
@@ -17,7 +34,11 @@ describe('UserEndpoint', function(){
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
         testApp.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
+
+        // var sessionMock = jasmine.createSpy('session');
+        // var sessionMock
         testApp.service('Session', require(rootPath+'app/services/session.js'));
+        // testApp.service('Session', sessionMock);
     });
 
     beforeEach(angular.mock.module('testApp'));
@@ -33,19 +54,6 @@ describe('UserEndpoint', function(){
 
         // we mock the localStorage API
         beforeEach(function () {
-            var store = {
-                userId: 2
-            };
-
-            spyOn(localStorage, 'getItem').and.callFake(function (key) {
-                return store[key];
-            });
-            spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
-                return store[key] = value + '';
-            });
-            spyOn(localStorage, 'clear').and.callFake(function () {
-                store = {};
-            });
         });
 
         beforeEach(function(){
@@ -72,12 +80,14 @@ describe('UserEndpoint', function(){
 
         it('should call the correct url and return the correct data', function(){
             // var successCallback = jasmine.createSpy('success');
+            var tUserId = localStorage.getItem('userId');
+            debugger;
             $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
             UserProfileEndpoint.fetchUserProfile();
             //
             // PostEndpoint.query().$promise.then(successCallback);
             //
-            // $httpBackend.flush();
+            $httpBackend.flush();
             var t = UserProfileEndpoint.getUserProfile();
             // $rootScope.$digest();
             //
