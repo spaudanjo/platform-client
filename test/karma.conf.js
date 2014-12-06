@@ -8,6 +8,7 @@ module.exports = function(config){
         'node_modules/angular-translate/dist/angular-translate.js',
         'node_modules/angular-resource/angular-resource.js',
         'node_modules/angular-mocks/angular-mocks.js',
+        'node_modules/angular-local-storage/dist/angular-local-storage.js',
         'node_modules/underscore/underscore.js',
         'node_modules/angular-xeditable/xeditable.min.js',
         'app/post/**/*.js',
@@ -23,7 +24,7 @@ module.exports = function(config){
     ],
 
     // we don't want to include the sub module manifest files
-    // (like for user-profile or post), 
+    // (like for user-profile or post),
     // because we want to compose our own test specific module definitions
     // and its dependencies
     // (especially when it comes to external libraries which we often want to

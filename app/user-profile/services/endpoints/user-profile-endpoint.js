@@ -38,6 +38,10 @@ function(
         },
         fetchUserProfile: function(){
             var userId = Session.getSessionDataEntry('userId');
+            // debugger;
+            // alert(userId);
+            // console.log("USER ID !!!!!!!!!!!!!!!!!!!!");
+            // console.log(userId);
             UserProfileResource.get({userId: userId}).$promise.then(function(userProfileData){
                 that.userProfile = userProfileData;
             });
