@@ -81,7 +81,6 @@ describe('UserEndpoint', function(){
         it('should call the correct url and return the correct data', function(){
             // var successCallback = jasmine.createSpy('success');
             var tUserId = localStorage.getItem('userId');
-            debugger;
             $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
             UserProfileEndpoint.fetchUserProfile();
             //
