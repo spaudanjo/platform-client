@@ -54,18 +54,6 @@ describe('UserEndpoint', function(){
             var store = {
                 userId: 2
             };
-
-            spyOn(localStorage, 'getItem').and.callFake(function (key) {
-                debugger;
-                return store[key];
-            });
-            spyOn(localStorage, 'setItem').and.callFake(function (key, value) {
-                return store[key] = value + '';
-            });
-            spyOn(localStorage, 'clear').and.callFake(function () {
-                debugger;
-                store = {};
-            });
         });
 
         beforeEach(function(){
