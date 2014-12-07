@@ -105,10 +105,10 @@ describe('UserEndpoint', function(){
 
     describe('update user profile data', function(){
 
-        var userProfileData;
+        var updateUserProfileData;
 
         beforeEach(function () {
-            userProfileData = {
+            updateUserProfileData = {
                 username: 'barfoo',
                 email: 'bar@foo.com',
                 realname: 'Hanna Bar'
@@ -139,7 +139,7 @@ describe('UserEndpoint', function(){
 
         beforeEach(function () {
             $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
-            UserProfileEndpoint.updateUserProfile(userProfileData);
+            UserProfileEndpoint.updateUserProfile(updateUserProfileData);
             $httpBackend.flush();
         });
 
@@ -148,10 +148,6 @@ describe('UserEndpoint', function(){
         });
 
         it('sets the correct data', function(){
-            // $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
-            // .respond(200, mockUserDataResponse);
-            // $httpBackend.flush();
-            //
             // var userProfileData = UserProfileEndpoint.getUserProfile();
             // expect(userProfileData.id).toEqual(mockUserDataResponse.id);
             // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
