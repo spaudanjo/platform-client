@@ -50,7 +50,7 @@ describe('UserEndpoint', function(){
         UserProfileEndpoint = _UserProfileEndpoint_;
     }));
 
-    describe('fetch user profile data for userId stored in session and then get this user profile data', function(){
+    describe('fetch user profile data for userId stored in session', function(){
 
         beforeEach(function () {
             sessionData.userId = 2;
@@ -60,9 +60,9 @@ describe('UserEndpoint', function(){
             mockUserDataResponse = {
                 "id": "2",
                 "url": "http://ushahidi-backend/api/v2/users/2",
+                "username": "admin",
                 "email": "admin@example.com",
                 "realname": "Max Test",
-                "username": "admin",
                 "logins": "0",
                 "failed_attempts": "0",
                 "last_login": null,
@@ -78,16 +78,75 @@ describe('UserEndpoint', function(){
             }
         });
 
-        it('should call the correct url and return the correct data', function(){
+        beforeEach(function () {
             $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
             UserProfileEndpoint.fetchUserProfile();
             $httpBackend.flush();
+        });
 
-            var userProfileData = UserProfileEndpoint.getUserProfile();
-            expect(userProfileData.id).toEqual(mockUserDataResponse.id);
-            expect(userProfileData.username).toEqual(mockUserDataResponse.username);
-            expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
-            expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+        it('call the correct url', function(){
+
+        });
+
+        describe('get user profile data', function(){
+            var userProfileData;
+            beforeEach(function(){
+                userProfileData = UserProfileEndpoint.getUserProfile();
+            });
+
+            it('returns the correct data', function(){
+                expect(userProfileData.id).toEqual(mockUserDataResponse.id);
+                expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+                expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
+                expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            });
+        });
+    });
+
+    describe('update user profile data', function(){
+
+        var userProfileData;
+
+        beforeEach(function () {
+            userProfileData = {
+                username: 'barfoo',
+                email: 'bar@foo.com',
+                realname: 'Hanna Bar'
+            };
+        });
+
+        beforeEach(function(){
+            mockUserDataResponse = {
+                "id": "2",
+                "url": "http://ushahidi-backend/api/v2/users/2",
+                "username": "barfoo",
+                "email": "bar@foo.com",
+                "realname": "Hanna Bar",
+                "logins": "0",
+                "failed_attempts": "0",
+                "last_login": null,
+                "last_attempt": null,
+                "created": "1970-01-01T00:00:00+00:00",
+                "updated": "2014-11-30T13:56:41+00:00",
+                "role": "admin",
+                "allowed_methods": [
+                    "get",
+                    "post",
+                    "put"
+                ]
+            }
+        });
+
+        it('call the correct url and set the correct data', function(){
+            // $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
+            // .respond(200, mockUserDataResponse);
+            // $httpBackend.flush();
+            //
+            // var userProfileData = UserProfileEndpoint.getUserProfile();
+            // expect(userProfileData.id).toEqual(mockUserDataResponse.id);
+            // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            // expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
+            // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
         });
     });
 });

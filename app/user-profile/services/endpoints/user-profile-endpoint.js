@@ -46,26 +46,29 @@ function(
             var deferred = $q.defer();
 
             var userProfileResource = new UserProfileResource(userProfileData);
-            userProfileResource.$save().then(function(){
-                that.userProfile = userProfileResource;
-                deferred.resolve();
-            },
-            function(response){
-                var errorInfo = { httpStatus: response.status };
+            userProfileResource.$save().then(
+                function(){
+                    debugger;
+                    that.userProfile = userProfileResource;
+                    deferred.resolve();
+                },
+                function(response){
+                    var errorInfo = { httpStatus: response.status };
 
-                if(response.status === 400)
-                {
-                    var errors = response.data && response.data.errors;
-                    if(errors)
+                    if(response.status === 400)
                     {
-                        errorInfo.errors = [];
-                        errors.forEach(function(error){
-                            errorInfo.errors.push(error.message);
-                        });
+                        var errors = response.data && response.data.errors;
+                        if(errors)
+                        {
+                            errorInfo.errors = [];
+                            errors.forEach(function(error){
+                                errorInfo.errors.push(error.message);
+                            });
+                        }
                     }
+                    deferred.reject(errorInfo);
                 }
-                deferred.reject(errorInfo);
-            });
+            );
 
             return deferred.promise;
         }
