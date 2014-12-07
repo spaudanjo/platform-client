@@ -105,10 +105,11 @@ describe('UserEndpoint', function(){
 
     describe('update user profile data', function(){
 
-        var updateUserProfileData;
+        var updateUserProfileData, responseStatus, updatePromise;
 
         beforeEach(function () {
             updateUserProfileData = {
+                id: '2',
                 username: 'barfoo',
                 email: 'bar@foo.com',
                 realname: 'Hanna Bar'
@@ -137,22 +138,32 @@ describe('UserEndpoint', function(){
             }
         });
 
-        beforeEach(function () {
-            $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
-            UserProfileEndpoint.updateUserProfile(updateUserProfileData);
-            $httpBackend.flush();
-        });
+        describe("with status 200 (successfull) of the server response", function(){
+            beforeEach(function () {
+                $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
+                .respond(200, mockUserDataResponse);
 
-        it('calls the correct url', function(){
+                updatePromise = UserProfileEndpoint.updateUserProfile(updateUserProfileData);
+                $httpBackend.flush();
+            });
 
-        });
+            it('resolves the promise', function(){
+                var successCallback = jasmine.createSpy('success');
+                updatePromise.then(successCallback);
+                expect(successCallback).toHaveBeenCalled();
+            });
 
-        it('sets the correct data', function(){
-            // var userProfileData = UserProfileEndpoint.getUserProfile();
-            // expect(userProfileData.id).toEqual(mockUserDataResponse.id);
-            // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
-            // expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
-            // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            it('calls the correct url', function(){
+
+            });
+
+            it('sets the correct data', function(){
+                // var userProfileData = UserProfileEndpoint.getUserProfile();
+                // expect(userProfileData.id).toEqual(mockUserDataResponse.id);
+                // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+                // expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
+                // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            });
         });
     });
 });

@@ -48,7 +48,6 @@ function(
             var userProfileResource = new UserProfileResource(userProfileData);
             userProfileResource.$save().then(
                 function(){
-                    debugger;
                     that.userProfile = userProfileResource;
                     deferred.resolve();
                 },
