@@ -84,7 +84,7 @@ describe('UserEndpoint', function(){
             $httpBackend.flush();
         });
 
-        it('call the correct url', function(){
+        it('calls the correct url', function(){
 
         });
 
@@ -137,7 +137,17 @@ describe('UserEndpoint', function(){
             }
         });
 
-        it('call the correct url and set the correct data', function(){
+        beforeEach(function () {
+            $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
+            UserProfileEndpoint.updateUserProfile(userProfileData);
+            $httpBackend.flush();
+        });
+
+        it('calls the correct url', function(){
+
+        });
+
+        it('sets the correct data', function(){
             // $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
             // .respond(200, mockUserDataResponse);
             // $httpBackend.flush();
