@@ -116,53 +116,91 @@ describe('UserEndpoint', function(){
             };
         });
 
-        beforeEach(function(){
-            mockUserDataResponse = {
-                "id": "2",
-                "url": "http://ushahidi-backend/api/v2/users/2",
-                "username": "barfoo",
-                "email": "bar@foo.com",
-                "realname": "Hanna Bar",
-                "logins": "0",
-                "failed_attempts": "0",
-                "last_login": null,
-                "last_attempt": null,
-                "created": "1970-01-01T00:00:00+00:00",
-                "updated": "2014-11-30T13:56:41+00:00",
-                "role": "admin",
-                "allowed_methods": [
+        describe("with status 200 (successfull) of the server response", function(){
+
+            var successCallback, errorCallback;
+
+            beforeEach(function(){
+                mockUserDataResponse = {
+                    "id": "2",
+                    "url": "http://ushahidi-backend/api/v2/users/2",
+                    "username": "barfoo",
+                    "email": "bar@foo.com",
+                    "realname": "Hanna Bar",
+                    "logins": "0",
+                    "failed_attempts": "0",
+                    "last_login": null,
+                    "last_attempt": null,
+                    "created": "1970-01-01T00:00:00+00:00",
+                    "updated": "2014-11-30T13:56:41+00:00",
+                    "role": "admin",
+                    "allowed_methods": [
                     "get",
                     "post",
                     "put"
-                ]
-            }
-        });
+                    ]
+                }
+            });
 
-        describe("with status 200 (successfull) of the server response", function(){
             beforeEach(function () {
                 $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
                 .respond(200, mockUserDataResponse);
 
                 updatePromise = UserProfileEndpoint.updateUserProfile(updateUserProfileData);
+
+                successCallback = jasmine.createSpy('success');
+                errorCallback = jasmine.createSpy('error');
+                updatePromise.then(successCallback, errorCallback);
+
                 $httpBackend.flush();
             });
 
             it('resolves the promise', function(){
-                var successCallback = jasmine.createSpy('success');
-                updatePromise.then(successCallback);
                 expect(successCallback).toHaveBeenCalled();
             });
 
-            it('calls the correct url', function(){
+            it('sets the correct data', function(){
+                var userProfileData = UserProfileEndpoint.getUserProfile();
+                expect(userProfileData.id).toEqual(mockUserDataResponse.id);
+                expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+                expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
+                expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            });
+        });
 
+        describe("with status 400 (bad request) of the server response and validation errors", function(){
+            var successCallback, errorCallback;
+
+            beforeEach(function(){
+                mockUserDataResponse = {
+                    "errors": [
+                        {
+                            "message": "Validation Error: 'email must be an email address'",
+                            "code": 400
+                        }
+                    ]
+                }
             });
 
-            it('sets the correct data', function(){
-                // var userProfileData = UserProfileEndpoint.getUserProfile();
-                // expect(userProfileData.id).toEqual(mockUserDataResponse.id);
-                // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
-                // expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
-                // expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            beforeEach(function () {
+                $httpBackend.expectPUT(CONST.BACKEND_URL + '/api/v2/users/2')
+                .respond(400, mockUserDataResponse);
+
+                updatePromise = UserProfileEndpoint.updateUserProfile(updateUserProfileData);
+
+                successCallback = jasmine.createSpy('success');
+                errorCallback = jasmine.createSpy('error');
+                updatePromise.then(successCallback, errorCallback);
+
+                $httpBackend.flush();
+            });
+
+            it('rejects the promise with the validation errors', function(){
+                expect(errorCallback).toHaveBeenCalled();
+
+                var validationErrors = errorCallback.calls.mostRecent().args[0].errors;
+                expect(validationErrors.length).toBe(1);
+                expect(validationErrors[0]).toEqual(mockUserDataResponse.errors[0].message);
             });
         });
     });
