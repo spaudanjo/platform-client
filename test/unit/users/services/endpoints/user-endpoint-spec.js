@@ -7,24 +7,31 @@ describe('UserEndpoint', function(){
         CONST,
         UserProfileEndpoint,
         mockUserDataResponse,
-        mockedLocalStorageHash;
+        sessionData;
 
     beforeEach(function(){
 
         var testApp = angular.module('testApp', ['ngResource']);
 
-        mockedLocalStorageHash = {userId: 2};
-        testApp.service('localStorageService', function(){
+        sessionData = {
+            userId: null,
+            userName: null,
+            accessToken: null
+        };
+
+        testApp.service('Session', function(){
+
+            var setSessionDataEntry = function(key, value){
+                sessionData[key] = value;
+            };
+
+            var getSessionDataEntry = function(key){
+                return sessionData[key];
+            };
+
             return {
-                get: function(key){
-                    return mockedLocalStorageHash[key];
-                },
-                set: function(key, val){
-                    mockedLocalStorageHash[key] = val;
-                },
-                clear: function(){
-                    mockedLocalStorageHash = {};
-                }
+                setSessionDataEntry: setSessionDataEntry,
+                getSessionDataEntry: getSessionDataEntry
             };
         });
 
@@ -32,10 +39,6 @@ describe('UserEndpoint', function(){
 
         testApp.service('UserProfileEndpoint', require(rootPath+'app/user-profile/services/endpoints/user-profile-endpoint.js'));
 
-        // var sessionMock = jasmine.createSpy('session');
-        // var sessionMock
-        testApp.service('Session', require(rootPath+'app/services/session.js'));
-        // testApp.service('Session', sessionMock);
     });
 
     beforeEach(angular.mock.module('testApp'));
@@ -49,11 +52,8 @@ describe('UserEndpoint', function(){
 
     describe('fetch user profile data for userId stored in session and then get this user profile data', function(){
 
-        // we mock the localStorage API
         beforeEach(function () {
-            var store = {
-                userId: 2
-            };
+            sessionData.userId = 2;
         });
 
         beforeEach(function(){
@@ -79,18 +79,15 @@ describe('UserEndpoint', function(){
         });
 
         it('should call the correct url and return the correct data', function(){
-            // var successCallback = jasmine.createSpy('success');
-            var tUserId = localStorage.getItem('userId');
             $httpBackend.expectGET(CONST.BACKEND_URL + '/api/v2/users/2').respond(mockUserDataResponse);
             UserProfileEndpoint.fetchUserProfile();
-            //
-            // PostEndpoint.query().$promise.then(successCallback);
-            //
             $httpBackend.flush();
-            var t = UserProfileEndpoint.getUserProfile();
-            // $rootScope.$digest();
-            //
-            // expect(successCallback).toHaveBeenCalled();
+
+            var userProfileData = UserProfileEndpoint.getUserProfile();
+            expect(userProfileData.id).toEqual(mockUserDataResponse.id);
+            expect(userProfileData.username).toEqual(mockUserDataResponse.username);
+            expect(userProfileData.realname).toEqual(mockUserDataResponse.realname);
+            expect(userProfileData.username).toEqual(mockUserDataResponse.username);
         });
     });
 });
