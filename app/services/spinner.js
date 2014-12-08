@@ -1,8 +1,7 @@
+var Spinner = require('../vendor/spin.js');
+
 module.exports = [
-    '$rootScope',
-function(
-    $rootScope
-) {
+function() {
 
     var spinner;
     var startSpinner = function(){
@@ -30,7 +29,7 @@ function(
 
     var stopSpinner = function(){
         spinner.stop();
-    }
+    };
 
     return {
         startSpinner: startSpinner,

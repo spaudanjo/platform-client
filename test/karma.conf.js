@@ -11,6 +11,7 @@ module.exports = function(config){
         'node_modules/angular-local-storage/dist/angular-local-storage.js',
         'node_modules/underscore/underscore.js',
         'node_modules/angular-xeditable/xeditable.min.js',
+        'app/vendor/**/*.js',
         'app/post/**/*.js',
         'app/user-profile/**/*.js',
         'app/controllers/**/*.js',
