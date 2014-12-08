@@ -1,4 +1,7 @@
-module.exports = ['$scope', 'UserProfileEndpoint', 'Spinner', 'Notify', function($scope, UserProfileEndpoint, Spinner, Notify) {
+module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Spinner', 'Notify', function($scope, $translate, UserProfileEndpoint, Spinner, Notify) {
+    $translate('user_profile.title').then(function(title){
+        $scope.title = title;
+    });
 
     $scope.$watch(function(){
         return UserProfileEndpoint.getUserProfile();

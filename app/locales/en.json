@@ -412,6 +412,9 @@
         }
 
     },
+    "user_profile" : {
+        "title" : "Edit profile"
+    },
     "footer" : {
         "copyright_info" : "Powered by Ushahidi. | &copy; Copyright {{owner_name}}, 2013"
     },
