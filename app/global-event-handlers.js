@@ -1,4 +1,4 @@
-module.exports = ['$rootScope', '$location', 'Authentication', function($rootScope, $location, Authentication){
+module.exports = ['$rootScope', '$location', 'Authentication', 'Spinner', function($rootScope, $location, Authentication, Spinner){
 
     $rootScope.signedin = Authentication.getSigninStatus();
 
@@ -26,6 +26,8 @@ module.exports = ['$rootScope', '$location', 'Authentication', function($rootSco
     });
 
     $rootScope.$on('event:unauthorized', function(){
+        // stop possibily still running spinner of original http request
+        Spinner.stopSpinner();
         switchToSignedoutAndShowSigninPage();
     });
 
