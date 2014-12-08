@@ -3,16 +3,14 @@ module.exports = [
     'Util',
     'Session',
     '$q',
-    '_',
 function(
     $resource,
     Util,
     Session,
-    $q,
-    _
+    $q
 ) {
 
-    var userProfile = {
+    this.userProfile = {
         id: null,
         username: null
     };

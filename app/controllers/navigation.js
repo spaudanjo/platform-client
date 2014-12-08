@@ -3,7 +3,7 @@ module.exports = ['$scope', 'Authentication', 'Session', function($scope, Authen
 
     $scope.$watch(function(){
         return Session.getSessionDataEntry('userName');
-    }, function(newValue, oldValue) {
+    }, function(/*newValue, oldValue*/) {
         $scope.user_name = Session.getSessionDataEntry('userName');
     }, true);
 

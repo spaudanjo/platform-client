@@ -6,7 +6,7 @@ module.exports = function(appModule){
 
     appModule
         .factory('_', function() {
-            return _;
+            return window._;
         })
         .constant('CONST', {
             'BACKEND_URL'         : backendUrl,

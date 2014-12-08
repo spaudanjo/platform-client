@@ -58,24 +58,24 @@ describe('UserEndpoint', function(){
 
         beforeEach(function(){
             mockUserDataResponse = {
-                "id": "2",
-                "url": "http://ushahidi-backend/api/v2/users/2",
-                "username": "admin",
-                "email": "admin@example.com",
-                "realname": "Max Test",
-                "logins": "0",
-                "failed_attempts": "0",
-                "last_login": null,
-                "last_attempt": null,
-                "created": "1970-01-01T00:00:00+00:00",
-                "updated": "2014-11-30T13:56:41+00:00",
-                "role": "admin",
-                "allowed_methods": [
-                    "get",
-                    "post",
-                    "put"
+                'id': '2',
+                'url': 'http://ushahidi-backend/api/v2/users/2',
+                'username': 'admin',
+                'email': 'admin@example.com',
+                'realname': 'Max Test',
+                'logins': '0',
+                'failed_attempts': '0',
+                'last_login': null,
+                'last_attempt': null,
+                'created': '1970-01-01T00:00:00+00:00',
+                'updated': '2014-11-30T13:56:41+00:00',
+                'role': 'admin',
+                'allowed_methods': [
+                    'get',
+                    'post',
+                    'put'
                 ]
-            }
+            };
         });
 
         beforeEach(function () {
@@ -105,7 +105,7 @@ describe('UserEndpoint', function(){
 
     describe('update user profile data', function(){
 
-        var updateUserProfileData, responseStatus, updatePromise;
+        var updateUserProfileData, updatePromise;
 
         beforeEach(function () {
             updateUserProfileData = {
@@ -116,30 +116,30 @@ describe('UserEndpoint', function(){
             };
         });
 
-        describe("with status 200 (successfull) of the server response", function(){
+        describe('with status 200 (successfull) of the server response', function(){
 
             var successCallback, errorCallback;
 
             beforeEach(function(){
                 mockUserDataResponse = {
-                    "id": "2",
-                    "url": "http://ushahidi-backend/api/v2/users/2",
-                    "username": "barfoo",
-                    "email": "bar@foo.com",
-                    "realname": "Hanna Bar",
-                    "logins": "0",
-                    "failed_attempts": "0",
-                    "last_login": null,
-                    "last_attempt": null,
-                    "created": "1970-01-01T00:00:00+00:00",
-                    "updated": "2014-11-30T13:56:41+00:00",
-                    "role": "admin",
-                    "allowed_methods": [
-                    "get",
-                    "post",
-                    "put"
+                    'id': '2',
+                    'url': 'http://ushahidi-backend/api/v2/users/2',
+                    'username': 'barfoo',
+                    'email': 'bar@foo.com',
+                    'realname': 'Hanna Bar',
+                    'logins': '0',
+                    'failed_attempts': '0',
+                    'last_login': null,
+                    'last_attempt': null,
+                    'created': '1970-01-01T00:00:00+00:00',
+                    'updated': '2014-11-30T13:56:41+00:00',
+                    'role': 'admin',
+                    'allowed_methods': [
+                    'get',
+                    'post',
+                    'put'
                     ]
-                }
+                };
             });
 
             beforeEach(function () {
@@ -168,18 +168,18 @@ describe('UserEndpoint', function(){
             });
         });
 
-        describe("with status 400 (bad request) of the server response and validation errors", function(){
+        describe('with status 400 (bad request) of the server response and validation errors', function(){
             var successCallback, errorCallback;
 
             beforeEach(function(){
                 mockUserDataResponse = {
-                    "errors": [
+                    'errors': [
                         {
-                            "message": "Validation Error: 'email must be an email address'",
-                            "code": 400
+                            'message': 'Validation Error: \'email must be an email address\'',
+                            'code': 400
                         }
                     ]
-                }
+                };
             });
 
             beforeEach(function () {

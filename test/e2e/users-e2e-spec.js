@@ -1,5 +1,3 @@
-var userMenuLinkSelector = 'a#user-menu-link';
-
 describe('users profile', function(){
     describe('as a signed in user', function(){
 

@@ -1,15 +1,12 @@
 module.exports = [
-    '$rootScope',
-function(
-    $rootScope
-) {
+function() {
 
     var showSingleAlert = function(alertMessage){
         // TODO: find a better solution for that
         // e.g. use some notification plugins
         // like https://github.com/cgross/angular-notify
         // or https://github.com/jirikavi/AngularJS-Toaster
-        alert(alertMessage);
+        window.alert(alertMessage);
     };
 
     var showAlerts = function(alertMessages){

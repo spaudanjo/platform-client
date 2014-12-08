@@ -5,7 +5,7 @@ module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Spinner', 'Not
 
     $scope.$watch(function(){
         return UserProfileEndpoint.getUserProfile();
-    },function(newValue, oldValue) {
+    }, function(newValue/*, oldValue*/) {
 		$scope.user_profile_data = newValue;
     }, true);
 

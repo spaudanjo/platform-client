@@ -63,7 +63,8 @@ function(
                 deferred.reject();
                 setToSignoutState();
                 $rootScope.$broadcast('event:authentication:signin:failed');
-            }
+            };
+
             $http.post(Util.url('/oauth/token'), payload).then(
                 function(authResponse){
                     var accessToken = authResponse.data.access_token;
