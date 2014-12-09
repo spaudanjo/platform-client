@@ -39,10 +39,6 @@ function(
         return $scope.role === role;
     };
 
-    $scope.getGravatar = function(user) {
-        return gravatar.url(user.email, {default: 'retro'});
-    };
-
     $scope.selectRole = function(role) {
         $scope.role  = role;
         $scope.users = UserEndpoint.query({

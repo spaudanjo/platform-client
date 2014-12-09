@@ -2,9 +2,10 @@ module.exports = ['$scope', 'Authentication', 'Session', function($scope, Authen
     $scope.mainMenu = false;
 
     $scope.$watch(function(){
-        return Session.getSessionDataEntry('userName');
-    }, function(/*newValue, oldValue*/) {
-        $scope.user_name = Session.getSessionDataEntry('userName');
+        return Session.getSessionData();
+    }, function(newValue/*, oldValue*/) {
+        $scope.user_name = newValue['userName'];
+        $scope.email = newValue['email'];
     }, true);
 
     $scope.toggle = function(param) {

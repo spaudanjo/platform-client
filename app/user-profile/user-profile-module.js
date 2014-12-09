@@ -1,6 +1,7 @@
 require('angular-xeditable');
+require('../common/helpers/gravatar-helper-module.js');
 
-angular.module('user-profile', ['xeditable'])
+angular.module('user-profile', ['xeditable', 'gravatarHelper'])
 
 .service('UserProfileEndpoint', require('./services/endpoints/user-profile-endpoint.js'))
 

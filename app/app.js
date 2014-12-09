@@ -12,6 +12,7 @@ require('angular-ui-bootstrap/src/accordion/accordion');
 require('angular-mocks/angular-mocks');
 require('angular-local-storage');
 
+
 require('./post/post-module.js');
 require('./user/user-module.js');
 require('./user-profile/user-profile-module.js');
@@ -73,9 +74,6 @@ angular.module('app',
 
     .factory('_', function() {
         return require('underscore/underscore');
-    })
-    .factory('gravatar', function() {
-        return require('gravatar');
     })
 
     ;
