@@ -361,7 +361,6 @@
     },
     "user": {
         "user_actions" : "User Actions",
-        "realname" : "Realname",
         "select_all" : "Select All",
         "unselect_all" : "Unselect All",
         "add_user" : "Add User",
