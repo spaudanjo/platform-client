@@ -6,4 +6,4 @@ angular.module('gravatarHelper', [])
     $rootScope.getGravatar = function(user) {
         return gravatar.url(user.email, {default: 'retro'});
     };
-}])
+}]);
