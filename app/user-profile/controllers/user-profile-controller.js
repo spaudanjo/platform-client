@@ -7,6 +7,7 @@ module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Notify', funct
         return UserProfileEndpoint.getUserProfile();
     }, function(newValue/*, oldValue*/) {
 		$scope.user_profile_data = newValue;
+		$scope.user_profile_data_for_edit = newValue;
     }, true);
 
     $scope.save_user_profile = function(){
