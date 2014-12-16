@@ -18,10 +18,11 @@ function(
     // if yes, we are still signedin
     var signinStatus = !!Session.getSessionDataEntry('accessToken'),
 
-            setToSigninState = function(accessToken, userId, userName){
-                Session.setSessionDataEntry('accessToken', accessToken);
+            setToSigninState = function(userId, userName, realName, email){
                 Session.setSessionDataEntry('userId', userId);
                 Session.setSessionDataEntry('userName', userName);
+                Session.setSessionDataEntry('realName', realName);
+                Session.setSessionDataEntry('email', email);
                 signinStatus = true;
             },
 
@@ -68,15 +69,15 @@ function(
             $http.post(Util.url('/oauth/token'), payload).then(
                 function(authResponse){
                     var accessToken = authResponse.data.access_token;
+                    Session.setSessionDataEntry('accessToken', accessToken);
 
-                    $http.get(
-                        Util.url(''),
-                        { headers: {'Authorization': 'Bearer ' +accessToken} }
-                    ).then(
+                    $http.get(Util.apiUrl('/users/me')).then(
                         function(userDataResponse){
-                            var userId = userDataResponse.data.user.id;
-                            var userName = userDataResponse.data.user.username;
-                            setToSigninState(accessToken, userId, userName);
+                            var userId = userDataResponse.data.id;
+                            var userName = userDataResponse.data.username;
+                            var realName = userDataResponse.data.realname;
+                            var email = userDataResponse.data.email;
+                            setToSigninState(userId, userName, realName, email);
                             $rootScope.$broadcast('event:authentication:signin:succeeded');
                             deferred.resolve();
                         }, handleRequestError);

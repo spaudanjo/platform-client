@@ -63,7 +63,7 @@
             <li ng-repeat="user in users | orderBy:'name'" class="list-view__item">
                 <input type="checkbox" ng-model="isChecked">
                 <div class="list-view-image--user">
-                    <img ng-src="{{ getGravatar(user) }}" alt="" />
+                    <img ng-src="{{ getGravatar(user.email) }}" alt="" />
                 </div> <!-- end .list-view-image -->
 
                 <div class="list-view-details--user">

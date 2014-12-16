@@ -3,7 +3,7 @@ angular.module('gravatarHelper', [])
     return require('gravatar');
 })
 .run(['$rootScope', 'gravatar', function($rootScope, gravatar){
-    $rootScope.getGravatar = function(user) {
-        return gravatar.url(user.email, {default: 'retro'});
+    $rootScope.getGravatar = function(email) {
+        return gravatar.url(email, {default: 'retro'});
     };
 }]);

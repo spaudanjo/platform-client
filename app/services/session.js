@@ -7,6 +7,8 @@ function(
     this.clearedSessionData = {
         userId: null,
         userName: null,
+        realName: null,
+        email: null,
         accessToken: null
     };
 
