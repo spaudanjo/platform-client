@@ -59,8 +59,8 @@ describe('Session', function(){
 
         beforeEach(function(){
             mockedLocalStorageHash = {
-                key1: 'val1',
-                key2: 'val2'
+                userId: '1',
+                accessToken: 'secrettoken'
             };
         });
 
@@ -71,7 +71,7 @@ describe('Session', function(){
                     returnedSessionData = Session.getSessionData();
                 });
 
-                it('return the empty session data', function(){
+                it('returns the empty session data', function(){
                     debugger;
                     expect(returnedSessionData).toEqual(undefinedSessionData);
                 });

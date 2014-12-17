@@ -13,8 +13,6 @@ function(
     };
 
     this.sessionData = angular.copy(this.clearedSessionData);
-    console.log("this.sessionData");
-    console.log(this.sessionData);
 
     var that = this;
 
@@ -44,8 +42,6 @@ function(
     };
 
     var getSessionData = function(){
-        console.log("that.sessionData");
-        console.log(that.sessionData);
         return that.sessionData;
     };
 
