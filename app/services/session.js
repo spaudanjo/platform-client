@@ -13,19 +13,21 @@ function(
     };
 
     this.sessionData = angular.copy(this.clearedSessionData);
+    console.log("this.sessionData");
+    console.log(this.sessionData);
 
     var that = this;
 
     var loadSessionData = function(){
         var newSessionData = {};
-        Object.keys(that.sessionData).map(function(key){
+        Object.keys(that.sessionData).forEach(function(key){
             newSessionData[key] = localStorageService.get(key);
         });
         that.sessionData = newSessionData;
     };
 
     var setSessionDataEntries = function(entries){
-        Object.keys(entries).map(function(key){
+        Object.keys(entries).forEach(function(key){
             localStorageService.set(key, entries[key]);
         });
         var newSessionData = angular.extend({}, that.sessionData, entries);
@@ -42,11 +44,13 @@ function(
     };
 
     var getSessionData = function(){
+        console.log("that.sessionData");
+        console.log(that.sessionData);
         return that.sessionData;
     };
 
     var clearSessionData = function(){
-        Object.keys(that.sessionData).map(function(key){
+        Object.keys(that.sessionData).forEach(function(key){
             localStorageService.remove(key);
         });
         that.sessionData = angular.copy(that.clearedSessionData);
