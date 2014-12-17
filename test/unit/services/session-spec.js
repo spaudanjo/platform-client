@@ -50,32 +50,53 @@ describe('Session', function(){
 
     beforeEach(angular.mock.module('testApp'));
 
-    beforeEach(inject(function(_Session_){
-        Session = _Session_
-    }));
-
-    describe('loadSessionData from localStorageService', function(){
+    describe('getSessionData', function(){
         var returnedSessionData;
 
-        beforeEach(function(){
-            mockedLocalStorageHash = {
-                userId: '1',
-                accessToken: 'secrettoken'
-            };
-        });
+        describe('without values stored in localStorage', function(){
 
-        describe('getSessionDataEntry', function(){
-            describe('without calling loadSessionData before', function(){
+            beforeEach(inject(function(_Session_){
+                Session = _Session_
+            }));
 
-                beforeEach(function(){
-                    returnedSessionData = Session.getSessionData();
-                });
+            beforeEach(function(){
+                returnedSessionData = Session.getSessionData();
+            });
 
-                it('returns the empty session data', function(){
-                    expect(returnedSessionData).toEqual(undefinedSessionData);
-                });
+            it('returns the empty session data', function(){
+                expect(returnedSessionData).toEqual(undefinedSessionData);
             });
         });
 
+        describe('with values stored in localStorage', function(){
+
+            beforeEach(function(){
+                mockedLocalStorageHash = {
+                    userId: '1',
+                    accessToken: 'secrettoken'
+                };
+            });
+
+            beforeEach(inject(function(_Session_){
+                Session = _Session_
+            }));
+
+            beforeEach(function(){
+                returnedSessionData = Session.getSessionData();
+            });
+
+            it('returns the session data with the stored values from localStorage',
+            function(){
+                var expectedSessionData = {
+                    userId: '1',
+                    userName: null,
+                    realName: null,
+                    email: null,
+                    accessToken: 'secrettoken'
+                }
+
+                expect(returnedSessionData).toEqual(expectedSessionData);
+            });
+        });
     });
 });
