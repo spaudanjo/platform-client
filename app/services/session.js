@@ -15,10 +15,21 @@ function(
     this.sessionData = angular.copy(this.clearedSessionData);
 
     var that = this;
+
     var loadSessionData = function(){
+        var newSessionData = {};
         Object.keys(that.sessionData).map(function(key){
-            that.sessionData[key] = localStorageService.get(key);
+            newSessionData[key] = localStorageService.get(key);
         });
+        that.sessionData = newSessionData;
+    };
+
+    var setSessionDataEntries = function(entries){
+        Object.keys(entries).map(function(key){
+            localStorageService.set(key, entries[key]);
+        });
+        var newSessionData = angular.extend({}, that.sessionData, entries);
+        that.sessionData = newSessionData;
     };
 
     var setSessionDataEntry = function(key, value){
@@ -47,6 +58,7 @@ function(
 
     return {
         setSessionDataEntry: setSessionDataEntry,
+        setSessionDataEntries: setSessionDataEntries,
         getSessionDataEntry: getSessionDataEntry,
         getSessionData: getSessionData,
         clearSessionData: clearSessionData

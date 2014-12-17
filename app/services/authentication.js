@@ -19,10 +19,14 @@ function(
     var signinStatus = !!Session.getSessionDataEntry('accessToken'),
 
             setToSigninState = function(userId, userName, realName, email){
-                Session.setSessionDataEntry('userId', userId);
-                Session.setSessionDataEntry('userName', userName);
-                Session.setSessionDataEntry('realName', realName);
-                Session.setSessionDataEntry('email', email);
+                var entries = {
+                    'userId': userId,
+                    'userName': userName,
+                    'realName': realName,
+                    'email': email
+                };
+                Session.setSessionDataEntries(entries);
+
                 signinStatus = true;
             },
 
@@ -73,13 +77,16 @@ function(
 
                     $http.get(Util.apiUrl('/users/me')).then(
                         function(userDataResponse){
+
                             var userId = userDataResponse.data.id;
                             var userName = userDataResponse.data.username;
                             var realName = userDataResponse.data.realname;
                             var email = userDataResponse.data.email;
                             setToSigninState(userId, userName, realName, email);
+
                             $rootScope.$broadcast('event:authentication:signin:succeeded');
                             deferred.resolve();
+
                         }, handleRequestError);
                 }, handleRequestError);
 
