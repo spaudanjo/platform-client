@@ -1,10 +1,20 @@
-var rootPath = '../../../../../';
+var rootPath = '../../../';
 
 describe('Session', function(){
 
-    var mockedLocalStorageHash;
+    var mockedLocalStorageHash,
+    Session,
+    emptySessionData;
 
     beforeEach(function(){
+
+        emptySessionData = {
+            userId: null,
+            userName: null,
+            realName: null,
+            email: null,
+            accessToken: null
+        };
 
         var testApp = angular.module('testApp');
 
@@ -21,7 +31,8 @@ describe('Session', function(){
                     mockedLocalStorageHash = {};
                 }
             };
-        });
+        })
+        .service('Session', require(rootPath+'app/services/session.js'));
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
@@ -29,7 +40,32 @@ describe('Session', function(){
 
     beforeEach(angular.mock.module('testApp'));
 
-    describe('', function(){
+    beforeEach(inject(function(_Session_){
+        Session = _Session_
+    }));
+
+    describe('loadSessionData from localStorageService', function(){
+        var returnedSessionData;
+
+        beforeEach(function(){
+            mockedLocalStorageHash = {
+                key1: 'val1',
+                key2: 'val2'
+            };
+        });
+
+        describe('getSessionDataEntry', function(){
+            describe('without calling loadSessionData before', function(){
+
+                beforeEach(function(){
+                    returnedSessionData = Session.getSessionData();
+                });
+
+                it('return the empty session data', function(){
+                    expect(returnedSessionData).toEqual(emptySessionData);
+                });
+            });
+        });
 
     });
 });
