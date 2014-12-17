@@ -72,7 +72,6 @@ describe('Session', function(){
                 });
 
                 it('returns the empty session data', function(){
-                    debugger;
                     expect(returnedSessionData).toEqual(undefinedSessionData);
                 });
             });
