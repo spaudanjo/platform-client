@@ -6,12 +6,12 @@ module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Notify', funct
     $scope.$watch(function(){
         return UserProfileEndpoint.getUserProfile();
     }, function(newValue/*, oldValue*/) {
-		$scope.user_profile_data = newValue;
-		$scope.user_profile_data_for_edit = newValue;
+		$scope.userProfileData = newValue;
+		$scope.userProfileDataForEdit = newValue;
     }, true);
 
-    $scope.save_user_profile = function(){
-        var promise = UserProfileEndpoint.updateUserProfile($scope.user_profile_data_for_edit).then(
+    $scope.saveUserProfile = function(){
+        var promise = UserProfileEndpoint.updateUserProfile($scope.userProfileDataForEdit).then(
             function(){
             },
             function(errorInfo){
@@ -25,8 +25,8 @@ module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Notify', funct
         return promise;
     };
 
-    $scope.on_user_profile_edit_form_show = function(){
-        $scope.user_profile_data_for_edit = angular.copy($scope.user_profile_data);
+    $scope.onUserProfileEditFormShow = function(){
+        $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
     };
 
     UserProfileEndpoint.fetchUserProfile();

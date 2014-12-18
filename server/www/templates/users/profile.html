@@ -5,19 +5,19 @@
 
     </div>
 
-    <form editable-form name="editUserProfileForm" onaftersave="save_user_profile()" onshow="on_user_profile_edit_form_show()">
+    <form editable-form name="editUserProfileForm" onaftersave="saveUserProfile()" onshow="onUserProfileEditFormShow()">
         <ul>
             <li>
                 <b translate>user.username</b>
-                <span>{{user_profile_data.username}}</span>
+                <span>{{userProfileData.username}}</span>
             </li>
             <li>
                 <b translate>user.full_name</b>
-                <span editable-text="user_profile_data_for_edit.realname" e-name="realname" e-required>{{user_profile_data.realname}}</span>
+                <span editable-text="userProfileDataForEdit.realname" e-name="realname" e-required>{{userProfileData.realname}}</span>
             </li>
             <li>
                 <b translate>user.email</b>
-                <span editable-email="user_profile_data_for_edit.email">{{user_profile_data.email}}</span>
+                <span editable-email="userProfileDataForEdit.email">{{userProfileData.email}}</span>
             </li>
 
             <div class="buttons">

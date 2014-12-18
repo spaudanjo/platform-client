@@ -10,7 +10,7 @@ function(
     $scope.$watch(function(){
         return Session.getSessionData();
     }, function(newValue/*, oldValue*/) {
-        $scope.user_name = newValue.userName;
+        $scope.userName = newValue.userName;
         $scope.email = newValue.email;
     }, true);
 
