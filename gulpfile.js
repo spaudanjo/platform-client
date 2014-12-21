@@ -9,7 +9,6 @@ var gulp = require('gulp'),
     exec = require('child_process').exec,
     source = require('vinyl-source-stream'),
     browserify = require('browserify'),
-    watchify = require('watchify'),
     envify = require('envify/custom'),
     fs = require('fs'),
     merge = require('merge'),
@@ -44,30 +43,28 @@ var helpers = {
     browserifyConfig:
     {
         entries : './app/app.js',
-        debug : true,
+        debug : true
     },
     setBackendUrl: function(){
         return envify({
-            backend_url: mockBackendFlag ?
-            options.mockedBackendUrl : options.backendUrl
+            backend_url: mockBackendFlag ? options.mockedBackendUrl : options.backendUrl
         });
     },
     createDefaultTaskDependencies: function (){
-        var mode = options.dockerServer ? 'docker-server' : 'direct';
-        mode = options.nodeServer ? 'node-server' : mode;
-        // when the command line flag '--node-server' is passed in,
-        // we want to force using node server
-        // when the command line flag '--docker-server' is passed in,
-        // we want to force using docker server
-        // (even if it is set to 'false' in the options hash)
-        mode = useNodeServerFlag ? 'node-server' : mode;
-        mode = useDockerServerFlag ? 'docker-server' : mode;
+        var dependencies = ['build'];
 
-        var dependencies = ['build', mode];
-        if(mockBackendFlag)
-        {
+        if (mockBackendFlag) {
             dependencies.push('mock-backend');
         }
+
+        if (options.dockerServer || useDockerServerFlag) {
+            dependencies.push('docker-server');
+        } else if (options.nodeServer || useNodeServerFlag) {
+            dependencies.push('node-server');
+        } else {
+            dependencies.push('direct');
+        }
+
         return dependencies;
     }
 };
@@ -95,6 +92,7 @@ gulp.task('sass', ['rename'], function() {
         .pipe(plumber.stop())
         .pipe(gulp.dest(options.www + '/css'))
         .pipe(notify('CSS compiled'))
+        .pipe(livereload())
         ;
 });
 
@@ -104,9 +102,10 @@ gulp.task('sass', ['rename'], function() {
  * Converts SASS files to CSS
  */
 gulp.task('rename', function() {
-  return gulp.src(['node_modules/leaflet/dist/leaflet.css'])
-  .pipe(rename('_leaflet.scss'))
-  .pipe(gulp.dest('node_modules/leaflet/dist/'));
+    gulp.src(['node_modules/leaflet/dist/leaflet.css'])
+        .pipe(rename('_leaflet.scss'))
+        .pipe(gulp.dest('node_modules/leaflet/dist/'))
+        ;
 });
 
 /**
@@ -115,7 +114,9 @@ gulp.task('rename', function() {
  */
 gulp.task('font', function() {
     gulp.src(['bower_components/font-awesome/fonts/fontawesome*'])
-        .pipe(gulp.dest(options.www + '/fonts'));
+        .pipe(gulp.dest(options.www + '/fonts'))
+        .pipe(livereload())
+        ;
 });
 
 /**
@@ -130,27 +131,8 @@ gulp.task('browserify', function() {
         .pipe(source('bundle.js'))
         .pipe(gulp.dest(options.www + '/js'))
         .pipe(notify('JS compiled'))
+        .pipe(livereload())
         ;
-});
-
-/**
- * Task: `watchify`
- * Watch js and rebundle with browserify
- */
-gulp.task('watchify', function() {
-    var bundler = watchify(browserify(helpers.browserifyConfig, watchify.args))
-    .transform('brfs')
-    .transform(helpers.setBackendUrl())
-    .on('update', rebundle);
-
-    function rebundle () {
-        return bundler.bundle()
-            .on('error', errorHandler)
-            .pipe(source('bundle.js'))
-            .pipe(gulp.dest(options.www + '/js'))
-            .pipe(notify('JS compiled'))
-            ;
-    }
 });
 
 /**
@@ -158,7 +140,6 @@ gulp.task('watchify', function() {
  * Builds sass, fonts and js
  */
 gulp.task('build', ['sass', 'font', 'browserify'], function() {
-
 });
 
 /**
@@ -210,10 +191,11 @@ gulp.task('docker', ['docker:build'], function(cb) {
  * Task: `watch`
  * Rebuilds styles and runs live reloading.
  */
-gulp.task('watch', ['watchify'], function() {
+gulp.task('watch', [], function() {
     livereload.listen();
     gulp.watch('sass/**/*.scss', ['sass']);
     gulp.watch('bower_components/font-awesome/fonts/fontawesome*', ['font']);
+    gulp.watch('app/**/*.js', ['browserify']);
 });
 
 /**
@@ -235,16 +217,14 @@ gulp.task('mock-backend', [], require('./gulp/mock-backend')('mocked_backend'));
  * Task: `node-server`
  * Runs a simple node connect server and runs live reloading.
  */
-gulp.task('node-server', ['watch', 'direct'], require('./gulp/node-server')(options.www));
+gulp.task('node-server', ['direct'], require('./gulp/node-server')(options.www));
 
 /**
  * Task: `direct`
  * Rebuilds styles and runs live reloading.
  */
 gulp.task('direct', ['watch'], function() {
-    gulp.watch([options.www + '/**/*']).on('change', function(file) {
-        livereload.changed(file);
-    });
+
 });
 
 /**
