@@ -1,4 +1,5 @@
-module.exports = [
+angular.module('common.services.endpoints.userEndpoint', [])
+.service('UserEndpoint', [
     '$resource',
     '$rootScope',
     'CONST',
@@ -7,7 +8,6 @@ function(
     $rootScope,
     CONST
 ) {
-
     var UserEndpoint = $resource(CONST.API_URL + '/users/:id', {
             id: '@id'
     }, {
@@ -24,4 +24,4 @@ function(
     });
 
     return UserEndpoint;
-}];
+}]);
