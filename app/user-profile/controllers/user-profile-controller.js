@@ -1,23 +1,26 @@
-module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Notify', function($scope, $translate, UserProfileEndpoint, Notify) {
+module.exports = ['$scope', '$translate', 'UserEndpoint', 'Notify', function($scope, $translate, UserEndpoint, Notify) {
     $translate('user_profile.title').then(function(title){
         $scope.title = title;
     });
 
-    $scope.$watch(function(){
-        return UserProfileEndpoint.getUserProfile();
-    }, function(newValue/*, oldValue*/) {
-		$scope.userProfileData = newValue;
-		$scope.userProfileDataForEdit = newValue;
-    }, true);
-
     $scope.saveUserProfile = function(){
-        var promise = UserProfileEndpoint.updateUserProfile($scope.userProfileDataForEdit).then(
-            function(){
+        var promise = UserEndpoint.update({id: 'me'}, $scope.userProfileDataForEdit).$promise;
+
+        promise.then(
+            function(userData){
+                $scope.userProfileData = $scope.userProfileDataForEdit = userData;
             },
-            function(errorInfo){
-                if(errorInfo.errors)
+            function(errorResponse){
+                if(errorResponse.status === 400)
                 {
-                    Notify.showAlerts(errorInfo.errors);
+                    var errors = errorResponse.data && errorResponse.data.errors;
+                    if(errors)
+                    {
+                        var errorMessages = errors.map(function(error){
+                            return error.message
+                        });
+                        Notify.showAlerts(errorMessages);
+                    }
                 }
             }
         );
@@ -29,6 +32,8 @@ module.exports = ['$scope', '$translate', 'UserProfileEndpoint', 'Notify', funct
         $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
     };
 
-    UserProfileEndpoint.fetchUserProfile();
+    UserEndpoint.get({id: 'me'}).$promise.then(function(userData){
+        $scope.userProfileData = $scope.userProfileDataForEdit = userData;
+    });
 
 }];
