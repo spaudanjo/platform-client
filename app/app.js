@@ -56,6 +56,7 @@ angular.module('app',
     .service('Authentication', require('./services/authentication.js'))
     .service('Session', require('./services/session.js'))
     .service('ConfigEndpoint', require('./services/endpoint/config.js'))
+    .service('UserEndpoint', require('./common/services/endpoints/user-endpoint.js'))
     .service('FormEndpoint', require('./services/endpoint/form.js'))
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))
     .service('TagEndpoint', require('./services/endpoint/tag.js'))

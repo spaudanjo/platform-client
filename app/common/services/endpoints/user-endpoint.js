@@ -1,5 +1,4 @@
-angular.module('common.services.endpoints.userEndpoint', [])
-.service('UserEndpoint', [
+module.exports = [
     '$resource',
     '$rootScope',
     'CONST',
@@ -24,4 +23,4 @@ function(
     });
 
     return UserEndpoint;
-}]);
+}];
