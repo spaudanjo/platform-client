@@ -10,7 +10,7 @@ function() {
     };
 
     var showAlerts = function(alertMessages){
-        alertMessages.map(showSingleAlert);
+        alertMessages.forEach(showSingleAlert);
     };
 
     return {
