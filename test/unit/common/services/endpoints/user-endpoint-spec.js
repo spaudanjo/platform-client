@@ -33,32 +33,32 @@ describe('UserEndpoint', function(){
             beforeEach(function(){
                 mockUserDataResponse =
                 {
-                    "count": 2,
-                    "results":
+                    'count': 2,
+                    'results':
                     [
                         {
-                            "id": 1,
-                            "url": "http://ushahidi-backend/api/v2/users/1",
-                            "email": "robbie@ushahidi.com",
-                            "realname": "Robbie Mackay",
-                            "username": "robbie",
+                            'id': 1,
+                            'url': 'http://ushahidi-backend/api/v2/users/1',
+                            'email': 'robbie@ushahidi.com',
+                            'realname': 'Robbie Mackay',
+                            'username': 'robbie',
                         },
                         {
-                            "id": 2,
-                            "url": "http://ushahidi-backend/api/v2/users/2",
-                            "email": "admin@22dsad.com",
-                            "realname": "dasda",
-                            "username": "admin",
+                            'id': 2,
+                            'url': 'http://ushahidi-backend/api/v2/users/2',
+                            'email': 'admin@22dsad.com',
+                            'realname': 'Admin',
+                            'username': 'admin',
                         }
                     ]
                 };
             });
 
-            it('should call the correct url and return the correct data', function(){
+            it('should call the correct url and parse and return the correct data', function(){
                 var successCallback = jasmine.createSpy('success');
                 $httpBackend.expectGET(BACKEND_URL + '/api/v2/users').respond(mockUserDataResponse);
 
-                UserEndpoint.get({id: 'me'}).$promise.then(successCallback);
+                UserEndpoint.query().$promise.then(successCallback);
 
                 $httpBackend.flush();
                 $rootScope.$digest();
@@ -66,10 +66,8 @@ describe('UserEndpoint', function(){
                 expect(successCallback).toHaveBeenCalled();
 
                 var actualUserData = successCallback.calls.mostRecent().args[0];
-                expect(actualUserData.id).toEqual(mockUserDataResponse.id);
-                expect(actualUserData.realname).toEqual(mockUserDataResponse.realname);
-                expect(actualUserData.email).toEqual(mockUserDataResponse.email);
-                expect(actualUserData.username).toEqual(mockUserDataResponse.username);
+                expect(actualUserData.length).toEqual(mockUserDataResponse.results.length);
+                expect(actualUserData[0].username).toEqual(mockUserDataResponse.results[0].username);
             });
         });
     });
