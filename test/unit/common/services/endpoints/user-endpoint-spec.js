@@ -62,17 +62,54 @@ describe('UserEndpoint', function(){
 
         describe('update user data', function(){
 
-            beforeEach(function(){
-                mockUserDataResponse = {
-                    'id': 2,
-                    'url': 'http://ushahidi-backend/api/v2/users/2',
-                    'email': 'new@email.com',
-                    'realname': 'Obi Wan',
-                    'username': 'obi',
-                };
+            describe('with invalid data to update', function(){
+
+                beforeEach(function(){
+                    mockUserDataResponse = {
+                        'id': 2,
+                        'url': 'http://ushahidi-backend/api/v2/users/2',
+                        'email': 'invalid@email.com',
+                        'realname': 'Obi Wan',
+                        'username': 'obi',
+                    };
+                });
+
+                it('should call the correct url and return XXXXXXXXXXXXXXX', function(){
+                    var successCallback = jasmine.createSpy('success');
+                    $httpBackend.expectPUT(BACKEND_URL + '/api/v2/users/me').respond(400, mockUserDataResponse);
+
+                    var userDataToUpdate = {
+                        'email':'invalid@email',
+                        'realname':'Obi Wan'
+                    };
+
+                    UserEndpoint.update({id: 'me'}, userDataToUpdate).$promise.then(successCallback);
+                    // var promise = UserEndpoint.update({id: 'me'}, $scope.userProfileDataForEdit).$promise;
+
+                    $httpBackend.flush();
+                    $rootScope.$digest();
+
+                    expect(successCallback).toHaveBeenCalled();
+
+                    var actualUserData = successCallback.calls.mostRecent().args[0];
+                    expect(actualUserData.id).toEqual(mockUserDataResponse.id);
+                    expect(actualUserData.realname).toEqual(userDataToUpdate.realname);
+                    expect(actualUserData.email).toEqual(userDataToUpdate.email);
+                    expect(actualUserData.username).toEqual(mockUserDataResponse.username);
+                });
             });
 
             describe('with valid data to update', function(){
+
+                beforeEach(function(){
+                    mockUserDataResponse = {
+                        'id': 2,
+                        'url': 'http://ushahidi-backend/api/v2/users/2',
+                        'email': 'new@email.com',
+                        'realname': 'Obi Wan',
+                        'username': 'obi',
+                    };
+                });
 
                 it('should call the correct url and return the updated user data', function(){
                     var successCallback = jasmine.createSpy('success');
