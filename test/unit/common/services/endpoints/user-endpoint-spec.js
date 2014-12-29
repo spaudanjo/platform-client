@@ -72,28 +72,31 @@ describe('UserEndpoint', function(){
                 };
             });
 
-            it('should XXXXXXXXXXXx', function(){
-                var successCallback = jasmine.createSpy('success');
-                $httpBackend.expectPUT(BACKEND_URL + '/api/v2/users/me').respond(mockUserDataResponse);
+            describe('with valid data to update', function(){
 
-                var userDataToUpdate = {
-                    'email':'new@email.com',
-                    'realname':'Obi Wan'
-                };
+                it('should call the correct url and return the updated user data', function(){
+                    var successCallback = jasmine.createSpy('success');
+                    $httpBackend.expectPUT(BACKEND_URL + '/api/v2/users/me').respond(mockUserDataResponse);
 
-                UserEndpoint.update({id: 'me'}, userDataToUpdate).$promise.then(successCallback);
-                // var promise = UserEndpoint.update({id: 'me'}, $scope.userProfileDataForEdit).$promise;
+                    var userDataToUpdate = {
+                        'email':'new@email.com',
+                        'realname':'Obi Wan'
+                    };
 
-                $httpBackend.flush();
-                $rootScope.$digest();
+                    UserEndpoint.update({id: 'me'}, userDataToUpdate).$promise.then(successCallback);
+                    // var promise = UserEndpoint.update({id: 'me'}, $scope.userProfileDataForEdit).$promise;
 
-                expect(successCallback).toHaveBeenCalled();
+                    $httpBackend.flush();
+                    $rootScope.$digest();
 
-                var actualUserData = successCallback.calls.mostRecent().args[0];
-                expect(actualUserData.id).toEqual(mockUserDataResponse.id);
-                expect(actualUserData.realname).toEqual(userDataToUpdate.realname);
-                expect(actualUserData.email).toEqual(userDataToUpdate.email);
-                expect(actualUserData.username).toEqual(mockUserDataResponse.username);
+                    expect(successCallback).toHaveBeenCalled();
+
+                    var actualUserData = successCallback.calls.mostRecent().args[0];
+                    expect(actualUserData.id).toEqual(mockUserDataResponse.id);
+                    expect(actualUserData.realname).toEqual(userDataToUpdate.realname);
+                    expect(actualUserData.email).toEqual(userDataToUpdate.email);
+                    expect(actualUserData.username).toEqual(mockUserDataResponse.username);
+                });
             });
         });
 
