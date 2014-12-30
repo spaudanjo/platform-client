@@ -156,8 +156,14 @@ describe('user profile controller', function(){
                 });
 
                 it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
-                    var jo = mockUserEndpoint.update.calls.mostRecent().args;
                     expect(mockUserEndpoint.update).toHaveBeenCalled();
+
+                    var updateArgs = mockUserEndpoint.update.calls.mostRecent().args,
+                    userIdParam = updateArgs[0].id,
+                    requestData = updateArgs[1];
+
+                    expect(userIdParam).toBe('me');
+                    expect(requestData).toBe($scope.userProfileDataForEdit);
                 });
 
             });
