@@ -59,9 +59,12 @@ describe('user profile controller', function(){
         beforeEach(inject(function($q){
 
             mockUserResponse = [{
-                'id': '1',
-                'type': 'report',
-                'title': 'Test post'
+                'id': 2,
+                'url': 'http://ushahidi-backend/api/v2/users/2',
+                'email': 'admin@22dsad.com',
+                'realname': 'dasda',
+                'username': 'admin',
+                'role': 'admin'
             }];
 
             var queryDeferred;
@@ -81,15 +84,16 @@ describe('user profile controller', function(){
 
             queryDeferred.resolve(mockUserResponse);
             $rootScope.$digest();
-            $rootScope.$apply();
+            // $rootScope.$apply();
         }));
 
         it('should query the UserEndpoint', function(){
             expect(mockUserEndpoint.get).toHaveBeenCalled();
         });
 
-        it('should set the response from UserEndpoint.query() to $scope.posts', function(){
+        it('should set the response from UserEndpoint.query() to $scope.userData and $scope.userProfileDataForEdit', function(){
             expect($scope.userProfileData).toEqual(mockUserResponse);
+            expect($scope.userProfileDataForEdit).toEqual(mockUserResponse);
         });
 
     });
