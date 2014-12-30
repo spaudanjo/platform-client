@@ -34,22 +34,34 @@ describe('user profile controller', function(){
             showAlerts: function(alerts) {}
         };
 
-        mockUserGetResponse = [{
+        mockUserGetResponse = {
             'id': 2,
             'url': 'http://ushahidi-backend/api/v2/users/2',
             'email': 'admin@22dsad.com',
             'realname': 'dasda',
             'username': 'admin',
             'role': 'admin'
-        }];
+        };
+
+        // mockUserUpdateResponse = [{
+        //     'id': 2,
+        //     'url': 'http://ushahidi-backend/api/v2/users/2',
+        //     'email': 'admin@22dsad.com',
+        //     'realname': 'dasda',
+        //     'username': 'admin',
+        //     'role': 'admin'
+        // }];
 
         var getDeferred = $q.defer(), updateDeferred = $q.defer();
         mockUserEndpoint = {
             get: function() {
                 return {$promise: getDeferred.promise};
             },
-            update: function() {
-                return {$promise: updateDeferred.promise};
+            update: function(params, data) {
+                updateDeferred.resolve(data);
+                return {
+                    $promise: updateDeferred.promise
+                };
             }
         };
 
@@ -63,7 +75,6 @@ describe('user profile controller', function(){
         });
 
         getDeferred.resolve(mockUserGetResponse);
-        updateDeferred.resolve(mockUserUpdateResponse);
         $rootScope.$digest();
         // $rootScope.$apply();
     }));
@@ -74,7 +85,7 @@ describe('user profile controller', function(){
 
     describe('UserEndpoint usage', function(){
 
-        it('should query the UserEndpoint', function(){
+        it('should call "get" on the UserEndpoint', function(){
             expect(mockUserEndpoint.get).toHaveBeenCalled();
         });
 
@@ -132,6 +143,24 @@ describe('user profile controller', function(){
     describe('saveUserProfile', function(){
         beforeEach(function(){
             $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
+        });
+
+        describe('change values of userProfileDataForEdit', function(){
+            beforeEach(function(){
+                $scope.userProfileDataForEdit.realname = 'Changed name';
+            });
+
+            describe('after calling the method', function(){
+                beforeEach(function(){
+                    $scope.saveUserProfile();
+                });
+
+                it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
+                    var jo = mockUserEndpoint.update.calls.mostRecent().args;
+                    expect(mockUserEndpoint.update).toHaveBeenCalled();
+                });
+
+            });
         });
     });
 
