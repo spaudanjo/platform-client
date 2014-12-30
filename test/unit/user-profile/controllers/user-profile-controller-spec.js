@@ -7,7 +7,8 @@ describe('user profile controller', function(){
         $controller,
         mockUserEndpoint,
         mockNotify,
-        mockUserResponse;
+        mockUserGetResponse,
+        mockUserUpdateResponse;
 
     beforeEach(function(){
         var testApp = angular.module('testApp', [
@@ -33,7 +34,7 @@ describe('user profile controller', function(){
             showAlerts: function(alerts) {}
         };
 
-        mockUserResponse = [{
+        mockUserGetResponse = [{
             'id': 2,
             'url': 'http://ushahidi-backend/api/v2/users/2',
             'email': 'admin@22dsad.com',
@@ -42,14 +43,18 @@ describe('user profile controller', function(){
             'role': 'admin'
         }];
 
-        var queryDeferred;
+        var getDeferred = $q.defer(), updateDeferred = $q.defer();
         mockUserEndpoint = {
             get: function() {
-                queryDeferred = $q.defer();
-                return {$promise: queryDeferred.promise};
+                return {$promise: getDeferred.promise};
+            },
+            update: function() {
+                return {$promise: updateDeferred.promise};
             }
         };
+
         spyOn(mockUserEndpoint, 'get').and.callThrough();
+        spyOn(mockUserEndpoint, 'update').and.callThrough();
 
         $controller('userProfileController', {
             $scope: $scope,
@@ -57,7 +62,8 @@ describe('user profile controller', function(){
             UserEndpoint: mockUserEndpoint
         });
 
-        queryDeferred.resolve(mockUserResponse);
+        getDeferred.resolve(mockUserGetResponse);
+        updateDeferred.resolve(mockUserUpdateResponse);
         $rootScope.$digest();
         // $rootScope.$apply();
     }));
@@ -73,8 +79,8 @@ describe('user profile controller', function(){
         });
 
         it('should set the response from UserEndpoint.query() to userData and userProfileDataForEdit', function(){
-            expect($scope.userProfileData).toEqual(mockUserResponse);
-            expect($scope.userProfileDataForEdit).toEqual(mockUserResponse);
+            expect($scope.userProfileData).toEqual(mockUserGetResponse);
+            expect($scope.userProfileDataForEdit).toEqual(mockUserGetResponse);
         });
 
     });
@@ -121,6 +127,12 @@ describe('user profile controller', function(){
 
         });
 
+    });
+
+    describe('saveUserProfile', function(){
+        beforeEach(function(){
+            $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
+        });
     });
 
 });
