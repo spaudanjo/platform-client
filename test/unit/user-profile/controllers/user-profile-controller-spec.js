@@ -27,18 +27,29 @@ describe('user profile controller', function(){
         $scope = _$rootScope_.$new();
     }));
 
-    beforeEach(function(){
-        mockUserEndpoint = {
-            get: function() {
-                return {$promise: {
-                    then: function(){}
-                }};
-            }
-        };
+    beforeEach(inject(function($q){
 
         mockNotify = {
             showAlerts: function(alerts) {}
         };
+
+        mockUserResponse = [{
+            'id': 2,
+            'url': 'http://ushahidi-backend/api/v2/users/2',
+            'email': 'admin@22dsad.com',
+            'realname': 'dasda',
+            'username': 'admin',
+            'role': 'admin'
+        }];
+
+        var queryDeferred;
+        mockUserEndpoint = {
+            get: function() {
+                queryDeferred = $q.defer();
+                return {$promise: queryDeferred.promise};
+            }
+        };
+        spyOn(mockUserEndpoint, 'get').and.callThrough();
 
         $controller('userProfileController', {
             $scope: $scope,
@@ -46,46 +57,16 @@ describe('user profile controller', function(){
             UserEndpoint: mockUserEndpoint
         });
 
+        queryDeferred.resolve(mockUserResponse);
         $rootScope.$digest();
         // $rootScope.$apply();
-    });
+    }));
 
     it('should have the right title', function(){
 		expect($scope.title).toBe('Edit profile');
     });
 
     describe('UserEndpoint usage', function(){
-
-        beforeEach(inject(function($q){
-
-            mockUserResponse = [{
-                'id': 2,
-                'url': 'http://ushahidi-backend/api/v2/users/2',
-                'email': 'admin@22dsad.com',
-                'realname': 'dasda',
-                'username': 'admin',
-                'role': 'admin'
-            }];
-
-            var queryDeferred;
-            mockUserEndpoint = {
-                get: function() {
-                    queryDeferred = $q.defer();
-                    return {$promise: queryDeferred.promise};
-                }
-            };
-            spyOn(mockUserEndpoint, 'get').and.callThrough();
-
-            $controller('userProfileController', {
-                $scope: $scope,
-                Notify: mockNotify,
-                UserEndpoint: mockUserEndpoint
-            });
-
-            queryDeferred.resolve(mockUserResponse);
-            $rootScope.$digest();
-            // $rootScope.$apply();
-        }));
 
         it('should query the UserEndpoint', function(){
             expect(mockUserEndpoint.get).toHaveBeenCalled();
@@ -96,49 +77,44 @@ describe('user profile controller', function(){
             expect($scope.userProfileDataForEdit).toEqual(mockUserResponse);
         });
 
+    });
 
+    describe('onUserProfileEditFormShow', function(){
 
-            // $scope.onUserProfileEditFormShow = function(){
-            //     $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
-        describe('onUserProfileEditFormShow', function(){
+        describe('before calling the method', function(){
 
-            describe('before calling the method', function(){
+            describe('userProfileDataForEdit', function(){
 
-                describe('userProfileDataForEdit', function(){
+                it('should be defined', function(){
+                    expect($scope.userProfileDataForEdit).toBeDefined();
+                });
 
-                    it('should be defined', function(){
-                        expect($scope.userProfileDataForEdit).toBeDefined();
-                    });
-
-                    it('should be identical to userProfileData', function(){
-                        // TODO: CHECK THAT IS NOT UNDEFINED
-                        expect($scope.userProfileDataForEdit).toBe($scope.userProfileData);
-                    });
-
+                it('should be identical to userProfileData', function(){
+                    expect($scope.userProfileDataForEdit).toBe($scope.userProfileData);
                 });
 
             });
 
-            describe('after calling the method', function(){
+        });
 
-                beforeEach(function(){
-                    $scope.onUserProfileEditFormShow();
+        describe('after calling the method', function(){
+
+            beforeEach(function(){
+                $scope.onUserProfileEditFormShow();
+            });
+
+            describe('userProfileDataForEdit (copy of userProfileData)', function(){
+
+                it('should be defined', function(){
+                    expect($scope.userProfileDataForEdit).toBeDefined();
                 });
 
-                describe('userProfileDataForEdit (copy of userProfileData)', function(){
+                it('should not be identical to userProfileData', function(){
+                    expect($scope.userProfileDataForEdit).not.toBe($scope.userProfileData);
+                });
 
-                    it('should be defined', function(){
-                        expect($scope.userProfileDataForEdit).toBeDefined();
-                    });
-
-                    it('should not be identical to userProfileData', function(){
-                        expect($scope.userProfileDataForEdit).not.toBe($scope.userProfileData);
-                    });
-
-                    it('should be equal to userProfileData', function(){
-                        expect($scope.userProfileDataForEdit).toEqual($scope.userProfileData);
-                    });
-
+                it('should be equal to userProfileData', function(){
+                    expect($scope.userProfileDataForEdit).toEqual($scope.userProfileData);
                 });
 
             });
@@ -146,6 +122,5 @@ describe('user profile controller', function(){
         });
 
     });
-
 
 });
