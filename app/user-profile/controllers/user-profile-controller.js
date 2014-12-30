@@ -3,6 +3,10 @@ module.exports = ['$scope', '$translate', 'UserEndpoint', 'Notify', function($sc
         $scope.title = title;
     });
 
+    $scope.onUserProfileEditFormShow = function(){
+        $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
+    };
+
     $scope.saveUserProfile = function(){
         var promise = UserEndpoint.update({id: 'me'}, $scope.userProfileDataForEdit).$promise;
 
@@ -26,10 +30,6 @@ module.exports = ['$scope', '$translate', 'UserEndpoint', 'Notify', function($sc
         );
 
         return promise;
-    };
-
-    $scope.onUserProfileEditFormShow = function(){
-        $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
     };
 
     UserEndpoint.get({id: 'me'}).$promise.then(function(userData){

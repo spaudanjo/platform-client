@@ -47,7 +47,7 @@ describe('user profile controller', function(){
         });
 
         $rootScope.$digest();
-        $rootScope.$apply();
+        // $rootScope.$apply();
     });
 
     it('should have the right title', function(){
@@ -91,11 +91,52 @@ describe('user profile controller', function(){
             expect(mockUserEndpoint.get).toHaveBeenCalled();
         });
 
-        it('should set the response from UserEndpoint.query() to $scope.userData and $scope.userProfileDataForEdit', function(){
+        it('should set the response from UserEndpoint.query() to userData and userProfileDataForEdit', function(){
             expect($scope.userProfileData).toEqual(mockUserResponse);
             expect($scope.userProfileDataForEdit).toEqual(mockUserResponse);
         });
-
     });
+
+
+
+        // $scope.onUserProfileEditFormShow = function(){
+        //     $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
+    describe('onUserProfileEditFormShow', function(){
+
+        beforeEach(function(){
+            $controller('userProfileController', {
+                $scope: $scope,
+                Notify: mockNotify,
+                UserEndpoint: mockUserEndpoint
+            });
+
+            // $rootScope.$digest();
+            // $rootScope.$apply();
+
+        });
+
+        describe('before calling the method', function(){
+            describe('userProfileDataForEdit', function(){
+                it('should be identical to userProfileData', function(){
+                    // TODO: CHECK THAT IS NOT UNDEFINED
+                    expect($scope.userProfileDataForEdit).toBe($scope.userProfileData);
+                });
+            });
+        });
+
+        describe('after calling the method', function(){
+            beforeEach(function(){
+                $scope.onUserProfileEditFormShow();
+            });
+
+            describe('userProfileDataForEdit', function(){
+                it('should not be identical to userProfileData', function(){
+                    // TODO: CHECK THAT IS NOT UNDEFINED
+                    expect($scope.userProfileDataForEdit).not.toBe($scope.userProfileData);
+                });
+            });
+        });
+    });
+
 
 });
