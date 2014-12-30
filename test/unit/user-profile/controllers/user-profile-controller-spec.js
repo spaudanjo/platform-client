@@ -95,47 +95,56 @@ describe('user profile controller', function(){
             expect($scope.userProfileData).toEqual(mockUserResponse);
             expect($scope.userProfileDataForEdit).toEqual(mockUserResponse);
         });
-    });
 
 
 
-        // $scope.onUserProfileEditFormShow = function(){
-        //     $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
-    describe('onUserProfileEditFormShow', function(){
+            // $scope.onUserProfileEditFormShow = function(){
+            //     $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
+        describe('onUserProfileEditFormShow', function(){
 
-        beforeEach(function(){
-            $controller('userProfileController', {
-                $scope: $scope,
-                Notify: mockNotify,
-                UserEndpoint: mockUserEndpoint
-            });
+            describe('before calling the method', function(){
 
-            // $rootScope.$digest();
-            // $rootScope.$apply();
+                describe('userProfileDataForEdit', function(){
 
-        });
+                    it('should be defined', function(){
+                        expect($scope.userProfileDataForEdit).toBeDefined();
+                    });
 
-        describe('before calling the method', function(){
-            describe('userProfileDataForEdit', function(){
-                it('should be identical to userProfileData', function(){
-                    // TODO: CHECK THAT IS NOT UNDEFINED
-                    expect($scope.userProfileDataForEdit).toBe($scope.userProfileData);
+                    it('should be identical to userProfileData', function(){
+                        // TODO: CHECK THAT IS NOT UNDEFINED
+                        expect($scope.userProfileDataForEdit).toBe($scope.userProfileData);
+                    });
+
                 });
-            });
-        });
 
-        describe('after calling the method', function(){
-            beforeEach(function(){
-                $scope.onUserProfileEditFormShow();
             });
 
-            describe('userProfileDataForEdit', function(){
-                it('should not be identical to userProfileData', function(){
-                    // TODO: CHECK THAT IS NOT UNDEFINED
-                    expect($scope.userProfileDataForEdit).not.toBe($scope.userProfileData);
+            describe('after calling the method', function(){
+
+                beforeEach(function(){
+                    $scope.onUserProfileEditFormShow();
                 });
+
+                describe('userProfileDataForEdit (copy of userProfileData)', function(){
+
+                    it('should be defined', function(){
+                        expect($scope.userProfileDataForEdit).toBeDefined();
+                    });
+
+                    it('should not be identical to userProfileData', function(){
+                        expect($scope.userProfileDataForEdit).not.toBe($scope.userProfileData);
+                    });
+
+                    it('should be equal to userProfileData', function(){
+                        expect($scope.userProfileDataForEdit).toEqual($scope.userProfileData);
+                    });
+
+                });
+
             });
+
         });
+
     });
 
 
