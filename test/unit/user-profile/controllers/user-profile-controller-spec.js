@@ -52,21 +52,14 @@ describe('user profile controller', function(){
         //     'role': 'admin'
         // }];
 
-        var getDeferred = $q.defer(), updateDeferred = $q.defer();
+        var getDeferred = $q.defer();
         mockUserEndpoint = {
             get: function() {
                 return {$promise: getDeferred.promise};
-            },
-            update: function(params, data) {
-                updateDeferred.resolve(data);
-                return {
-                    $promise: updateDeferred.promise
-                };
             }
         };
 
         spyOn(mockUserEndpoint, 'get').and.callThrough();
-        spyOn(mockUserEndpoint, 'update').and.callThrough();
 
         $controller('userProfileController', {
             $scope: $scope,
@@ -145,27 +138,41 @@ describe('user profile controller', function(){
             $scope.userProfileDataForEdit = angular.copy($scope.userProfileData);
         });
 
-        describe('change values of userProfileDataForEdit', function(){
-            beforeEach(function(){
-                $scope.userProfileDataForEdit.realname = 'Changed name';
-            });
+        describe('with a successfull backend call', function(){
+            beforeEach(inject(function($q){
+                var updateDeferred = $q.defer();
+                mockUserEndpoint.update = function(params, data) {
+                    updateDeferred.resolve(data);
+                    return {
+                        $promise: updateDeferred.promise
+                    };
+                };
+                spyOn(mockUserEndpoint, 'update').and.callThrough();
 
-            describe('after calling the method', function(){
+            }));
+
+            describe('change values of userProfileDataForEdit', function(){
                 beforeEach(function(){
-                    $scope.saveUserProfile();
+                    $scope.userProfileDataForEdit.realname = 'Changed name';
                 });
 
-                it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
-                    expect(mockUserEndpoint.update).toHaveBeenCalled();
+                describe('after calling the method', function(){
+                    beforeEach(function(){
+                        $scope.saveUserProfile();
+                    });
 
-                    var updateArgs = mockUserEndpoint.update.calls.mostRecent().args,
-                    userIdParam = updateArgs[0].id,
-                    requestData = updateArgs[1];
+                    it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
+                        expect(mockUserEndpoint.update).toHaveBeenCalled();
 
-                    expect(userIdParam).toBe('me');
-                    expect(requestData).toBe($scope.userProfileDataForEdit);
+                        var updateArgs = mockUserEndpoint.update.calls.mostRecent().args,
+                        userIdParam = updateArgs[0].id,
+                        requestData = updateArgs[1];
+                        
+                        expect(userIdParam).toBe('me');
+                        expect(requestData).toBe($scope.userProfileDataForEdit);
+                    });
+
                 });
-
             });
         });
     });
