@@ -142,12 +142,75 @@ describe('user profile controller', function(){
             beforeEach(inject(function($q){
                 var updateDeferred = $q.defer();
                 mockUserEndpoint.update = function(params, data) {
-                    updateDeferred.resolve(data);
+                    var dataToReturn = angular.extend({}, data, {someField: 'addedByServer'})
+                    updateDeferred.resolve(dataToReturn);
                     return {
                         $promise: updateDeferred.promise
                     };
                 };
                 spyOn(mockUserEndpoint, 'update').and.callThrough();
+
+            }));
+
+            describe('after changed values of userProfileDataForEdit', function(){
+                beforeEach(function(){
+                    $scope.userProfileDataForEdit.realname = 'Changed name';
+                });
+
+                describe('after calling saveUserProfile', function(){
+                    beforeEach(function(){
+                        $scope.saveUserProfile();
+                    });
+
+                    it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
+                        expect(mockUserEndpoint.update).toHaveBeenCalled();
+
+                        var updateArgs = mockUserEndpoint.update.calls.mostRecent().args,
+                        userIdParam = updateArgs[0].id,
+                        requestData = updateArgs[1];
+
+                        expect(userIdParam).toBe('me');
+                        expect(requestData).toBe($scope.userProfileDataForEdit);
+                    });
+
+                    describe('after updating (digest) the scope', function(){
+                        beforeEach(function(){
+                            $rootScope.$digest();
+                        });
+                        it('should set userProfileData and userProfileDataForEdit to the new userData', function(){
+                            expect($scope.userProfileDataForEdit.someField).toBe('addedByServer');
+                            expect($scope.userProfileData.someField).toBe('addedByServer');
+                        });
+                    });
+
+                });
+            });
+        });
+
+
+
+        describe('with an error on the backend call', function(){
+            beforeEach(inject(function($q){
+                var updateDeferred = $q.defer(),
+                errorResponse = {
+                    status: 400,
+                    data: {
+                        'errors': [
+                            {
+                                'message': 'invalid email address'
+                            }
+                        ]
+                    }
+                };
+
+                mockUserEndpoint.update = function(params, data) {
+                    updateDeferred.reject(errorResponse);
+                    return {
+                        $promise: updateDeferred.promise
+                    };
+                };
+                spyOn(mockUserEndpoint, 'update').and.callThrough();
+                spyOn(mockNotify, 'showAlerts').and.callThrough();
 
             }));
 
@@ -161,15 +224,17 @@ describe('user profile controller', function(){
                         $scope.saveUserProfile();
                     });
 
-                    it('should call "update" on the UserEndpoint with id=me and the changed user profile values', function(){
-                        expect(mockUserEndpoint.update).toHaveBeenCalled();
+                    describe('after updating (digest) the scope', function(){
+                        beforeEach(function(){
+                            $rootScope.$digest();
+                        });
+                        it('should call Notify.showAlerts with the server errors', function(){
+                            expect(mockNotify.showAlerts).toHaveBeenCalled();
 
-                        var updateArgs = mockUserEndpoint.update.calls.mostRecent().args,
-                        userIdParam = updateArgs[0].id,
-                        requestData = updateArgs[1];
-                        
-                        expect(userIdParam).toBe('me');
-                        expect(requestData).toBe($scope.userProfileDataForEdit);
+                            var alertMessages = mockNotify.showAlerts.calls.mostRecent().args[0];
+
+                            expect(alertMessages).toEqual(['invalid email address']);
+                        });
                     });
 
                 });
