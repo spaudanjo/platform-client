@@ -1,4 +1,4 @@
-var rootPath = '../../../';
+var rootPath = '../../../../';
 
 describe('Session', function(){
 
@@ -42,7 +42,7 @@ describe('Session', function(){
                 }
             };
         })
-        .service('Session', require(rootPath+'app/services/session.js'));
+        .service('Session', require(rootPath+'app/common/services/session.js'));
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
@@ -89,9 +89,9 @@ describe('Session', function(){
             function(){
                 var expectedSessionData = {
                     userId: '1',
-                    userName: null,
-                    realName: null,
-                    email: null,
+                    userName: undefined,
+                    realName: undefined,
+                    email: undefined,
                     accessToken: 'secrettoken'
                 }
 
@@ -99,4 +99,30 @@ describe('Session', function(){
             });
         });
     });
+
+
+    describe('setSessionDataEntries', function(){
+        var sessionDataEntriesToSet;
+
+        describe('without values stored in localStorage', function(){
+
+            beforeEach(inject(function(_Session_){
+                Session = _Session_
+            }));
+
+            beforeEach(function(){
+                sessionDataEntriesToSet = {
+                    key1: 'val1',
+                    key2: 'val2'
+                };
+                Session.setSessionDataEntries(sessionDataEntriesToSet);
+            });
+
+            it('returns the empty session data', function(){
+                expect(mockedLocalStorageHash.key1).toEqual('val1');
+                expect(mockedLocalStorageHash.key2).toEqual('val2');
+            });
+        });
+    });
+
 });
