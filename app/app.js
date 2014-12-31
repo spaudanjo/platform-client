@@ -54,7 +54,7 @@ angular.module('app',
     .directive('inFocus', require('./directives/focus.js'))
 
     .service('Authentication', require('./services/authentication.js'))
-    .service('Session', require('./services/session.js'))
+    .service('Session', require('./common/services/session.js'))
     .service('ConfigEndpoint', require('./services/endpoint/config.js'))
     .service('UserEndpoint', require('./common/services/endpoints/user-endpoint.js'))
     .service('FormEndpoint', require('./services/endpoint/form.js'))
