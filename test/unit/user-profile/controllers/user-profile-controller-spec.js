@@ -43,15 +43,6 @@ describe('user profile controller', function(){
             'role': 'admin'
         };
 
-        // mockUserUpdateResponse = [{
-        //     'id': 2,
-        //     'url': 'http://ushahidi-backend/api/v2/users/2',
-        //     'email': 'admin@22dsad.com',
-        //     'realname': 'dasda',
-        //     'username': 'admin',
-        //     'role': 'admin'
-        // }];
-
         var getDeferred = $q.defer();
         mockUserEndpoint = {
             get: function() {
@@ -69,7 +60,6 @@ describe('user profile controller', function(){
 
         getDeferred.resolve(mockUserGetResponse);
         $rootScope.$digest();
-        // $rootScope.$apply();
     }));
 
     it('should have the right title', function(){
@@ -187,8 +177,6 @@ describe('user profile controller', function(){
             });
         });
 
-
-
         describe('with an error on the backend call', function(){
             beforeEach(inject(function($q){
                 var updateDeferred = $q.defer(),
@@ -236,10 +224,8 @@ describe('user profile controller', function(){
                             expect(alertMessages).toEqual(['invalid email address']);
                         });
                     });
-
                 });
             });
         });
     });
-
 });
