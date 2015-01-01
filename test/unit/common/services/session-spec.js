@@ -110,16 +110,16 @@ describe('Session', function(){
             }));
 
             beforeEach(function(){
-                Session.setSessionDataEntry('key', 'val');
+                Session.setSessionDataEntry('userId', '1');
             });
 
             it('has the keys and values stored in the session', function(){
-                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {key: 'val'});
+                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {userId: '1'});
                 expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
             });
 
             it('has the key and value stored in the local storage', function(){
-                expect(mockedLocalStorageHash.key).toEqual('val');
+                expect(mockedLocalStorageHash.userId).toEqual('1');
             });
         });
     });
@@ -136,8 +136,8 @@ describe('Session', function(){
 
             beforeEach(function(){
                 sessionDataEntriesToSet = {
-                    key1: 'val1',
-                    key2: 'val2'
+                    userId: '1',
+                    userName: 'mike'
                 };
                 Session.setSessionDataEntries(sessionDataEntriesToSet);
             });
@@ -148,10 +148,37 @@ describe('Session', function(){
             });
 
             it('has the keys and values stored in the local storage', function(){
-                expect(mockedLocalStorageHash.key1).toEqual('val1');
-                expect(mockedLocalStorageHash.key2).toEqual('val2');
+                expect(mockedLocalStorageHash.userId).toEqual('1');
+                expect(mockedLocalStorageHash.userName).toEqual('mike');
             });
         });
     });
 
+    describe('getSessionDataEntry', function(){
+
+        describe('with some values stored in localStorage', function(){
+
+            beforeEach(function(){
+                mockedLocalStorageHash.userId = '1';
+                mockedLocalStorageHash.userName = 'mike';
+            });
+
+            beforeEach(inject(function(_Session_){
+                Session = _Session_
+            }));
+
+            it('has the keys and values stored in the session', function(){
+                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {
+                    userId: '1',
+                    userName: 'mike'
+                });
+                expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+            });
+
+            it('has the keys and values stored in the local storage', function(){
+                expect(mockedLocalStorageHash.userId).toEqual('1');
+                expect(mockedLocalStorageHash.userName).toEqual('mike');
+            });
+        });
+    });
 });
