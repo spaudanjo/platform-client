@@ -101,6 +101,25 @@ describe('Session', function(){
     });
 
 
+    describe('setSessionDataEntry', function(){
+
+        describe('without values stored in localStorage', function(){
+
+            beforeEach(inject(function(_Session_){
+                Session = _Session_
+            }));
+
+            beforeEach(function(){
+                Session.setSessionDataEntry('key', 'val');
+            });
+
+            it('returns the empty session data', function(){
+                expect(mockedLocalStorageHash.key).toEqual('val');
+            });
+        });
+    });
+
+
     describe('setSessionDataEntries', function(){
         var sessionDataEntriesToSet;
 
@@ -118,7 +137,12 @@ describe('Session', function(){
                 Session.setSessionDataEntries(sessionDataEntriesToSet);
             });
 
-            it('returns the empty session data', function(){
+            it('has the keys and values stored in the session', function(){
+                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, sessionDataEntriesToSet);
+                expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+            });
+
+            it('has the keys and values stored in the local storage', function(){
                 expect(mockedLocalStorageHash.key1).toEqual('val1');
                 expect(mockedLocalStorageHash.key2).toEqual('val2');
             });
