@@ -113,7 +113,12 @@ describe('Session', function(){
                 Session.setSessionDataEntry('key', 'val');
             });
 
-            it('returns the empty session data', function(){
+            it('has the keys and values stored in the session', function(){
+                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {key: 'val'});
+                expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+            });
+
+            it('has the key and value stored in the local storage', function(){
                 expect(mockedLocalStorageHash.key).toEqual('val');
             });
         });
