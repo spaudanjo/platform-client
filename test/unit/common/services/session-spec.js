@@ -4,27 +4,17 @@ describe('Session', function(){
 
     var mockedLocalStorageHash,
     Session,
-    emptySessionData,
-    // undefined session data is the session hash after trying to load the keys
-    // from the localStorage when the entries are not stored there yet.
-    // So it's basically the emptySessionData,
-    // but with 'undefined' instead of 'null' values for the keys
-    undefinedSessionData;
+    emptySessionData;
 
     beforeEach(function(){
 
         emptySessionData = {
-            userId: null,
-            userName: null,
-            realName: null,
-            email: null,
-            accessToken: null
+            userId: undefined,
+            userName: undefined,
+            realName: undefined,
+            email: undefined,
+            accessToken: undefined
         };
-
-        undefinedSessionData = {};
-        Object.keys(emptySessionData).forEach(function(key){
-            undefinedSessionData[key] = undefined;
-        });
 
         var testApp = angular.module('testApp');
 
@@ -67,7 +57,7 @@ describe('Session', function(){
             });
 
             it('returns the empty session data', function(){
-                expect(returnedSessionData).toEqual(undefinedSessionData);
+                expect(returnedSessionData).toEqual(emptySessionData);
             });
         });
 
@@ -117,7 +107,7 @@ describe('Session', function(){
             });
 
             it('has the keys and values stored in the session', function(){
-                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {userId: '1'});
+                var expectedSessionDataEntries = angular.extend({}, emptySessionData, {userId: '1'});
                 expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
             });
 
@@ -146,7 +136,7 @@ describe('Session', function(){
             });
 
             it('has the keys and values stored in the session', function(){
-                var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, sessionDataEntriesToSet);
+                var expectedSessionDataEntries = angular.extend({}, emptySessionData, sessionDataEntriesToSet);
                 expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
             });
 
@@ -179,7 +169,7 @@ describe('Session', function(){
 
             describe('getSessionDataEntries', function(){
                 it('returns the correct values', function(){
-                    var expectedSessionDataEntries = angular.extend({}, undefinedSessionData, {
+                    var expectedSessionDataEntries = angular.extend({}, emptySessionData, {
                         'userId': '1',
                         'userName': 'mike'
                     });
@@ -214,7 +204,7 @@ describe('Session', function(){
                 });
 
                 it('has the only the initial keys with undefined values stored in the session', function(){
-                    expect(Session.getSessionData()).toEqual(undefinedSessionData);
+                    expect(Session.getSessionData()).toEqual(emptySessionData);
                 });
 
                 it('doesn\'t have any keys and values stored in the local storage', function(){

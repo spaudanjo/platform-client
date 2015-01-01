@@ -5,11 +5,11 @@ function(
 ) {
 
     this.clearedSessionData = {
-        userId: null,
-        userName: null,
-        realName: null,
-        email: null,
-        accessToken: null
+        userId: undefined,
+        userName: undefined,
+        realName: undefined,
+        email: undefined,
+        accessToken: undefined
     };
 
     this.sessionData = angular.copy(this.clearedSessionData);
