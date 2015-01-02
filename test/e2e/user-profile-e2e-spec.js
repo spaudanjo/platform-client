@@ -1,12 +1,9 @@
 var getLastUrlPart = function(url){
-
     // as an alternative to this custom regex approach,
     // we could checkout http://medialize.github.io/URI.js
-
     var urlRegex = /^https?:\/\/[A-Za-z0-9\-.]+(?::[0-9]+)?(.*)$/g
     var match = urlRegex.exec(url);
     return match[1];
-    // return url.substr(url.lastIndexOf('/'));
 };
 
 var signinLinkSelector = 'a#signin-link',
@@ -46,18 +43,26 @@ describe('user profile management', function() {
             });
 
             describe('clicking the user profile link', function(){
+                var usernameFieldSelector = 'span#username',
+                usernameField;
+
                 beforeEach(function(){
                     userProfileLink.click();
+
+                    usernameField = element(by.css(usernameFieldSelector));
                 });
 
                 it('should go to users/me (edit profile page)', function(){
                     browser.getCurrentUrl().then(function(url){
                         expect(getLastUrlPart(url)).toBe('/users/me');
                     });
-                    // browser.getCurrentUrl().then(function(url){
-                    //     expect(getLastUrlPart(url)).toBe('/users/me');
-                    // });
                 });
+
+                it('should show the username, full name and email of the current user', function(){
+                    expect(usernameField.isDisplayed()).toBe(true);
+                    expect(usernameField.getText()).toBe('admin');
+                });
+
             });
         }); // end 'sign in link in main menu'
 

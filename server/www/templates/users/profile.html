@@ -9,15 +9,15 @@
         <ul>
             <li>
                 <b translate>user.username</b>
-                <span>{{userProfileData.username}}</span>
+                <span id="username">{{userProfileData.username}}</span>
             </li>
             <li>
                 <b translate>user.full_name</b>
-                <span editable-text="userProfileDataForEdit.realname" e-name="realname" e-required>{{userProfileData.realname}}</span>
+                <span id="full_name" editable-text="userProfileDataForEdit.realname" e-name="realname" e-required>{{userProfileData.realname}}</span>
             </li>
             <li>
                 <b translate>user.email</b>
-                <span editable-email="userProfileDataForEdit.email">{{userProfileData.email}}</span>
+                <span id="email" editable-email="userProfileDataForEdit.email">{{userProfileData.email}}</span>
             </li>
 
             <div class="buttons">
