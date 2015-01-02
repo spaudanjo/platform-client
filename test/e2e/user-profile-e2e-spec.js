@@ -44,12 +44,18 @@ describe('user profile management', function() {
 
             describe('clicking the user profile link', function(){
                 var usernameFieldSelector = 'span#username',
-                usernameField;
+                usernameField,
+                fullnameFieldSelector = 'span#full_name',
+                fullnameField,
+                emailFieldSelector = 'span#email',
+                emailField;
 
                 beforeEach(function(){
                     userProfileLink.click();
 
                     usernameField = element(by.css(usernameFieldSelector));
+                    fullnameField = element(by.css(fullnameFieldSelector));
+                    emailField = element(by.css(emailFieldSelector));
                 });
 
                 it('should go to users/me (edit profile page)', function(){
@@ -61,6 +67,12 @@ describe('user profile management', function() {
                 it('should show the username, full name and email of the current user', function(){
                     expect(usernameField.isDisplayed()).toBe(true);
                     expect(usernameField.getText()).toBe('admin');
+
+                    expect(fullnameField.isDisplayed()).toBe(true);
+                    expect(fullnameField.getText()).toBe('Admin Joe');
+
+                    expect(emailField.isDisplayed()).toBe(true);
+                    expect(emailField.getText()).toBe('admin@example.com');
                 });
 
             });
