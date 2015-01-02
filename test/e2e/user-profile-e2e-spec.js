@@ -51,11 +51,9 @@ describe('user profile management', function() {
                 emailSpanSelector = 'span#email',
                 emailSpan,
 
-                usernameFieldSelector = 'input[type="text"][name="usernam"]',
-                usernameField,
                 fullnameFieldSelector = 'input[type="text"][name="realname"]',
                 fullnameField,
-                emailFieldSelector = 'input[type="text"][name="email"]',
+                emailFieldSelector = 'input[type="email"][name="email"]',
                 emailField,
 
                 editProfileButtonSelector = 'button#edit_profile',
@@ -95,9 +93,13 @@ describe('user profile management', function() {
                     beforeEach(function(){
                         editProfileButton.click();
 
-                        usernameField = element(by.css(usernameFieldSelector));
                         fullnameField = element(by.css(fullnameFieldSelector));
                         emailField = element(by.css(emailFieldSelector));
+                    });
+
+                    it('should show the editable fields for full name and email with the correct values prefilled', function(){
+                        expect(fullnameField.isDisplayed()).toBe(true);
+                        expect(emailField.isDisplayed()).toBe(true);
                     });
                 });
 
