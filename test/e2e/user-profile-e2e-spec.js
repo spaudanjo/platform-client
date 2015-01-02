@@ -1,21 +1,11 @@
-var getLastUrlPart = function(){
+var getLastUrlPart = function(url){
 
-    var deferred = protractor.promise.defer();
-    browser.getCurrentUrl().then(function(url){
-        var t = browser.executeScript(
-            function(url){
-                var parser = document.createElement("a");
-                parser.href = url;
-                return parser.pathname;
-            },
-            url
-        );
-        t.then(function(res){
-            deferred.fullfill(res);
-            console.log(res);
-        });
-    });
-    return deferred.promise;
+    // as an alternative to this custom regex approach,
+    // we could checkout http://medialize.github.io/URI.js
+
+    var urlRegex = /^https?:\/\/[A-Za-z0-9\-.]+(?::[0-9]+)?(.*)$/g
+    var match = urlRegex.exec(url);
+    return match[1];
     // return url.substr(url.lastIndexOf('/'));
 };
 
@@ -61,7 +51,7 @@ describe('user profile management', function() {
                 });
 
                 it('should go to users/me (edit profile page)', function(){
-                    getLastUrlPart().then(function(url){
+                    browser.getCurrentUrl().then(function(url){
                         expect(getLastUrlPart(url)).toBe('/users/me');
                     });
                     // browser.getCurrentUrl().then(function(url){
