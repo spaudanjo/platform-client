@@ -57,7 +57,13 @@ describe('user profile management', function() {
                 emailField,
 
                 editProfileButtonSelector = 'button#edit_profile',
-                editProfileButton;
+                editProfileButton,
+
+                saveProfileButtonSelector = 'button[type="submit"]#save_profile',
+                saveProfileButton,
+
+                cancelButtonSelector = 'button[type="button"]#cancel',
+                cancelButton;
 
                 beforeEach(function(){
                     userProfileLink.click();
@@ -95,14 +101,31 @@ describe('user profile management', function() {
 
                         fullnameField = element(by.css(fullnameFieldSelector));
                         emailField = element(by.css(emailFieldSelector));
+
+                        saveProfileButton = element(by.css(saveProfileButtonSelector));
+                        cancelButton = element(by.css(cancelButtonSelector));
                     });
 
                     it('should show the editable fields for full name and email with the correct values prefilled', function(){
                         expect(fullnameField.isDisplayed()).toBe(true);
+                        expect(fullnameField.getAttribute('value')).toBe('Admin Joe');
+
                         expect(emailField.isDisplayed()).toBe(true);
+                        expect(emailField.getAttribute('value')).toBe('admin@example.com');
+                    });
+
+                    it('should show "Save Profile" and "Cancel" buttons', function(){
+                        expect(saveProfileButton.isDisplayed()).toBe(true);
+                        expect(cancelButton.isDisplayed()).toBe(true);
+                    });
+
+                    describe('changing fullname and email values', function(){
+                        beforeEach(function(){
+                            fullnameField.sendKeys('Foo Bar');
+                            emailField.sendKeys('foo@bar.com');
+                        });
                     });
                 });
-
             });
         }); // end 'sign in link in main menu'
 

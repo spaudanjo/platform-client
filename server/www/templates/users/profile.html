@@ -27,13 +27,13 @@
                 </button>
                 <!-- buttons to submit / cancel form -->
                 <span ng-show="editUserProfileForm.$visible">
-                    <button type="submit" class="btn btn-primary" ng-disabled="editUserProfileForm.$waiting">
+                    <button id="save_profile" type="submit" class="btn btn-primary" ng-disabled="editUserProfileForm.$waiting">
                         <i class="fa fa-cog fa-spin" ng-show="editUserProfileForm.$waiting"></i>
                         <span translate>
                             user.save_profile
                         </span>
                     </button>
-                    <button type="button" class="btn btn-default" ng-disabled="editUserProfileForm.$waiting" ng-click="editUserProfileForm.$cancel()" translate>
+                    <button type="button" id="cancel" class="btn btn-default" ng-disabled="editUserProfileForm.$waiting" ng-click="editUserProfileForm.$cancel()" translate>
                         user.cancel
                     </button>
                 </span>
