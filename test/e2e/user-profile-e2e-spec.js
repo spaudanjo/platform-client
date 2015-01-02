@@ -1,5 +1,22 @@
-var getLastUrlPart = function(url){
-    return url.substr(url.lastIndexOf('/'));
+var getLastUrlPart = function(){
+
+    var deferred = protractor.promise.defer();
+    browser.getCurrentUrl().then(function(url){
+        var t = browser.executeScript(
+            function(url){
+                var parser = document.createElement("a");
+                parser.href = url;
+                return parser.pathname;
+            },
+            url
+        );
+        t.then(function(res){
+            deferred.fullfill(res);
+            console.log(res);
+        });
+    });
+    return deferred.promise;
+    // return url.substr(url.lastIndexOf('/'));
 };
 
 var signinLinkSelector = 'a#signin-link',
@@ -44,9 +61,12 @@ describe('user profile management', function() {
                 });
 
                 it('should go to users/me (edit profile page)', function(){
-                    browser.getCurrentUrl().then(function(url){
+                    getLastUrlPart().then(function(url){
                         expect(getLastUrlPart(url)).toBe('/users/me');
                     });
+                    // browser.getCurrentUrl().then(function(url){
+                    //     expect(getLastUrlPart(url)).toBe('/users/me');
+                    // });
                 });
             });
         }); // end 'sign in link in main menu'
