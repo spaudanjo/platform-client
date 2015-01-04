@@ -121,8 +121,41 @@ describe('user profile management', function() {
 
                     describe('changing fullname and email values', function(){
                         beforeEach(function(){
+                            fullnameField.clear();
                             fullnameField.sendKeys('Foo Bar');
+
+                            emailField.clear();
                             emailField.sendKeys('foo@bar.com');
+                        });
+
+                        describe('clicking the "Cancel" button', function(){
+                            beforeEach(function(){
+                                cancelButton.click();
+                            });
+                            it('should switch again to the non-edit view with the original values', function(){
+                                expect(usernameSpan.isDisplayed()).toBe(true);
+                                expect(usernameSpan.getText()).toBe('admin');
+
+                                expect(fullnameSpan.isDisplayed()).toBe(true);
+                                expect(fullnameSpan.getText()).toBe('Admin Joe');
+
+                                expect(emailSpan.isDisplayed()).toBe(true);
+                                expect(emailSpan.getText()).toBe('admin@example.com');
+                            });
+                        });
+
+                        describe('clicking the "Save profile" button', function(){
+                            beforeEach(function(){
+                                saveProfileButton.click();
+                            });
+
+                            it('should switch again to the non-edit view with the just changed values', function(){
+                                expect(usernameSpan.isDisplayed()).toBe(true);
+                                expect(usernameSpan.getText()).toBe('admin');
+
+                                expect(fullnameSpan.isDisplayed()).toBe(true);
+                                expect(fullnameSpan.getText()).toBe('Admin Joe');
+                            });
                         });
                     });
                 });
