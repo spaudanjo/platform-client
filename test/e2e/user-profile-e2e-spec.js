@@ -154,7 +154,10 @@ describe('user profile management', function() {
                                 expect(usernameSpan.getText()).toBe('admin');
 
                                 expect(fullnameSpan.isDisplayed()).toBe(true);
-                                expect(fullnameSpan.getText()).toBe('Admin Joe');
+                                expect(fullnameSpan.getText()).toBe('Foo Bar');
+
+                                expect(emailSpan.isDisplayed()).toBe(true);
+                                expect(emailSpan.getText()).toBe('foo@bar.com');
                             });
                         });
                     });
