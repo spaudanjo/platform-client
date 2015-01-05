@@ -14,7 +14,7 @@ function(
     Session
 ) {
 
-    // check if initially we have an old access_token and assume that,
+    // check whether we have initially an old access_token and assume that,
     // if yes, we are still signedin
     var signinStatus = !!Session.getSessionDataEntry('accessToken'),
 
@@ -65,27 +65,29 @@ function(
 
 
             var deferred = $q.defer();
+
             var handleRequestError = function(){
                 deferred.reject();
                 setToSignoutState();
                 $rootScope.$broadcast('event:authentication:signin:failed');
             };
 
-            $http.post(Util.url('/oauth/token'), payload).then(
-                function(authResponse){
-                    var accessToken = authResponse.data.access_token;
-                    Session.setSessionDataEntry('accessToken', accessToken);
+            var handleRequestSuccess = function(authResponse){
+                var accessToken = authResponse.data.access_token;
+                Session.setSessionDataEntry('accessToken', accessToken);
 
-                    $http.get(Util.apiUrl('/users/me')).then(
-                        function(userDataResponse){
+                $http.get(Util.apiUrl('/users/me')).then(
+                    function(userDataResponse){
 
-                            setToSigninState(userDataResponse.data);
+                        setToSigninState(userDataResponse.data);
 
-                            $rootScope.$broadcast('event:authentication:signin:succeeded');
-                            deferred.resolve();
+                        $rootScope.$broadcast('event:authentication:signin:succeeded');
+                        deferred.resolve();
 
-                        }, handleRequestError);
-                }, handleRequestError);
+                    }, handleRequestError);
+            };
+
+            $http.post(Util.url('/oauth/token'), payload).then(handleRequestSuccess, handleRequestError);
 
             return deferred.promise;
         },
