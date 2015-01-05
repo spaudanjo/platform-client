@@ -21,7 +21,7 @@ module.exports = ['$scope', '$translate', 'UserEndpoint', 'Notify', function($sc
                     if(errors)
                     {
                         var errorMessages = errors.map(function(error){
-                            return error.message
+                            return error.message;
                         });
                         Notify.showAlerts(errorMessages);
                     }

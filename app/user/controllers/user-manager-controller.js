@@ -56,7 +56,8 @@ function(
     $scope.selectRole = function(role) {
         $scope.role  = role;
         $scope.users = UserEndpoint.query({
-            role: getRealRole(role)
+            // TODO: this line is commented because getRealRole was not defined
+            // role: getRealRole(role)
         });
     };
 

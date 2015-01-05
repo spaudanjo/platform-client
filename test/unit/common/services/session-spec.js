@@ -49,7 +49,7 @@ describe('Session', function(){
         describe('without values stored in localStorage', function(){
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             beforeEach(function(){
@@ -71,7 +71,7 @@ describe('Session', function(){
             });
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             beforeEach(function(){
@@ -86,7 +86,7 @@ describe('Session', function(){
                     realName: undefined,
                     email: undefined,
                     accessToken: 'secrettoken'
-                }
+                };
 
                 expect(returnedSessionData).toEqual(expectedSessionData);
             });
@@ -99,7 +99,7 @@ describe('Session', function(){
         describe('without values stored in localStorage', function(){
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             beforeEach(function(){
@@ -124,7 +124,7 @@ describe('Session', function(){
         describe('without values stored in localStorage', function(){
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             beforeEach(function(){
@@ -157,7 +157,7 @@ describe('Session', function(){
             });
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             describe('getSessionDataEntry', function(){
@@ -189,7 +189,7 @@ describe('Session', function(){
             });
 
             beforeEach(inject(function(_Session_){
-                Session = _Session_
+                Session = _Session_;
             }));
 
             it('has the values loaded in session', function(){

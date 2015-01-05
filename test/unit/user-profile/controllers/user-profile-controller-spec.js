@@ -7,8 +7,7 @@ describe('user profile controller', function(){
         $controller,
         mockUserEndpoint,
         mockNotify,
-        mockUserGetResponse,
-        mockUserUpdateResponse;
+        mockUserGetResponse;
 
     beforeEach(function(){
         var testApp = angular.module('testApp', [
@@ -31,7 +30,7 @@ describe('user profile controller', function(){
     beforeEach(inject(function($q){
 
         mockNotify = {
-            showAlerts: function(alerts) {}
+            showAlerts: function(/*alerts*/) {}
         };
 
         mockUserGetResponse = {
@@ -132,7 +131,7 @@ describe('user profile controller', function(){
             beforeEach(inject(function($q){
                 var updateDeferred = $q.defer();
                 mockUserEndpoint.update = function(params, data) {
-                    var dataToReturn = angular.extend({}, data, {someField: 'addedByServer'})
+                    var dataToReturn = angular.extend({}, data, {someField: 'addedByServer'});
                     updateDeferred.resolve(dataToReturn);
                     return {
                         $promise: updateDeferred.promise
@@ -191,7 +190,7 @@ describe('user profile controller', function(){
                     }
                 };
 
-                mockUserEndpoint.update = function(params, data) {
+                mockUserEndpoint.update = function(/*params, data*/) {
                     updateDeferred.reject(errorResponse);
                     return {
                         $promise: updateDeferred.promise

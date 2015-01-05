@@ -1,14 +1,12 @@
 var getLastUrlPart = function(url){
     // as an alternative to this custom regex approach,
     // we could checkout http://medialize.github.io/URI.js
-    var urlRegex = /^https?:\/\/[A-Za-z0-9\-.]+(?::[0-9]+)?(.*)$/g
+    var urlRegex = /^https?:\/\/[A-Za-z0-9\-.]+(?::[0-9]+)?(.*)$/g;
     var match = urlRegex.exec(url);
     return match[1];
 };
 
-var signinLinkSelector = 'a#signin-link',
-signoutLinkSelector = 'a#signout-link',
-userMenuLinkSelector = 'a#user-menu-link',
+var userMenuLinkSelector = 'a#user-menu-link',
 userMenuLinkSelector = 'a#user-menu-link',
 userProfileLinkSelector = 'a#user-profile';
 

@@ -1,9 +1,8 @@
 module.exports = [
     '$scope',
     'Authentication',
-    'Session',
 function(
-    $scope, Authentication, Session
+    $scope, Authentication
 ) {
     $scope.mainMenu = false;
 

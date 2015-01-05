@@ -40,7 +40,8 @@ module.exports = ['$rootScope', '$location', 'Authentication', 'Session', functi
         switchToSignedoutAndShowSigninPage();
     });
 
-    if($rootScope.signedin = Authentication.getSigninStatus())
+    $rootScope.signedin = Authentication.getSigninStatus();
+    if($rootScope.signedin)
     {
         setSessionDataToRootScope();
     }

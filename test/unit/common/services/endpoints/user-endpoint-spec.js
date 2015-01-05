@@ -5,8 +5,7 @@ describe('UserEndpoint', function(){
     var $rootScope,
         $httpBackend,
         BACKEND_URL,
-        UserEndpoint,
-        mockUserResponse;
+        UserEndpoint;
 
 
     beforeEach(function(){
@@ -29,6 +28,8 @@ describe('UserEndpoint', function(){
 
     describe('"users/:id" for data of all users', function(){
         describe('get all users', function(){
+
+            var mockUserDataResponse;
 
             beforeEach(function(){
                 mockUserDataResponse =
@@ -73,6 +74,8 @@ describe('UserEndpoint', function(){
     });
 
     describe('"users/me" for the user data of signed in user', function(){
+
+        var mockUserDataResponse;
 
         beforeEach(function(){
             mockUserDataResponse = {
