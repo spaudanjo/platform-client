@@ -7,13 +7,6 @@ function(
 ) {
     $scope.mainMenu = false;
 
-    $scope.$watch(function(){
-        return Session.getSessionData();
-    }, function(newValue/*, oldValue*/) {
-        $scope.userName = newValue.userName;
-        $scope.email = newValue.email;
-    }, true);
-
     $scope.toggle = function(param) {
         $scope[param] = $scope[param] === false ? true : false;
     };
