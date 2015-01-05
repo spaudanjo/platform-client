@@ -9,6 +9,7 @@ describe('Authentication', function(){
         Session,
         emptySessionData,
         signinPromise,
+        mockedSessionService,
         mockedOauthTokenResponse;
 
     beforeEach(function(){
@@ -24,22 +25,23 @@ describe('Authentication', function(){
         var testApp = angular.module('testApp');
 
         mockedSessionData = {};
+        mockedSessionService =
+        {
+            clearSessionData: function(){
+                mockedSessionData = {};
+            },
+            setSessionDataEntries: function(entries){
+                mockedSessionData = angular.extend({}, mockedSessionData, entries);
+            },
+            getSessionDataEntry: function(key){
+                return mockedSessionData[key];
+            },
+            setSessionDataEntry: function(key, value){
+                mockedSessionData[key] = value;
+            }
+        };
         testApp.service('Session', function(){
-
-            return {
-                clearSessionData: function(){
-                    mockedSessionData = {};
-                },
-                setSessionDataEntries: function(entries){
-                    mockedSessionData = angular.extend({}, mockedSessionData, entries);
-                },
-                getSessionDataEntry: function(key){
-                    return mockedSessionData[key];
-                },
-                setSessionDataEntry: function(key, value){
-                    mockedSessionData[key] = value;
-                }
-            };
+            return mockedSessionService;
         })
         .service('Authentication', require(rootPath+'app/common/services/authentication.js'));
 
@@ -65,195 +67,202 @@ describe('Authentication', function(){
                 "refresh_token":"foobarfoobarfoobarfoobarfoobarfoobar",
                 "refresh_token_expires_in":604800
             };
+            spyOn(mockedSessionService, 'setSessionDataEntry').and.callThrough();
 
             $httpBackend.whenGET(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
             signinPromise = Authentication.signin('fooUser', 'barPassword');
         });
 
-        it('should add the accessToken and user info data to the Session', function(){});
+        it('should add the accessToken to the Session', function(){
+            expect(mockedSessionService.setSessionDataEntry).toHaveBeenCalled();
+
+            // var updateArgs = mockedSessionService.setSessionDataEntry.calls.mostRecent().args,
+            // userIdParam = updateArgs[0].id,
+        });
 
         it('should add the accessToken to the Session', function(){});
 
         it('should add the accessToken to the Session', function(){});
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        describe('without values stored in localStorage', function(){
-
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
-
-            beforeEach(function(){
-                returnedSessionData = Session.getSessionData();
-            });
-
-            it('returns the empty session data', function(){
-                expect(returnedSessionData).toEqual(emptySessionData);
-            });
-        });
-
-        describe('with values stored in localStorage', function(){
-
-            beforeEach(function(){
-                mockedSessionData = {
-                    userId: '1',
-                    accessToken: 'secrettoken'
-                };
-            });
-
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
-
-            beforeEach(function(){
-                returnedSessionData = Session.getSessionData();
-            });
-
-            it('returns the session data with the stored values from localStorage',
-            function(){
-                var expectedSessionData = {
-                    userId: '1',
-                    userName: undefined,
-                    realName: undefined,
-                    email: undefined,
-                    accessToken: 'secrettoken'
-                };
-
-                expect(returnedSessionData).toEqual(expectedSessionData);
-            });
-        });
     });
 
 
-    describe('setSessionDataEntry', function(){
-
-        describe('without values stored in localStorage', function(){
-
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
-
-            beforeEach(function(){
-                Session.setSessionDataEntry('userId', '1');
-            });
-
-            it('has the keys and values stored in the session', function(){
-                var expectedSessionDataEntries = angular.extend({}, emptySessionData, {userId: '1'});
-                expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-            });
-
-            it('has the key and value stored in the local storage', function(){
-                expect(mockedSessionData.userId).toEqual('1');
-            });
-        });
-    });
 
 
-    describe('setSessionDataEntries', function(){
-        var sessionDataEntriesToSet;
 
-        describe('without values stored in localStorage', function(){
 
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
 
-            beforeEach(function(){
-                sessionDataEntriesToSet = {
-                    userId: '1',
-                    userName: 'mike'
-                };
-                Session.setSessionDataEntries(sessionDataEntriesToSet);
-            });
 
-            it('has the keys and values stored in the session', function(){
-                var expectedSessionDataEntries = angular.extend({}, emptySessionData, sessionDataEntriesToSet);
-                expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-            });
 
-            it('has the keys and values stored in the local storage', function(){
-                expect(mockedSessionData.userId).toEqual('1');
-                expect(mockedSessionData.userName).toEqual('mike');
-            });
-        });
-    });
 
-    describe('getSessionDataEntry and getSessionDataEntries', function(){
 
-        describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
 
-            beforeEach(function(){
-                mockedSessionData.userId = '1';
-                mockedSessionData.userName = 'mike';
-            });
 
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
-
-            describe('getSessionDataEntry', function(){
-                it('returns the correct values', function(){
-                    expect(Session.getSessionDataEntry('userId')).toEqual('1');
-                    expect(Session.getSessionDataEntry('userName')).toEqual('mike');
-                });
-            });
-
-            describe('getSessionDataEntries', function(){
-                it('returns the correct values', function(){
-                    var expectedSessionDataEntries = angular.extend({}, emptySessionData, {
-                        'userId': '1',
-                        'userName': 'mike'
-                    });
-                    expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-                });
-            });
-        });
-    });
-
-    describe('clearSessionData', function(){
-
-        describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
-
-            beforeEach(function(){
-                mockedSessionData.userId = '1';
-                mockedSessionData.userName = 'mike';
-            });
-
-            beforeEach(inject(function(_Session_){
-                Session = _Session_;
-            }));
-
-            it('has the values loaded in session', function(){
-                expect(Session.getSessionDataEntry('userId')).toEqual('1');
-                expect(Session.getSessionDataEntry('userName')).toEqual('mike');
-            });
-
-            describe('calling clearSessionData', function(){
-
-                beforeEach(function(){
-                    Session.clearSessionData();
-                });
-
-                it('has the only the initial keys with undefined values stored in the session', function(){
-                    expect(Session.getSessionData()).toEqual(emptySessionData);
-                });
-
-                it('doesn\'t have any keys and values stored in the local storage', function(){
-                    expect(mockedSessionData).toEqual({});
-                });
-            });
-        });
-    });
+    //     describe('without values stored in localStorage', function(){
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         beforeEach(function(){
+    //             returnedSessionData = Session.getSessionData();
+    //         });
+    //
+    //         it('returns the empty session data', function(){
+    //             expect(returnedSessionData).toEqual(emptySessionData);
+    //         });
+    //     });
+    //
+    //     describe('with values stored in localStorage', function(){
+    //
+    //         beforeEach(function(){
+    //             mockedSessionData = {
+    //                 userId: '1',
+    //                 accessToken: 'secrettoken'
+    //             };
+    //         });
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         beforeEach(function(){
+    //             returnedSessionData = Session.getSessionData();
+    //         });
+    //
+    //         it('returns the session data with the stored values from localStorage',
+    //         function(){
+    //             var expectedSessionData = {
+    //                 userId: '1',
+    //                 userName: undefined,
+    //                 realName: undefined,
+    //                 email: undefined,
+    //                 accessToken: 'secrettoken'
+    //             };
+    //
+    //             expect(returnedSessionData).toEqual(expectedSessionData);
+    //         });
+    //     });
+    // });
+    //
+    //
+    // describe('setSessionDataEntry', function(){
+    //
+    //     describe('without values stored in localStorage', function(){
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         beforeEach(function(){
+    //             Session.setSessionDataEntry('userId', '1');
+    //         });
+    //
+    //         it('has the keys and values stored in the session', function(){
+    //             var expectedSessionDataEntries = angular.extend({}, emptySessionData, {userId: '1'});
+    //             expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+    //         });
+    //
+    //         it('has the key and value stored in the local storage', function(){
+    //             expect(mockedSessionData.userId).toEqual('1');
+    //         });
+    //     });
+    // });
+    //
+    //
+    // describe('setSessionDataEntries', function(){
+    //     var sessionDataEntriesToSet;
+    //
+    //     describe('without values stored in localStorage', function(){
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         beforeEach(function(){
+    //             sessionDataEntriesToSet = {
+    //                 userId: '1',
+    //                 userName: 'mike'
+    //             };
+    //             Session.setSessionDataEntries(sessionDataEntriesToSet);
+    //         });
+    //
+    //         it('has the keys and values stored in the session', function(){
+    //             var expectedSessionDataEntries = angular.extend({}, emptySessionData, sessionDataEntriesToSet);
+    //             expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+    //         });
+    //
+    //         it('has the keys and values stored in the local storage', function(){
+    //             expect(mockedSessionData.userId).toEqual('1');
+    //             expect(mockedSessionData.userName).toEqual('mike');
+    //         });
+    //     });
+    // });
+    //
+    // describe('getSessionDataEntry and getSessionDataEntries', function(){
+    //
+    //     describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
+    //
+    //         beforeEach(function(){
+    //             mockedSessionData.userId = '1';
+    //             mockedSessionData.userName = 'mike';
+    //         });
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         describe('getSessionDataEntry', function(){
+    //             it('returns the correct values', function(){
+    //                 expect(Session.getSessionDataEntry('userId')).toEqual('1');
+    //                 expect(Session.getSessionDataEntry('userName')).toEqual('mike');
+    //             });
+    //         });
+    //
+    //         describe('getSessionDataEntries', function(){
+    //             it('returns the correct values', function(){
+    //                 var expectedSessionDataEntries = angular.extend({}, emptySessionData, {
+    //                     'userId': '1',
+    //                     'userName': 'mike'
+    //                 });
+    //                 expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
+    //             });
+    //         });
+    //     });
+    // });
+    //
+    // describe('clearSessionData', function(){
+    //
+    //     describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
+    //
+    //         beforeEach(function(){
+    //             mockedSessionData.userId = '1';
+    //             mockedSessionData.userName = 'mike';
+    //         });
+    //
+    //         beforeEach(inject(function(_Session_){
+    //             Session = _Session_;
+    //         }));
+    //
+    //         it('has the values loaded in session', function(){
+    //             expect(Session.getSessionDataEntry('userId')).toEqual('1');
+    //             expect(Session.getSessionDataEntry('userName')).toEqual('mike');
+    //         });
+    //
+    //         describe('calling clearSessionData', function(){
+    //
+    //             beforeEach(function(){
+    //                 Session.clearSessionData();
+    //             });
+    //
+    //             it('has the only the initial keys with undefined values stored in the session', function(){
+    //                 expect(Session.getSessionData()).toEqual(emptySessionData);
+    //             });
+    //
+    //             it('doesn\'t have any keys and values stored in the local storage', function(){
+    //                 expect(mockedSessionData).toEqual({});
+    //             });
+    //         });
+    //     });
 });
