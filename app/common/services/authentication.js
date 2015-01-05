@@ -21,7 +21,6 @@ function(
     setToSigninState = function(userData){
         Session.setSessionDataEntries(
             {
-                'accessToken': userData.acces_token,
                 'userId': userData.id,
                 'userName': userData.username,
                 'realName': userData.realname,
@@ -74,10 +73,13 @@ function(
             };
 
             var handleRequestSuccess = function(authResponse){
+                var accessToken = authResponse.data.access_token;
+                Session.setSessionDataEntry('accessToken', accessToken);
+
                 $http.get(Util.apiUrl('/users/me')).then(
                     function(userDataResponse){
-                        var sessionDataToSet = angular.extend({}, userDataResponse, {'accessToken': authResponse.data.access_token});
-                        setToSigninState(sessionDataToSet);
+
+                        setToSigninState(userDataResponse.data);
 
                         $rootScope.$broadcast('event:authentication:signin:succeeded');
                         deferred.resolve();
