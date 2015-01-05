@@ -1,9 +1,4 @@
-module.exports = [
-    '$scope',
-    'Authentication',
-function(
-    $scope, Authentication
-) {
+module.exports = ['$scope', 'Authentication', function( $scope, Authentication ) {
     $scope.mainMenu = false;
 
     $scope.toggle = function(param) {
