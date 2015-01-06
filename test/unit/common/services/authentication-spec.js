@@ -59,6 +59,14 @@ describe('Authentication', function(){
         Authentication = _Authentication_;
     }));
 
+    describe('beeing still signed out', function(){
+        describe('getSigninStatus', function(){
+            it('should return false', function(){
+                expect(Authentication.getSigninStatus()).toBe(false);
+            });
+        });
+    });
+
     describe('signin', function(){
 
         var mockUserDataResponse;
@@ -84,13 +92,15 @@ describe('Authentication', function(){
             };
             spyOn(mockedSessionService, 'setSessionDataEntry').and.callThrough();
 
+            spyOn($rootScope, '$broadcast').and.callThrough();
+
             $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
             $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockUserDataResponse);
             signinPromise = Authentication.signin('fooUser', 'barPassword');
             $httpBackend.flush();
         });
 
-        it('should add the accessToken to the Session', function(){
+        it('should call Session.setSessionDataEntry() and add the accessToken to the Session', function(){
             expect(mockedSessionService.setSessionDataEntry).toHaveBeenCalled();
 
             var updateArgs = mockedSessionService.setSessionDataEntry.calls.mostRecent().args;
@@ -98,9 +108,20 @@ describe('Authentication', function(){
             expect(updateArgs[1]).toEqual("foobarfoobarfoobarfoobarfoobarfoobar");
         });
 
-        it('should add the accessToken to the Session', function(){});
+        it('should add the userData to the Session', function(){});
 
-        it('should add the accessToken to the Session', function(){});
+        it('should set signinState to true', function(){
+            expect(Authentication.getSigninStatus()).toBe(true);
+        });
+
+        it('should broadcast the "signin:succeed" event on the rootScope', function(){
+            expect($rootScope.$broadcast).toHaveBeenCalled();
+            var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+            expect(broadcastArguments[0]).toEqual('event:authentication:signin:succeeded');
+        });
+
+        it('should resolve the returned promise', function(){
+        });
 
 
     });
