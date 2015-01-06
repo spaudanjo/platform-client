@@ -11,10 +11,10 @@ describe('Authentication', function(){
         emptySessionData,
         signinPromiseSuccessCallback,
         mockedSessionService,
-        mockedOauthTokenResponse;
+        mockedOauthTokenResponse,
+        mockedUserDataResponse;
 
     beforeEach(function(){
-
         emptySessionData = {
             userId: undefined,
             userName: undefined,
@@ -69,66 +69,77 @@ describe('Authentication', function(){
 
     describe('signin', function(){
 
-        var mockedUserDataResponse;
+        describe('with successfull post call to "/oauth/token"', function(){
+            beforeEach(function(){
+                mockedOauthTokenResponse = {
+                    "access_token":"foobarfoobarfoobarfoobarfoobarfoobar",
+                    "token_type":"Bearer",
+                    "expires":9999999999,
+                    "expires_in":3600,
+                    "refresh_token":"foobarfoobarfoobarfoobarfoobarfoobar",
+                    "refresh_token_expires_in":604800
+                };
+                $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
+            });
 
-        beforeEach(function(){
-            mockedUserDataResponse = {
-                'id': 2,
-                'url': 'http://ushahidi-backend/api/v2/users/2',
-                'email': 'admin@example.com',
-                'realname': 'Admin Joe',
-                'username': 'admin',
-            };
+            beforeEach(function(){
+                mockedUserDataResponse = {
+                    'id': 2,
+                    'url': 'http://ushahidi-backend/api/v2/users/2',
+                    'email': 'admin@example.com',
+                    'realname': 'Admin Joe',
+                    'username': 'admin',
+                };
+            });
+
+            beforeEach(function(){
+                spyOn($rootScope, '$broadcast').and.callThrough();
+
+                signinPromiseSuccessCallback = jasmine.createSpy('success');
+
+                $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockedUserDataResponse);
+
+                Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
+
+                $httpBackend.flush();
+            });
+
+            it('should add the accessToken to the Session', function(){
+                expect(mockedSessionData.accessToken).toEqual(mockedOauthTokenResponse.access_token);
+            });
+
+            it('should add the userData to the Session', function(){
+                expect(mockedSessionData.userId).toEqual(mockedUserDataResponse.id);
+                expect(mockedSessionData.userName).toEqual(mockedUserDataResponse.username);
+                expect(mockedSessionData.realName).toEqual(mockedUserDataResponse.realname);
+                expect(mockedSessionData.email).toEqual(mockedUserDataResponse.email);
+            });
+
+            it('should set signinState to true', function(){
+                expect(Authentication.getSigninStatus()).toBe(true);
+            });
+
+            it('should broadcast the "signin:succeed" event on the rootScope', function(){
+                expect($rootScope.$broadcast).toHaveBeenCalled();
+                var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+                expect(broadcastArguments[0]).toEqual('event:authentication:signin:succeeded');
+            });
+
+            it('should resolve the returned promise', function(){
+                expect(signinPromiseSuccessCallback).toHaveBeenCalled();
+            });
+
         });
 
-        beforeEach(function(){
-            mockedOauthTokenResponse = {
-                "access_token":"foobarfoobarfoobarfoobarfoobarfoobar",
-                "token_type":"Bearer",
-                "expires":9999999999,
-                "expires_in":3600,
-                "refresh_token":"foobarfoobarfoobarfoobarfoobarfoobar",
-                "refresh_token_expires_in":604800
-            };
-            // spyOn(mockedSessionService, 'setSessionDataEntry').and.callThrough();
-
-            spyOn($rootScope, '$broadcast').and.callThrough();
-
-            signinPromiseSuccessCallback = jasmine.createSpy('success');
-
-            $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
-            $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockedUserDataResponse);
-
-            Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
-
-            $httpBackend.flush();
+        describe('with unsuccessfull post call to "/oauth/token"', function(){
+            beforeEach(function(){
+                $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
+            });
         });
 
-        it('should add the accessToken to the Session', function(){
-            expect(mockedSessionData.accessToken).toEqual(mockedOauthTokenResponse.access_token);
-        });
+    });
 
-        it('should add the userData to the Session', function(){
-            expect(mockedSessionData.userId).toEqual(mockedUserDataResponse.id);
-            expect(mockedSessionData.userName).toEqual(mockedUserDataResponse.username);
-            expect(mockedSessionData.realName).toEqual(mockedUserDataResponse.realname);
-            expect(mockedSessionData.email).toEqual(mockedUserDataResponse.email);
-        });
-
-        it('should set signinState to true', function(){
-            expect(Authentication.getSigninStatus()).toBe(true);
-        });
-
-        it('should broadcast the "signin:succeed" event on the rootScope', function(){
-            expect($rootScope.$broadcast).toHaveBeenCalled();
-            var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
-            expect(broadcastArguments[0]).toEqual('event:authentication:signin:succeeded');
-        });
-
-        it('should resolve the returned promise', function(){
-            expect(signinPromiseSuccessCallback).toHaveBeenCalled();
-        });
-
+    describe('signout', function(){
 
     });
 
