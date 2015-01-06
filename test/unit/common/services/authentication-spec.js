@@ -69,10 +69,10 @@ describe('Authentication', function(){
 
     describe('signin', function(){
 
-        var mockUserDataResponse;
+        var mockedUserDataResponse;
 
         beforeEach(function(){
-            mockUserDataResponse = {
+            mockedUserDataResponse = {
                 'id': 2,
                 'url': 'http://ushahidi-backend/api/v2/users/2',
                 'email': 'admin@example.com',
@@ -90,29 +90,30 @@ describe('Authentication', function(){
                 "refresh_token":"foobarfoobarfoobarfoobarfoobarfoobar",
                 "refresh_token_expires_in":604800
             };
-            spyOn(mockedSessionService, 'setSessionDataEntry').and.callThrough();
+            // spyOn(mockedSessionService, 'setSessionDataEntry').and.callThrough();
 
             spyOn($rootScope, '$broadcast').and.callThrough();
 
             signinPromiseSuccessCallback = jasmine.createSpy('success');
 
             $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
-            $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockUserDataResponse);
+            $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockedUserDataResponse);
 
             Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
 
             $httpBackend.flush();
         });
 
-        it('should call Session.setSessionDataEntry() and add the accessToken to the Session', function(){
-            expect(mockedSessionService.setSessionDataEntry).toHaveBeenCalled();
-
-            var updateArgs = mockedSessionService.setSessionDataEntry.calls.mostRecent().args;
-            expect(updateArgs[0]).toEqual("accessToken");
-            expect(updateArgs[1]).toEqual("foobarfoobarfoobarfoobarfoobarfoobar");
+        it('should add the accessToken to the Session', function(){
+            expect(mockedSessionData.accessToken).toEqual(mockedOauthTokenResponse.access_token);
         });
 
-        it('should add the userData to the Session', function(){});
+        it('should add the userData to the Session', function(){
+            expect(mockedSessionData.userId).toEqual(mockedUserDataResponse.id);
+            expect(mockedSessionData.userName).toEqual(mockedUserDataResponse.username);
+            expect(mockedSessionData.realName).toEqual(mockedUserDataResponse.realname);
+            expect(mockedSessionData.email).toEqual(mockedUserDataResponse.email);
+        });
 
         it('should set signinState to true', function(){
             expect(Authentication.getSigninStatus()).toBe(true);
