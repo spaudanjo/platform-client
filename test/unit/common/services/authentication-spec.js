@@ -9,7 +9,7 @@ describe('Authentication', function(){
         Session,
         Authentication,
         emptySessionData,
-        signinPromise,
+        signinPromiseSuccessCallback,
         mockedSessionService,
         mockedOauthTokenResponse;
 
@@ -94,9 +94,13 @@ describe('Authentication', function(){
 
             spyOn($rootScope, '$broadcast').and.callThrough();
 
+            signinPromiseSuccessCallback = jasmine.createSpy('success');
+
             $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
             $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockUserDataResponse);
-            signinPromise = Authentication.signin('fooUser', 'barPassword');
+
+            Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
+
             $httpBackend.flush();
         });
 
@@ -121,6 +125,7 @@ describe('Authentication', function(){
         });
 
         it('should resolve the returned promise', function(){
+            expect(signinPromiseSuccessCallback).toHaveBeenCalled();
         });
 
 
