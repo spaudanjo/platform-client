@@ -70,6 +70,7 @@ describe('Authentication', function(){
     describe('signin', function(){
 
         describe('with successfull post call to "/oauth/token"', function(){
+
             beforeEach(function(){
                 mockedOauthTokenResponse = {
                     "access_token":"foobarfoobarfoobarfoobarfoobarfoobar",
@@ -82,58 +83,93 @@ describe('Authentication', function(){
                 $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
             });
 
-            beforeEach(function(){
-                mockedUserDataResponse = {
-                    'id': 2,
-                    'url': 'http://ushahidi-backend/api/v2/users/2',
-                    'email': 'admin@example.com',
-                    'realname': 'Admin Joe',
-                    'username': 'admin',
-                };
+            describe('with successfull get call to "/users/me"', function(){
+
+                beforeEach(function(){
+                    mockedUserDataResponse = {
+                        'id': 2,
+                        'url': 'http://ushahidi-backend/api/v2/users/2',
+                        'email': 'admin@example.com',
+                        'realname': 'Admin Joe',
+                        'username': 'admin',
+                    };
+                    $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockedUserDataResponse);
+                });
+
+                beforeEach(function(){
+                    spyOn($rootScope, '$broadcast').and.callThrough();
+
+                    signinPromiseSuccessCallback = jasmine.createSpy('success');
+
+                    Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
+
+                    $httpBackend.flush();
+                });
+
+                it('should add the accessToken to the Session', function(){
+                    expect(mockedSessionData.accessToken).toEqual(mockedOauthTokenResponse.access_token);
+                });
+
+                it('should add the userData to the Session', function(){
+                    expect(mockedSessionData.userId).toEqual(mockedUserDataResponse.id);
+                    expect(mockedSessionData.userName).toEqual(mockedUserDataResponse.username);
+                    expect(mockedSessionData.realName).toEqual(mockedUserDataResponse.realname);
+                    expect(mockedSessionData.email).toEqual(mockedUserDataResponse.email);
+                });
+
+                it('should set signinState to true', function(){
+                    expect(Authentication.getSigninStatus()).toBe(true);
+                });
+
+                it('should broadcast the "signin:succeed" event on the rootScope', function(){
+                    expect($rootScope.$broadcast).toHaveBeenCalled();
+                    var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+                    expect(broadcastArguments[0]).toEqual('event:authentication:signin:succeeded');
+                });
+
+                it('should resolve the returned promise', function(){
+                    expect(signinPromiseSuccessCallback).toHaveBeenCalled();
+                });
+
             });
+            describe('with unsuccessfull get call to "/users/me"', function(){
 
-            beforeEach(function(){
-                spyOn($rootScope, '$broadcast').and.callThrough();
+                var signinPromiseFailureCallback;
 
-                signinPromiseSuccessCallback = jasmine.createSpy('success');
+                beforeEach(function(){
+                    $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(404, '');
+                });
 
-                $httpBackend.whenGET(BACKEND_URL + '/api/v2/users/me').respond(mockedUserDataResponse);
+                beforeEach(function(){
+                    spyOn($rootScope, '$broadcast').and.callThrough();
 
-                Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback);
+                    signinPromiseSuccessCallback = jasmine.createSpy('success');
+                    signinPromiseFailureCallback = jasmine.createSpy('failure');
 
-                $httpBackend.flush();
+                    Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback, signinPromiseFailureCallback);
+
+                    $httpBackend.flush();
+                });
+
+                it('should broadcast the "signin:failed" event on the rootScope', function(){
+                    expect($rootScope.$broadcast).toHaveBeenCalled();
+                    var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+                    expect(broadcastArguments[0]).toEqual('event:authentication:signin:failed');
+                });
+
+                it('should reject the returned promise', function(){
+                    expect(signinPromiseSuccessCallback).not.toHaveBeenCalled();
+                    expect(signinPromiseFailureCallback).toHaveBeenCalled();
+                });
+
+
+
             });
-
-            it('should add the accessToken to the Session', function(){
-                expect(mockedSessionData.accessToken).toEqual(mockedOauthTokenResponse.access_token);
-            });
-
-            it('should add the userData to the Session', function(){
-                expect(mockedSessionData.userId).toEqual(mockedUserDataResponse.id);
-                expect(mockedSessionData.userName).toEqual(mockedUserDataResponse.username);
-                expect(mockedSessionData.realName).toEqual(mockedUserDataResponse.realname);
-                expect(mockedSessionData.email).toEqual(mockedUserDataResponse.email);
-            });
-
-            it('should set signinState to true', function(){
-                expect(Authentication.getSigninStatus()).toBe(true);
-            });
-
-            it('should broadcast the "signin:succeed" event on the rootScope', function(){
-                expect($rootScope.$broadcast).toHaveBeenCalled();
-                var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
-                expect(broadcastArguments[0]).toEqual('event:authentication:signin:succeeded');
-            });
-
-            it('should resolve the returned promise', function(){
-                expect(signinPromiseSuccessCallback).toHaveBeenCalled();
-            });
-
         });
 
         describe('with unsuccessfull post call to "/oauth/token"', function(){
             beforeEach(function(){
-                $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
+                // $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
             });
         });
 
@@ -142,183 +178,4 @@ describe('Authentication', function(){
     describe('signout', function(){
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //     describe('without values stored in localStorage', function(){
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         beforeEach(function(){
-    //             returnedSessionData = Session.getSessionData();
-    //         });
-    //
-    //         it('returns the empty session data', function(){
-    //             expect(returnedSessionData).toEqual(emptySessionData);
-    //         });
-    //     });
-    //
-    //     describe('with values stored in localStorage', function(){
-    //
-    //         beforeEach(function(){
-    //             mockedSessionData = {
-    //                 userId: '1',
-    //                 accessToken: 'secrettoken'
-    //             };
-    //         });
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         beforeEach(function(){
-    //             returnedSessionData = Session.getSessionData();
-    //         });
-    //
-    //         it('returns the session data with the stored values from localStorage',
-    //         function(){
-    //             var expectedSessionData = {
-    //                 userId: '1',
-    //                 userName: undefined,
-    //                 realName: undefined,
-    //                 email: undefined,
-    //                 accessToken: 'secrettoken'
-    //             };
-    //
-    //             expect(returnedSessionData).toEqual(expectedSessionData);
-    //         });
-    //     });
-    // });
-    //
-    //
-    // describe('setSessionDataEntry', function(){
-    //
-    //     describe('without values stored in localStorage', function(){
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         beforeEach(function(){
-    //             Session.setSessionDataEntry('userId', '1');
-    //         });
-    //
-    //         it('has the keys and values stored in the session', function(){
-    //             var expectedSessionDataEntries = angular.extend({}, emptySessionData, {userId: '1'});
-    //             expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-    //         });
-    //
-    //         it('has the key and value stored in the local storage', function(){
-    //             expect(mockedSessionData.userId).toEqual('1');
-    //         });
-    //     });
-    // });
-    //
-    //
-    // describe('setSessionDataEntries', function(){
-    //     var sessionDataEntriesToSet;
-    //
-    //     describe('without values stored in localStorage', function(){
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         beforeEach(function(){
-    //             sessionDataEntriesToSet = {
-    //                 userId: '1',
-    //                 userName: 'mike'
-    //             };
-    //             Session.setSessionDataEntries(sessionDataEntriesToSet);
-    //         });
-    //
-    //         it('has the keys and values stored in the session', function(){
-    //             var expectedSessionDataEntries = angular.extend({}, emptySessionData, sessionDataEntriesToSet);
-    //             expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-    //         });
-    //
-    //         it('has the keys and values stored in the local storage', function(){
-    //             expect(mockedSessionData.userId).toEqual('1');
-    //             expect(mockedSessionData.userName).toEqual('mike');
-    //         });
-    //     });
-    // });
-    //
-    // describe('getSessionDataEntry and getSessionDataEntries', function(){
-    //
-    //     describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
-    //
-    //         beforeEach(function(){
-    //             mockedSessionData.userId = '1';
-    //             mockedSessionData.userName = 'mike';
-    //         });
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         describe('getSessionDataEntry', function(){
-    //             it('returns the correct values', function(){
-    //                 expect(Session.getSessionDataEntry('userId')).toEqual('1');
-    //                 expect(Session.getSessionDataEntry('userName')).toEqual('mike');
-    //             });
-    //         });
-    //
-    //         describe('getSessionDataEntries', function(){
-    //             it('returns the correct values', function(){
-    //                 var expectedSessionDataEntries = angular.extend({}, emptySessionData, {
-    //                     'userId': '1',
-    //                     'userName': 'mike'
-    //                 });
-    //                 expect(Session.getSessionData()).toEqual(expectedSessionDataEntries);
-    //             });
-    //         });
-    //     });
-    // });
-    //
-    // describe('clearSessionData', function(){
-    //
-    //     describe('with some values stored in localStorage before instantiating (injecting) the Session service', function(){
-    //
-    //         beforeEach(function(){
-    //             mockedSessionData.userId = '1';
-    //             mockedSessionData.userName = 'mike';
-    //         });
-    //
-    //         beforeEach(inject(function(_Session_){
-    //             Session = _Session_;
-    //         }));
-    //
-    //         it('has the values loaded in session', function(){
-    //             expect(Session.getSessionDataEntry('userId')).toEqual('1');
-    //             expect(Session.getSessionDataEntry('userName')).toEqual('mike');
-    //         });
-    //
-    //         describe('calling clearSessionData', function(){
-    //
-    //             beforeEach(function(){
-    //                 Session.clearSessionData();
-    //             });
-    //
-    //             it('has the only the initial keys with undefined values stored in the session', function(){
-    //                 expect(Session.getSessionData()).toEqual(emptySessionData);
-    //             });
-    //
-    //             it('doesn\'t have any keys and values stored in the local storage', function(){
-    //                 expect(mockedSessionData).toEqual({});
-    //             });
-    //         });
-    //     });
 });
