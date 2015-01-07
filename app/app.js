@@ -61,7 +61,7 @@ angular.module('app',
     .service('FormAttributeEndpoint', require('./services/endpoint/form-attributes.js'))
     .service('TagEndpoint', require('./services/endpoint/tag.js'))
     .service('Util', require('./services/util.js'))
-    .service('Notify', require('./services/notify.js'))
+    .service('Notify', require('./common/services/notify.js'))
 
     .controller('navigation', require('./controllers/navigation.js'))
     .controller('workspaceAccordion', require('./workspace'))
