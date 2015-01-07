@@ -8,21 +8,12 @@ describe('Authentication', function(){
         mockedSessionData,
         Session,
         Authentication,
-        emptySessionData,
         signinPromiseSuccessCallback,
         mockedSessionService,
         mockedOauthTokenResponse,
         mockedUserDataResponse;
 
     beforeEach(function(){
-        emptySessionData = {
-            userId: undefined,
-            userName: undefined,
-            realName: undefined,
-            email: undefined,
-            accessToken: undefined
-        };
-
         var testApp = angular.module('testApp', []);
 
         mockedSessionData = {};
@@ -151,6 +142,14 @@ describe('Authentication', function(){
                     $httpBackend.flush();
                 });
 
+                it('should clear the Session data', function(){
+                    expect(mockedSessionData).toEqual({})
+                });
+
+                it('should set signinState to false', function(){
+                    expect(Authentication.getSigninStatus()).toBe(false);
+                });
+
                 it('should broadcast the "signin:failed" event on the rootScope', function(){
                     expect($rootScope.$broadcast).toHaveBeenCalled();
                     var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
@@ -162,20 +161,80 @@ describe('Authentication', function(){
                     expect(signinPromiseFailureCallback).toHaveBeenCalled();
                 });
 
-
-
             });
         });
 
         describe('with unsuccessfull post call to "/oauth/token"', function(){
+
+            var signinPromiseFailureCallback;
+
             beforeEach(function(){
-                // $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(mockedOauthTokenResponse);
+                $httpBackend.whenPOST(BACKEND_URL+'/oauth/token').respond(401, '');
             });
+
+            beforeEach(function(){
+                spyOn($rootScope, '$broadcast').and.callThrough();
+
+                signinPromiseSuccessCallback = jasmine.createSpy('success');
+                signinPromiseFailureCallback = jasmine.createSpy('failure');
+
+                Authentication.signin('fooUser', 'barPassword').then(signinPromiseSuccessCallback, signinPromiseFailureCallback);
+
+                $httpBackend.flush();
+            });
+
+            it('should clear the Session data', function(){
+                expect(mockedSessionData).toEqual({})
+            });
+
+            it('should set signinState to false', function(){
+                expect(Authentication.getSigninStatus()).toBe(false);
+            });
+
+            it('should broadcast the "signin:failed" event on the rootScope', function(){
+                expect($rootScope.$broadcast).toHaveBeenCalled();
+                var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+                expect(broadcastArguments[0]).toEqual('event:authentication:signin:failed');
+            });
+
+            it('should reject the returned promise', function(){
+                expect(signinPromiseSuccessCallback).not.toHaveBeenCalled();
+                expect(signinPromiseFailureCallback).toHaveBeenCalled();
+            });
+
         });
 
     });
 
     describe('signout', function(){
+
+        beforeEach(function(){
+            mockedSessionData = {
+                userId: 2,
+                userName: 'max',
+                realName: 'Max Doe',
+                email: 'max@doe.org',
+                accessToken: 'fooBarAccessToken'
+            };
+
+            spyOn($rootScope, '$broadcast').and.callThrough();
+
+            Authentication.signout();
+        });
+
+        it('should broadcast the "signout:succeeded" event on the rootScope', function(){
+            expect($rootScope.$broadcast).toHaveBeenCalled();
+            var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+            expect(broadcastArguments[0]).toEqual('event:authentication:signout:succeeded');
+        });
+
+        it('should set signinState to false', function(){
+            expect(Authentication.getSigninStatus()).toBe(false);
+        });
+
+        it('should clear the Session data', function(){
+            expect(mockedSessionData).toEqual({})
+        });
 
     });
 });
