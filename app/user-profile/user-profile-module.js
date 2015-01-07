@@ -1,5 +1,5 @@
 require('angular-xeditable');
-require('../common/helpers/gravatar-helper-module.js');
+require('../common/root-scope-helpers/gravatar-helper-module.js');
 
 angular.module('user-profile', [
     'xeditable',
