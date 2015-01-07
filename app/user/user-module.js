@@ -1,4 +1,4 @@
-require('../common/root-scope-helpers/gravatar-helper-module.js');
+require('../common/modules/gravatar-helper-module.js');
 
 angular.module('users', [
     'gravatarHelper'
