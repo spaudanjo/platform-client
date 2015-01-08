@@ -7,43 +7,41 @@ describe('global event handlers run config', function(){
         $rootScope,
         $location;
 
-    beforeEach(function(){
-
-        mockedSessionData = {};
-        mockedAuthenticationData = {
-            signinStatus: false
-        };
-
-        var testApp = angular.module('testApp', []),
-        mockedSessionService =
-        {
-            getSessionData: function(){
-                return mockedSessionData;
-            }
-        },
-        mockedAuthenticationService =
-        {
-            getSigninStatus: function(){
-                return mockedAuthenticationData.signinStatus;
-            }
-        };
-
-        testApp.service('Session', function(){
-            return mockedSessionService;
-        })
-        .service('Authentication', function(){
-            return mockedAuthenticationService;
-        })
-        .run(require(rootPath+'app/common/run/global-event-handlers.js'))
-
-        require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
-
-    });
-
-
     describe('rootScope', function(){
-        describe('global events', function(){
 
+        beforeEach(function(){
+
+            mockedSessionData = {};
+            mockedAuthenticationData = {
+                signinStatus: false
+            };
+
+            var testApp = angular.module('testApp', []),
+            mockedSessionService =
+            {
+                getSessionData: function(){
+                    return mockedSessionData;
+                }
+            },
+            mockedAuthenticationService =
+            {
+                getSigninStatus: function(){
+                    return mockedAuthenticationData.signinStatus;
+                }
+            };
+
+            testApp.service('Session', function(){
+                return mockedSessionService;
+            })
+            .service('Authentication', function(){
+                return mockedAuthenticationService;
+            })
+            .run(require(rootPath+'app/common/run/global-event-handlers.js'))
+
+            require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
+        });
+
+        describe('global events', function(){
             beforeEach(function(){
                 angular.mock.module('testApp');
             });
@@ -150,31 +148,57 @@ describe('global event handlers run config', function(){
         describe('signed in', function(){
 
             beforeEach(function(){
-                mockedAuthenticationData.signinStatus = true;
+                mockedAuthenticationData = {
+                    signinStatus: true
+                };
+
+                mockedSessionData = {
+                    userName: 'max',
+                    email: 'max@example.com'
+                };
+
+                angular.mock.module('testApp');
             });
 
-            // beforeEach(function(){
-            //     angular.mock.module('testApp');
-            // });
-            //
-            // beforeEach(inject(function(_$rootScope_, _$location_){
-            //     $rootScope = _$rootScope_;
-            //     $location = _$location_;
-            // }));
-            //
+            beforeEach(inject(function(_$rootScope_, _$location_){
+                $rootScope = _$rootScope_;
+                $location = _$location_;
+            }));
 
             it('should set $rootScope.signedin to true', function(){
                 expect($rootScope.signedin).toBe(true);
+            });
+            
+            it('should set userName and email to $rootScope', function(){
+                expect($rootScope.userName).toEqual(mockedSessionData.userName);
+                expect($rootScope.email).toEqual(mockedSessionData.email);
             });
 
         });
 
         describe('not signed in', function(){
 
+            beforeEach(function(){
+                mockedAuthenticationData = {
+                    signinStatus: false
+                };
+
+                angular.mock.module('testApp');
+            });
+
+            beforeEach(inject(function(_$rootScope_, _$location_){
+                $rootScope = _$rootScope_;
+                $location = _$location_;
+            }));
+
             it('should set $rootScope.signedin to false', function(){
                 expect($rootScope.signedin).toBe(false);
             });
 
+            it('should leave userName and email to be undefined on $rootScope', function(){
+                expect($rootScope.userName).toEqual(undefined);
+                expect($rootScope.email).toEqual(undefined);
+            });
         });
     });
 });
