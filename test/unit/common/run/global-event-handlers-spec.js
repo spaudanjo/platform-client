@@ -14,14 +14,14 @@ describe('global event handlers run config', function(){
             signinStatus: false
         };
 
-        var testApp = angular.module('testApp'),
+        var testApp = angular.module('testApp', []),
         mockedSessionService =
         {
             getSessionData: function(){
                 return mockedSessionData;
             }
         },
-        mockeAuthenticationService =
+        mockedAuthenticationService =
         {
             getSigninStatus: function(){
                 return mockedAuthenticationData.signinStatus;
@@ -42,11 +42,9 @@ describe('global event handlers run config', function(){
 
     });
 
-    beforeEach(inject(function(_$rootScope_, _$location, _Authentication_, _Session_){
-        $httpBackend = _$httpBackend_;
+    beforeEach(inject(function(_$rootScope_, _$location_){
         $rootScope = _$rootScope_;
-        BACKEND_URL = _CONST_.BACKEND_URL;
-        Authentication = _Authentication_;
+        $location = _$location_;
     }));
 
     describe('rootScope', function(){
@@ -64,21 +62,90 @@ describe('global event handlers run config', function(){
 
                 describe('signin', function(){
                     describe('succeeded', function(){
-                        it('should set userName and email to $rootScope', function(){});
-                        it('should set $rootScope.signedIn to true', function(){});
-                        it('should change the path to "/"', function(){});
+                        beforeEach(function(){
+                            mockedSessionData = {
+                                userName: 'max',
+                                email: 'max@example.com'
+                            };
+
+                            $rootScope.$broadcast('event:authentication:signin:succeeded');
+                        });
+
+                        it('should set userName and email to $rootScope', function(){
+                            expect($rootScope.userName).toEqual(mockedSessionData.userName);
+                            expect($rootScope.email).toEqual(mockedSessionData.email);
+                        });
+
+                        it('should set $rootScope.signedIn to true', function(){
+                            expect($rootScope.signedin).toBe(true);
+                        });
+
+                        it('should change the path to "/"', function(){
+                            expect($location.path()).toEqual('/');
+                        });
                     });
+
                     describe('failed', function(){
+
+                        beforeEach(function(){
+                            $rootScope.$broadcast('event:authentication:signin:failed');
+                        });
+
+                        it('should set userName and email to null on $rootScope', function(){
+                            expect($rootScope.userName).toEqual(null);
+                            expect($rootScope.email).toEqual(null);
+                        });
+
+                        it('should set $rootScope.signedIn to false', function(){
+                            expect($rootScope.signedin).toBe(false);
+                        });
+
+                        it('should change the path to "/signin"', function(){
+                            expect($location.path()).toEqual('/signin');
+                        });
                     });
                 });
 
                 describe('signout', function(){
                     describe('succeeded', function(){
+
+                        beforeEach(function(){
+                            $rootScope.$broadcast('event:authentication:signout:succeeded');
+                        });
+
+                        it('should set userName and email to null on $rootScope', function(){
+                            expect($rootScope.userName).toEqual(null);
+                            expect($rootScope.email).toEqual(null);
+                        });
+
+                        it('should set $rootScope.signedIn to false', function(){
+                            expect($rootScope.signedin).toBe(false);
+                        });
+
+                        it('should change the path to "/"', function(){
+                            expect($location.path()).toEqual('/');
+                        });
                     });
                 });
             });
 
             describe('unauthorized', function(){
+                beforeEach(function(){
+                    $rootScope.$broadcast('event:unauthorized');
+                });
+
+                it('should set userName and email to null on $rootScope', function(){
+                    expect($rootScope.userName).toEqual(null);
+                    expect($rootScope.email).toEqual(null);
+                });
+
+                it('should set $rootScope.signedIn to false', function(){
+                    expect($rootScope.signedin).toBe(false);
+                });
+
+                it('should change the path to "/signin"', function(){
+                    expect($location.path()).toEqual('/signin');
+                });
             });
         });
 
