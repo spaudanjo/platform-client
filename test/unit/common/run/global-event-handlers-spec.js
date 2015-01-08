@@ -38,27 +38,22 @@ describe('global event handlers run config', function(){
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
-        angular.mock.module('testApp');
-
     });
 
-    beforeEach(inject(function(_$rootScope_, _$location_){
-        $rootScope = _$rootScope_;
-        $location = _$location_;
-    }));
 
     describe('rootScope', function(){
         describe('global events', function(){
 
+            beforeEach(function(){
+                angular.mock.module('testApp');
+            });
+
+            beforeEach(inject(function(_$rootScope_, _$location_){
+                $rootScope = _$rootScope_;
+                $location = _$location_;
+            }));
+
             describe('authentication', function(){
-
-                beforeEach(inject(function(_Session_){
-                    Session = _Session_;
-                }));
-
-                beforeEach(function(){
-                    returnedSessionData = Session.getSessionData();
-                });
 
                 describe('signin', function(){
                     describe('succeeded', function(){
@@ -76,7 +71,7 @@ describe('global event handlers run config', function(){
                             expect($rootScope.email).toEqual(mockedSessionData.email);
                         });
 
-                        it('should set $rootScope.signedIn to true', function(){
+                        it('should set $rootScope.signedin to true', function(){
                             expect($rootScope.signedin).toBe(true);
                         });
 
@@ -96,7 +91,7 @@ describe('global event handlers run config', function(){
                             expect($rootScope.email).toEqual(null);
                         });
 
-                        it('should set $rootScope.signedIn to false', function(){
+                        it('should set $rootScope.signedin to false', function(){
                             expect($rootScope.signedin).toBe(false);
                         });
 
@@ -118,7 +113,7 @@ describe('global event handlers run config', function(){
                             expect($rootScope.email).toEqual(null);
                         });
 
-                        it('should set $rootScope.signedIn to false', function(){
+                        it('should set $rootScope.signedin to false', function(){
                             expect($rootScope.signedin).toBe(false);
                         });
 
@@ -139,7 +134,7 @@ describe('global event handlers run config', function(){
                     expect($rootScope.email).toEqual(null);
                 });
 
-                it('should set $rootScope.signedIn to false', function(){
+                it('should set $rootScope.signedin to false', function(){
                     expect($rootScope.signedin).toBe(false);
                 });
 
@@ -148,10 +143,38 @@ describe('global event handlers run config', function(){
                 });
             });
         });
+    });
 
-        describe('initial setting of session data', function(){
-            describe('signed in', function(){});
-            describe('not signed in', function(){});
+    describe('initial setting of session data', function(){
+
+        describe('signed in', function(){
+
+            beforeEach(function(){
+                mockedAuthenticationData.signinStatus = true;
+            });
+
+            // beforeEach(function(){
+            //     angular.mock.module('testApp');
+            // });
+            //
+            // beforeEach(inject(function(_$rootScope_, _$location_){
+            //     $rootScope = _$rootScope_;
+            //     $location = _$location_;
+            // }));
+            //
+
+            it('should set $rootScope.signedin to true', function(){
+                expect($rootScope.signedin).toBe(true);
+            });
+
+        });
+
+        describe('not signed in', function(){
+
+            it('should set $rootScope.signedin to false', function(){
+                expect($rootScope.signedin).toBe(false);
+            });
+
         });
     });
 });
