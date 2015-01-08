@@ -74,7 +74,7 @@ angular.module('app',
     .config(require('./modules/ui-accordion'))
     .config(require('./locale-config.js'))
 
-    .run(require('./global-event-handlers.js'))
+    .run(require('./common/run/global-event-handlers.js'))
     .run(require('./global-scope-variables.js'))
 
     .factory('_', function() {
