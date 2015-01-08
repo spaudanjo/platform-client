@@ -2,46 +2,52 @@ var rootPath = '../../../../';
 
 describe('global event handlers run config', function(){
 
-    var mockedLocalStorageHash,
-    Session,
-    emptySessionData;
+    var mockedSessionData,
+        mockeAuthenticationData,
+        $rootScope,
+        $location;
 
     beforeEach(function(){
 
-        emptySessionData = {
-            userId: undefined,
-            userName: undefined,
-            realName: undefined,
-            email: undefined,
-            accessToken: undefined
+        mockedSessionData = {};
+        mockedAuthenticationData = {
+            signinStatus: false
         };
 
-        var testApp = angular.module('testApp');
+        var testApp = angular.module('testApp'),
+        mockedSessionService =
+        {
+            getSessionData: function(){
+                return mockedSessionData;
+            }
+        },
+        mockeAuthenticationService =
+        {
+            getSigninStatus: function(){
+                return mockedAuthenticationData.signinStatus;
+            }
+        };
 
-        mockedLocalStorageHash = {};
-        testApp.service('localStorageService', function(){
-            return {
-                get: function(key){
-                    return mockedLocalStorageHash[key];
-                },
-                set: function(key, val){
-                    mockedLocalStorageHash[key] = val;
-                },
-                remove: function(key){
-                    delete mockedLocalStorageHash[key];
-                },
-                clear: function(){
-                    mockedLocalStorageHash = {};
-                }
-            };
+        testApp.service('Session', function(){
+            return mockedSessionService;
+        })
+        .service('Authentication', function(){
+            return mockedAuthenticationService;
         })
         .run(require(rootPath+'app/common/run/global-event-handlers.js'))
 
         require(rootPath+'test/unit/simple-test-app-config.js')(testApp);
 
+        angular.mock.module('testApp');
+
     });
 
-    beforeEach(angular.mock.module('testApp'));
+    beforeEach(inject(function(_$rootScope_, _$location, _Authentication_, _Session_){
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+        BACKEND_URL = _CONST_.BACKEND_URL;
+        Authentication = _Authentication_;
+    }));
 
     describe('rootScope', function(){
         describe('global events', function(){
@@ -58,6 +64,9 @@ describe('global event handlers run config', function(){
 
                 describe('signin', function(){
                     describe('succeeded', function(){
+                        it('should set userName and email to $rootScope', function(){});
+                        it('should set $rootScope.signedIn to true', function(){});
+                        it('should change the path to "/"', function(){});
                     });
                     describe('failed', function(){
                     });
@@ -66,10 +75,6 @@ describe('global event handlers run config', function(){
                 describe('signout', function(){
                     describe('succeeded', function(){
                     });
-                });
-
-                it('returns the empty session data', function(){
-                    expect(returnedSessionData).toEqual(emptySessionData);
                 });
             });
 
