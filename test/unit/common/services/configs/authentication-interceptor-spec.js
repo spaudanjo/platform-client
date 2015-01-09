@@ -44,10 +44,19 @@ describe('authentication interceptor', function(){
     }));
 
     describe('$httpProvider', function(){
-
         it('should have the authInterceptor', function () {
             expect($httpProviderIt.interceptors).toContain('authInterceptor');
         });
-
     });
+
+    describe('request handler', function(){
+        it('', function () {
+        });
+    });
+
+    describe('responseError handler', function(){
+        it('', function () {
+        });
+    });
+
 });
