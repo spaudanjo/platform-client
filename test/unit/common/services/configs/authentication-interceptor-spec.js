@@ -86,11 +86,26 @@ describe('authentication interceptor', function(){
     });
 
     describe('responseError handler', function(){
+
+        beforeEach(function(){
+            spyOn($rootScope, '$broadcast').and.callThrough();
+        });
+
         describe('for a 401 error', function(){
             it('should broadcast an "unauthorized" event over the rootScope', function(){
+                $httpBackend.expectGET(BACKEND_URL+'/some-url').respond(401);
 
+                $http.get(BACKEND_URL+'/some-url');
+
+                $httpBackend.flush();
+
+                expect($rootScope.$broadcast).toHaveBeenCalled();
+                var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
+                expect(broadcastArguments[0]).toEqual('event:unauthorized');
             });
         });
-    });
 
+        describe('for a non-401 error', function(){
+        });
+    });
 });
