@@ -92,13 +92,13 @@ describe('authentication interceptor', function(){
         });
 
         describe('for a 401 error', function(){
-            it('should broadcast an "unauthorized" event over the rootScope', function(){
-                $httpBackend.expectGET(BACKEND_URL+'/some-url').respond(401);
-
+            beforeEach(function(){
+                $httpBackend.whenGET(BACKEND_URL+'/some-url').respond(401);
                 $http.get(BACKEND_URL+'/some-url');
-
                 $httpBackend.flush();
+            });
 
+            it('should broadcast an "unauthorized" event over the rootScope', function(){
                 expect($rootScope.$broadcast).toHaveBeenCalled();
                 var broadcastArguments = $rootScope.$broadcast.calls.mostRecent().args;
                 expect(broadcastArguments[0]).toEqual('event:unauthorized');
@@ -106,6 +106,15 @@ describe('authentication interceptor', function(){
         });
 
         describe('for a non-401 error', function(){
+            beforeEach(function(){
+                $httpBackend.whenGET(BACKEND_URL+'/some-url').respond(200);
+                $http.get(BACKEND_URL+'/some-url');
+                $httpBackend.flush();
+            });
+
+            it('should not broadcast an event over the rootScope', function(){
+                expect($rootScope.$broadcast).not.toHaveBeenCalled();
+            });
         });
     });
 });
