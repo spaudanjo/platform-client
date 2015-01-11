@@ -7,6 +7,7 @@ describe('authentication interceptor', function(){
         $httpProviderIt,
         $http,
         API_URL,
+        BACKEND_URL,
         mockedSessionData;
 
     beforeEach(function(){
@@ -45,7 +46,8 @@ describe('authentication interceptor', function(){
         $httpBackend = _$httpBackend_;
         $http = _$http_;
         $rootScope = _$rootScope_;
-        API_URL + _CONST_.API_URL;
+        API_URL = _CONST_.API_URL;
+        BACKEND_URL = _CONST_.BACKEND_URL;
     }));
 
     describe('$httpProvider', function(){
@@ -58,22 +60,26 @@ describe('authentication interceptor', function(){
 
         describe('for API requests', function () {
             it('should add the authorization token header', function () {
-                
-                $httpBackend.when('GET', API_URL+'/test-endpoint', null, function(headers) {
-                    debugger;
-                    // expect(headers.Authorization).toBe(token);
-                }).respond(200);
 
-                $http.get(API_URL+'/test-endpoint').success(function(data, status, headers, config){
-                    debugger;
-                    // expect(headers.Authorization).toBe(mockedSessionData.accessToken);
-                });
+                $httpBackend.expectGET(API_URL+'/test-endpoint',
+                    {'Accept':'application/json, text/plain, */*','Authorization':'Bearer fooBarToken'}
+                ).respond(200);
+
+                $http.get(API_URL+'/test-endpoint');
+
                 $httpBackend.flush();
             });
         });
 
         describe('for non-API requests', function () {
             it('should not add the authorization token header', function () {
+                $httpBackend.expectGET(BACKEND_URL+'/non-api-url',
+                    {'Accept':'application/json, text/plain, */*'}
+                ).respond(200);
+
+                $http.get(BACKEND_URL+'/non-api-url');
+
+                $httpBackend.flush();
             });
         });
 
