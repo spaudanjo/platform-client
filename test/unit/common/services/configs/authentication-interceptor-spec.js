@@ -5,7 +5,7 @@ describe('authentication interceptor', function(){
     var $httpBackend,
         $rootScope,
         $httpProviderIt,
-        BACKEND_URL,
+        API_URL,
         mockedSessionData;
 
     beforeEach(function(){
@@ -14,7 +14,9 @@ describe('authentication interceptor', function(){
             $httpProviderIt = $httpProvider;
         });
 
-        mockedSessionData = {};
+        mockedSessionData = {
+            accessToken: 'fooBarToken'
+        };
         testApp.service('Session', function(){
             return {
                 clearSessionData: function(){
@@ -38,9 +40,10 @@ describe('authentication interceptor', function(){
         angular.mock.module('testApp');
     });
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _CONST_){
         $httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
+        API_URL + _CONST_.API_URL;
     }));
 
     describe('$httpProvider', function(){
@@ -50,12 +53,27 @@ describe('authentication interceptor', function(){
     });
 
     describe('request handler', function(){
-        it('', function () {
+
+        describe('for API requests', function () {
+            it('should add the authorization token header', function () {
+                $httpBackend.when('GET', API_URL+'/test-endpoint', null, function(headers) {
+                    expect(headers.Authorization).toBe(mockedSessionData.accessToken);
+                }).respond(200, {name: 'example' });
+            });
         });
+
+        describe('for non-API requests', function () {
+            it('should not add the authorization token header', function () {
+            });
+        });
+
     });
 
     describe('responseError handler', function(){
-        it('', function () {
+        describe('for a 401 error', function(){
+            it('should broadcast an "unauthorized" event over the rootScope', function(){
+
+            });
         });
     });
 
