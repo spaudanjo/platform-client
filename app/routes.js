@@ -6,9 +6,9 @@ module.exports = function($routeProvider, $locationProvider) {
         .when('/', {
             redirectTo: '/views/map'
         })
-        .when('/signin', {
-            controller: require('./controllers/signin.js'),
-            templateUrl: 'templates/signin.html'
+        .when('/login', {
+            controller: require('./controllers/login.js'),
+            templateUrl: 'templates/login.html'
         })
         .when('/posts/add-to-set', {
             controller: require('./controllers/sets/add-to-set.js'),
@@ -21,9 +21,5 @@ module.exports = function($routeProvider, $locationProvider) {
         .when('/map-settings', {
             controller: require('./controllers/admin/map-settings.js'),
             templateUrl: 'templates/admin/map-settings.html'
-        })
-        .when('/categories', {
-            controller: require('./controllers/tags/tags.js'),
-            templateUrl: 'templates/tags/tags.html'
         });
 };
