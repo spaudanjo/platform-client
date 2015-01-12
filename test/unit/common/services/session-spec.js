@@ -86,6 +86,7 @@ describe('Session', function(){
                     userName: undefined,
                     realName: undefined,
                     email: undefined,
+                    role: undefined,
                     accessToken: 'secrettoken'
                 };
 
