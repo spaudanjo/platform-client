@@ -5,4 +5,8 @@ module.exports = ['$scope', '$translate', 'PostEndpoint', function($scope, $tran
 	PostEndpoint.query().$promise.then(function(posts){
 		$scope.posts = posts;
 	});
+
+	$scope.currentPage = 1;
+	$scope.totalItems = 100;
+
 }];

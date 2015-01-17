@@ -8,6 +8,7 @@ require('angular-ui-bootstrap/src/dropdown/dropdown');
 require('angular-ui-bootstrap/src/collapse/collapse');
 require('angular-ui-bootstrap/src/tabs/tabs');
 require('angular-ui-bootstrap/src/transition/transition');
+require('angular-ui-bootstrap/src/pagination/pagination');
 require('angular-mocks/angular-mocks');
 require('angular-moment/angular-moment');
 require('angular-sanitize/angular-sanitize');
@@ -34,6 +35,8 @@ angular.module('app',
         'ui.bootstrap.collapse',
         'ui.bootstrap.tabs',
         'ui.bootstrap.transition',
+        'ui.bootstrap.pagination',
+        'ui.tabs',
         'leaflet-directive',
         'angularMoment',
         'btford.markdown',
@@ -70,6 +73,15 @@ angular.module('app',
     .config(require('./common/configs/authentication-interceptor.js'))
     .config(require('./common/configs/locale-config.js'))
     .config(require('./routes'))
+
+    .config(function($provide) {
+        $provide.decorator('paginationDirective', function($delegate) {
+            //we now get an array of all the datepickerDirectives,
+            //and use the first one
+            $delegate[0].templateUrl = 'templates/angular-ui-bootstrap/pagination/pagination.html';
+            return $delegate;
+        });
+    })
 
     .run(require('./common/global/event-handlers.js'))
 

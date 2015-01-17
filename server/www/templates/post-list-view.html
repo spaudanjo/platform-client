@@ -47,7 +47,8 @@
         </div> <!-- end .wrapper -->
 
         <!-- Pagination -->
-        <ng-include src=" 'templates/partials/pagination.html' "></ng-include>
+        PAGINATION
+        <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
 
     </div> <!-- end .main -->
 </div> <!-- end .container -->
