@@ -1,3 +1,4 @@
+require('angular-mocks/angular-mocks');
 angular.module('e2e-mocks', ['ngMockE2E'])
     .run(['$httpBackend', 'CONST', 'URI', '_', function($httpBackend, CONST, URI, _) {
 
