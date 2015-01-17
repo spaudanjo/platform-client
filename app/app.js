@@ -72,16 +72,8 @@ angular.module('app',
 
     .config(require('./common/configs/authentication-interceptor.js'))
     .config(require('./common/configs/locale-config.js'))
+    .config(require('./common/configs/ui-bootstrap-template-decorators.js'))
     .config(require('./routes'))
-
-    .config(function($provide) {
-        $provide.decorator('paginationDirective', function($delegate) {
-            //we now get an array of all the datepickerDirectives,
-            //and use the first one
-            $delegate[0].templateUrl = 'templates/angular-ui-bootstrap/pagination/pagination.html';
-            return $delegate;
-        });
-    })
 
     .run(require('./common/global/event-handlers.js'))
 
