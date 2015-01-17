@@ -20,11 +20,7 @@
                     <div class="list-filter-count">
                         <div class="filter-count-select">
                             <label class="visually-hidden" for="filter-count" translate>post.number_of_posts_shown</label>
-                            <select id="filter-count" class="filter-count  js-filter-count" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                <option selected>3</option>
-                                <option>5</option>
-                                <option>10</option>
-                                <option>20</option>
+                            <select id="filter-count" class="filter-count  js-filter-count" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()" ng-options="x for x in itemsPerPageOptions">
                             </select>
                         </div>
                     </div> <!-- end .list-filter-count -->
