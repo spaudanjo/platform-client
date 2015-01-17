@@ -85,6 +85,7 @@ function(
                     }, handleRequestError);
             };
 
+            console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ' + Util.url('/oauth/token'));
             $http.post(Util.url('/oauth/token'), payload).then(handleRequestSuccess, handleRequestError);
 
             return deferred.promise;

@@ -24,6 +24,7 @@ function(
     $scope.loginSubmit = function(){
         $scope.processing = true;
 
+        console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX loginSubmit');
         Authentication
             .login($scope.username, $scope.password)
             .then(finishedLogin, clearLoginForm);
