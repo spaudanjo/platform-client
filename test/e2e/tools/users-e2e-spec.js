@@ -38,11 +38,34 @@ describe('users management', function() {
 
                 describe('with some existing users in the backend', function(){
                     it('should list all users', function(){
-                        expect(element.all(by.repeater('user in users')).count()).toEqual(4);
-
-                        var adminLink = element(by.css('a[href="/tools/users/2"'));
-                        expect(adminLink.getText()).toEqual('admin');
+                        expect(element.all(by.repeater('user in users')).count()).toEqual(5);
                     });
+
+                    describe('one user in the list (admin)', function(){
+                        var adminLink;
+                        beforeEach(function(){
+                            adminLink = element(by.css('a[href="/tools/users/2"'));
+                        });
+
+                        describe('role field', function(){
+                            var roleField;
+                            beforeEach(function(){
+                                roleField = element(by.css('tr#user-2 td.role'));
+                            });
+
+                            it('should exist and have the correct role name as text', function(){
+                                expect(roleField.getText()).toEqual('Admin');
+                            });
+
+                        });
+
+                        describe('link to users detail view', function(){
+                            it('should exist and have the user name as link text', function(){
+                                expect(adminLink.getText()).toEqual('admin');
+                            });
+                        });
+                    });
+
                 });
 
             });

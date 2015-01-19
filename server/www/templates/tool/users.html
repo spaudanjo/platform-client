@@ -70,7 +70,7 @@
                     <th colspan="2" translate>nav.user</th>
                     <th translate>nav.role</th>
                 </tr>
-                <tr ng-repeat="user in users | orderBy:'username'" ng-class="{ 'warning': isToggled(user) }" ng-click="toggleUser(user)" class="user-list">
+                <tr ng-repeat="user in users | orderBy:'username'" id="user-{{user.id}}" ng-class="{ 'warning': isToggled(user) }" ng-click="toggleUser(user)">
                     <td class="text-center">
                         <input type="checkbox" value="{{user.id}}" ng-checked="isToggled(user)">
                     </td>
@@ -81,7 +81,7 @@
                         <a ng-href="/tools/users/{{user.id}}">{{user.username}}</a><br/>
                         {{user.realname}}
                     </td>
-                    <td>
+                    <td class="role">
                         {{ getRole(user.role) }}
                     </td>
                 </div>
