@@ -37,16 +37,12 @@ describe('users management', function() {
                 });
 
                 describe('with some existing users in the backend', function(){
-                    it('should list the users', function(){
+                    it('should list all users', function(){
+                        expect(element.all(by.repeater('user in users')).count()).toEqual(4);
+
                         var adminLink = element(by.css('a[href="/tools/users/2"'));
                         expect(adminLink.getText()).toEqual('admin');
                     });
-                });
-
-
-                it('should exist and have the correct text', function(){
-                    // expect(userProfileLink.isDisplayed()).toBe(true);
-                    // expect(userProfileLink.getText()).toBe('My Profile');
                 });
 
             });
