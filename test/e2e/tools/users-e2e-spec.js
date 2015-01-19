@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 var getLastUrlPart = function(url){
     // as an alternative to this custom regex approach,
     // we could checkout http://medialize.github.io/URI.js
@@ -67,13 +69,25 @@ describe('users management', function() {
                                 expect(adminLink.getText()).toEqual('admin');
                             });
                         });
+
+                        describe('selecting some users', function(){
+                            beforeEach(function(){
+                                _.range(1,4).forEach(function(i){
+                                    element(by.css('tr#user-' + i + ' input[type="checkbox"]')).click();
+                                });
+                                // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
+                                //
+                                // });
+                            });
+
+                            it('XXXXXXXXXXXXXX', function(){
+                                expect(3).toBe(3);
+                            });
+                            describe('delete button', function(){});
+                        });
                     });
-
                 });
-
             });
-
         });
-
     });
 });
