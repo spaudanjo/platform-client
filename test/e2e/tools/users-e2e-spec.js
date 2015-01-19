@@ -47,6 +47,9 @@ describe('users management', function() {
                             adminLink = element(by.css('a[href="/tools/users/2"'));
                         });
 
+                        describe('gravatar', function(){
+                        });
+
                         describe('role field', function(){
                             var roleField;
                             beforeEach(function(){
