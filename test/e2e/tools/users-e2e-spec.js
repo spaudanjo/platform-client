@@ -29,7 +29,7 @@ describe('users management', function() {
             });
 
             describe('clicking the "users" link in the "tools/settings" menu', function(){
-                var usersLinkSelector = 'a[href="/tools"]';
+                var usersLinkSelector = 'a[href="/tools/users"]';
 
                 beforeEach(function(){
                     var usersLink = element(by.css(usersLinkSelector));
@@ -38,7 +38,8 @@ describe('users management', function() {
 
                 describe('with some existing users in the backend', function(){
                     it('should list the users', function(){
-                        
+                        var adminLink = element(by.css('a[href="/tools/users/2"'));
+                        expect(adminLink.getText()).toEqual('admin');
                     });
                 });
 
