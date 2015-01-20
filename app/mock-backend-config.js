@@ -43,8 +43,8 @@ angular.module('e2e-mocks', ['ngMockE2E'])
     $httpBackend.whenGET(matcher).respond(function(method, url/*, data*/) {
         var uri = URI(url),
             queryParams = uri.query(true),
-            offset = parseInt(queryParams['offset']),
-            limit = parseInt(queryParams['limit']),
+            offset = parseInt(queryParams.offset),
+            limit = parseInt(queryParams.limit),
             resourceName = uri.path().split('api/v2/')[1];
 
         return getResultForResource(resourceName, offset, limit);

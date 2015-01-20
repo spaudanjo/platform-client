@@ -124,7 +124,6 @@ function(
 			offset: ($scope.currentPage - 1) * $scope.itemsPerPage,
 			limit: $scope.itemsPerPage
 		}).$promise.then(function(usersResponse){
-            debugger;
 			$scope.users = usersResponse.results;
 			$scope.totalItems = usersResponse.total_count;
 		});
