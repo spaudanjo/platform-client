@@ -85,6 +85,7 @@ describe('users management', function() {
                                 // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
                                 //
                                 // });
+                                element(by.css('tr#user-1 input[type="checkbox"]')).click();
                             });
 
                             describe('delete button', function(){
