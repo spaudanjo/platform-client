@@ -95,7 +95,7 @@ describe('users management', function() {
 
                                 describe('clicking the button', function(){
                                     beforeEach(function(){
-                                        // deleteButton.click();
+                                        deleteButton.click();
                                     });
 
                                     it('test', function(){
