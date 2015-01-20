@@ -63,6 +63,11 @@
             <div class="panel-body" ng-hide="users.length">
                 <p class="text-muted text-center" ng-hide="users.length"><em translate>empty.user</em></p>
             </div>
+
+            <!-- Pagination -->
+            <pagination ng-model="currentPage" items-per-page="itemsPerPage" total-items="totalItems" ng-change="pageChanged()"></pagination>
+
+
             <table class="table table-striped" ng-show="users.length">
                 <tr>
                     <th>&nbsp;</th>

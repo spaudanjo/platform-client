@@ -113,6 +113,36 @@ function(
         $scope.selectedUsers = [];
     };
 
-    // hydrate!
-    $scope.users = UserEndpoint.query();
+    // // hydrate!
+    // $scope.users = UserEndpoint.query();
+
+
+
+	// --- start: definitions
+	var getUsersForPagination = function(){
+		UserEndpoint.query({
+			offset: ($scope.currentPage - 1) * $scope.itemsPerPage,
+			limit: $scope.itemsPerPage
+		}).$promise.then(function(usersResponse){
+            debugger;
+			$scope.users = usersResponse.results;
+			$scope.totalItems = usersResponse.total_count;
+		});
+	};
+
+	$scope.pageChanged = getUsersForPagination;
+	$scope.itemsPerPageChanged = getUsersForPagination;
+	// --- end: definitions
+
+
+	// --- start: initialization
+	$scope.currentPage = 1;
+	$scope.itemsPerPageOptions = [3, 5, 10, 20];
+	$scope.itemsPerPage = $scope.itemsPerPageOptions[0];
+	// untill we have the correct total_count value from backend request:
+	$scope.totalItems = $scope.itemsPerPage;
+
+	getUsersForPagination();
+	// --- end: initialization
+
 }];
