@@ -22,6 +22,13 @@ describe('users management', function() {
             element(by.css('button[type="submit"]')).click();
         });
 
+        afterEach(function(){
+            // Clear localStorage to reset session
+            browser.executeScript('window.sessionStorage.clear();');
+            browser.executeScript('window.localStorage.clear();');
+        });
+
+
         describe('clicking the "tools" menu link in top menu', function(){
             var toolsMenuLinkSelector = 'a[href="/tools"]';
 
@@ -80,10 +87,22 @@ describe('users management', function() {
                                 // });
                             });
 
-                            it('XXXXXXXXXXXXXX', function(){
-                                expect(3).toBe(3);
+                            describe('delete button', function(){
+                                var deleteButton;
+                                beforeEach(function(){
+                                    deleteButton = element(by.css('button#delete-users'));
+                                });
+
+                                describe('clicking the button', function(){
+                                    beforeEach(function(){
+                                        // deleteButton.click();
+                                    });
+
+                                    it('test', function(){
+                                        expect(2).toEqual(2);
+                                    });
+                                });
                             });
-                            describe('delete button', function(){});
                         });
                     });
                 });
