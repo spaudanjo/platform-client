@@ -79,4 +79,7 @@ angular.module('app',
     .factory('_', function() {
         return require('underscore/underscore');
     })
+    .factory('URI', function() {
+        return require('URIjs/src/URI.js');
+    })
     ;
