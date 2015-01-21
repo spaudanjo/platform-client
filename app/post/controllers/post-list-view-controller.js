@@ -18,7 +18,7 @@ module.exports = ['$scope', '$translate', 'PostEndpoint', function($scope, $tran
 	$scope.itemsPerPageChanged = getPostsForPagination;
 	// --- end: definitions
 
-	
+
 	// --- start: initialization
 	$scope.currentPage = 1;
 	$scope.itemsPerPageOptions = [3, 5, 10, 20];
