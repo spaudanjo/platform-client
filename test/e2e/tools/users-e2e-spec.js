@@ -100,7 +100,8 @@ describe('users management', function() {
                                     });
 
                                     it('test', function(){
-                                        expect(2).toEqual(2);
+                                        var alertDialog = ptor.switchTo().alert();
+                                        expect(alertDialog.getText()).toEqual("Are you sure you want to delete 3 users?");
                                     });
                                 });
                             });
