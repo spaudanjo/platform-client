@@ -106,10 +106,9 @@ function(
         });
     };
 
-    $scope.filteredRole = '';
     $scope.filterRole = function(role) {
         $scope.filteredRole = (role ? role.name : '');
-        $scope.users = UserEndpoint.query({ role: $scope.filteredRole });
+        getUsersForPagination();
         $scope.selectedUsers = [];
     };
 
@@ -117,12 +116,12 @@ function(
     // $scope.users = UserEndpoint.query();
 
 
-
 	// --- start: definitions
 	var getUsersForPagination = function(){
 		UserEndpoint.query({
 			offset: ($scope.currentPage - 1) * $scope.itemsPerPage,
-			limit: $scope.itemsPerPage
+			limit: $scope.itemsPerPage,
+            role: $scope.filteredRole
 		}).$promise.then(function(usersResponse){
 			$scope.users = usersResponse.results;
 			$scope.totalItems = usersResponse.total_count;
@@ -135,6 +134,7 @@ function(
 
 
 	// --- start: initialization
+    $scope.filteredRole = '';
 	$scope.currentPage = 1;
 	$scope.itemsPerPageOptions = [3, 5, 10, 20];
 	$scope.itemsPerPage = $scope.itemsPerPageOptions[0];
