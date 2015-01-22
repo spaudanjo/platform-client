@@ -1,5 +1,5 @@
 angular.module('e2e-mocks', ['ngMockE2E'])
-    .run(['$httpBackend', 'CONST', 'URI', '_' function($httpBackend, CONST, URI, _) {
+    .run(['$httpBackend', 'CONST', 'URI', '_', function($httpBackend, CONST, URI, _) {
 
     $httpBackend.whenPOST(CONST.BACKEND_URL + '/oauth/token').respond(function(method, url, data) {
         var reqPayload = JSON.parse(data);
@@ -34,7 +34,10 @@ angular.module('e2e-mocks', ['ngMockE2E'])
 
     var getResultForResource = function(resourceName, offset, limit){
         var resource = _.clone(resourceToJsonMapping[resourceName]);
-        resource.results = resource.results.slice(offset, offset+limit);
+        if(resource.results)
+        {
+            resource.results = resource.results.slice(offset, offset+limit);
+        }
         return [200, resource, {}];
     };
 
