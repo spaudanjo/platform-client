@@ -1,6 +1,7 @@
 require('angular/angular');
 require('angular-route/angular-route');
 require('leaflet/dist/leaflet');
+require('leaflet-draw/dist/leaflet.draw');
 require('angular-leaflet-directive/dist/angular-leaflet-directive');
 require('angular-resource/angular-resource');
 require('angular-translate');
@@ -25,6 +26,9 @@ require('./workspace/workspace-module.js');
 
 // this 'environment variable' will be set within the gulpfile
 var backendUrl = process.env.backend_url;
+
+L.Icon.Default.imagePath = '/css/images';
+
 
 angular.module('app',
     [

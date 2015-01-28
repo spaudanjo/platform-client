@@ -57,6 +57,7 @@
 //
 // these files are imported via the 'node-modules include path' in gulpfile.js
 @import "leaflet";
+@import "leaflet.draw";
 @import "colorpicker";
 
 // Custom overrides
