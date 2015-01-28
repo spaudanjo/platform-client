@@ -2,6 +2,7 @@ module.exports = [
     '$scope',
     '$translate',
     '$location',
+    'leafletData',
     'PostEntity',
     'PostEndpoint',
     'TagEndpoint',
@@ -13,6 +14,7 @@ function(
     $scope,
     $translate,
     $location,
+    leafletData,
     postEntity,
     PostEndpoint,
     TagEndpoint,
@@ -126,7 +128,21 @@ function(
                 focus: true,
                 draggable: false
             }
+        },
+        controls: {
+            draw: {}
         }
+
+    });
+
+    leafletData.getMap().then(function(map) {
+        var drawnItems = $scope.controls.edit.featureGroup;
+        map.on('draw:created', function (e) {
+            debugger;
+            var layer = e.layer;
+            drawnItems.addLayer(layer);
+            console.log(JSON.stringify(layer.toGeoJSON()));
+        });
     });
 
 }];

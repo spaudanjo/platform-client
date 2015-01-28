@@ -104,7 +104,8 @@ gulp.task('sass', ['rename'], function() {
                 'bower_components/refills/source/stylesheets',
                 'bower_components/font-awesome/scss',
                 'node_modules/angular-bootstrap-colorpicker/scss',
-                'node_modules/leaflet/dist/'
+                'node_modules/leaflet/dist/',
+                'node_modules/leaflet-draw/dist/'
             ],
             sourceComments: 'map'
         }))
@@ -140,7 +141,13 @@ gulp.task('rename-leaflet', ['rename-colorpicker'], function() {
         .pipe(gulp.dest('node_modules/leaflet/dist/'))
         ;
 });
-gulp.task('rename', ['rename-leaflet', 'rename-colorpicker'], function() {});
+gulp.task('rename-leaflet-draw', ['rename-leaflet'], function() {
+    return gulp.src(['node_modules/leaflet-draw/dist/leaflet.draw.css'])
+        .pipe(rename('_leaflet.draw.scss'))
+        .pipe(gulp.dest('node_modules/leaflet-draw/dist/'))
+        ;
+});
+gulp.task('rename', ['rename-leaflet-draw', 'rename-leaflet', 'rename-colorpicker'], function() {});
 
 /**
  * Task: `font`
