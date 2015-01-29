@@ -138,10 +138,17 @@ function(
     leafletData.getMap().then(function(map) {
         var drawnItems = $scope.controls.edit.featureGroup;
         map.on('draw:created', function (e) {
-            debugger;
             var layer = e.layer;
             drawnItems.addLayer(layer);
             console.log(JSON.stringify(layer.toGeoJSON()));
+        });
+        map.on('draw:edited', function(e){
+            debugger;
+            var layers = e.layers;
+            layers.eachLayer(function (layer) {
+                console.log(JSON.stringify(layer.toGeoJSON()));
+                debugger;
+            });
         });
     });
 
