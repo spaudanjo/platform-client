@@ -58,8 +58,7 @@
                                 <input class="form-control" name="{{attribute.key}}" type="text" placeholder="Label" ng-model="post.values[attribute.key][key]['label']" ng-required="attribute.required">
                                 <input class="form-control" name="{{attribute.key}}" type="text" placeholder="Lat" ng-model="post.values[attribute.key][key]['lat']" ng-required="attribute.required">
                                 <input class="form-control" name="{{attribute.key}}" type="text" placeholder="Lon" ng-model="post.values[attribute.key][key]['lon']" ng-required="attribute.required">
-                                <!-- todo: add map control here -->
-                                <leaflet id="map-{{attribute.key}}" controls="controls" markers="markers" center="center" height="265px" width="100%"></leaflet>
+                                <post-location></post-location>
                             </div>
 
                             <!-- type: select -->

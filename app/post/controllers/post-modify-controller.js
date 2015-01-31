@@ -64,6 +64,7 @@ function(
                 $location.path('/');
             }
         }, function(errorResponse) { // errors
+
             var errors = _.pluck(errorResponse.data && errorResponse.data.errors, 'message');
             errors && Notify.showAlerts(errors);
             $scope.saving_post = false;
@@ -109,47 +110,48 @@ function(
     };
 
     // leaflet map or location attribute
-    angular.extend($scope, {
-        defaults: {
-            scrollWheelZoom: false
-        },
+    // angular.extend($scope, {
+    //     defaults: {
+    //         scrollWheelZoom: false
+    //     },
+    //
+    //     center: {
+    //         lat: 36.079868,
+    //         lng: -79.819416,
+    //         zoom: 4
+    //     },
+    //
+    //     markers: {
+    //         osloMarker: {
+    //             lat: 36.079868,
+    //             lng: -79.819416,
+    //             message: 'Greensboro, NC',
+    //             focus: true,
+    //             draggable: false
+    //         }
+    //     },
+    //     controls: {
+    //         draw: {}
+    //     }
+    //
+    // });
 
-        center: {
-            lat: 36.079868,
-            lng: -79.819416,
-            zoom: 4
-        },
-
-        markers: {
-            osloMarker: {
-                lat: 36.079868,
-                lng: -79.819416,
-                message: 'Greensboro, NC',
-                focus: true,
-                draggable: false
-            }
-        },
-        controls: {
-            draw: {}
-        }
-
-    });
-
-    leafletData.getMap().then(function(map) {
-        var drawnItems = $scope.controls.edit.featureGroup;
-        map.on('draw:created', function (e) {
-            var layer = e.layer;
-            drawnItems.addLayer(layer);
-            console.log(JSON.stringify(layer.toGeoJSON()));
-        });
-        map.on('draw:edited', function(e){
-            debugger;
-            var layers = e.layers;
-            layers.eachLayer(function (layer) {
-                console.log(JSON.stringify(layer.toGeoJSON()));
-                debugger;
-            });
-        });
-    });
+    // leafletData.getMap().then(function(map) {
+    //     debugger;
+    //     var drawnItems = $scope.controls.edit.featureGroup;
+    //     map.on('draw:created', function (e) {
+    //         var layer = e.layer;
+    //         drawnItems.addLayer(layer);
+    //         console.log(JSON.stringify(layer.toGeoJSON()));
+    //     });
+    //     map.on('draw:edited', function(e){
+    //         debugger;
+    //         var layers = e.layers;
+    //         layers.eachLayer(function (layer) {
+    //             console.log(JSON.stringify(layer.toGeoJSON()));
+    //             debugger;
+    //         });
+    //     });
+    // });
 
 }];
