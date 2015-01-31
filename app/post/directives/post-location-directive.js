@@ -3,7 +3,10 @@ module.exports = ['leafletData', function(leafletData){
         restrict: 'E',
         replace: true,
         scope: {
-            post: '='
+            attribute: '=',
+            values: '=',
+            key: '=',
+            mapId: '='
         },
         templateUrl: 'templates/posts/location.html',
         controller: ['$scope', function($scope) {
@@ -34,23 +37,19 @@ module.exports = ['leafletData', function(leafletData){
 
             });
 
-            debugger;
-            leafletData.getMap().then(function(map) {
-                debugger;
+            leafletData.getMap($scope.attribute.key).then(function(map) {
                 var drawnItems = $scope.controls.edit.featureGroup;
-                // map.on('draw:created', function (e) {
-                //     var layer = e.layer;
-                //     drawnItems.addLayer(layer);
-                //     console.log(JSON.stringify(layer.toGeoJSON()));
-                // });
-                // map.on('draw:edited', function(e){
-                //     debugger;
-                //     var layers = e.layers;
-                //     layers.eachLayer(function (layer) {
-                //         console.log(JSON.stringify(layer.toGeoJSON()));
-                //         debugger;
-                //     });
-                // });
+                map.on('draw:created', function (e) {
+                    var layer = e.layer;
+                    drawnItems.addLayer(layer);
+                    console.log(JSON.stringify(layer.toGeoJSON()));
+                });
+                map.on('draw:edited', function(e){
+                    var layers = e.layers;
+                    layers.eachLayer(function (layer) {
+                        console.log(JSON.stringify(layer.toGeoJSON()));
+                    });
+                });
             });
 
 
