@@ -109,49 +109,4 @@ function(
         $scope.post.values[attr.key].splice(key, 1);
     };
 
-    // leaflet map or location attribute
-    // angular.extend($scope, {
-    //     defaults: {
-    //         scrollWheelZoom: false
-    //     },
-    //
-    //     center: {
-    //         lat: 36.079868,
-    //         lng: -79.819416,
-    //         zoom: 4
-    //     },
-    //
-    //     markers: {
-    //         osloMarker: {
-    //             lat: 36.079868,
-    //             lng: -79.819416,
-    //             message: 'Greensboro, NC',
-    //             focus: true,
-    //             draggable: false
-    //         }
-    //     },
-    //     controls: {
-    //         draw: {}
-    //     }
-    //
-    // });
-
-    // leafletData.getMap().then(function(map) {
-    //     debugger;
-    //     var drawnItems = $scope.controls.edit.featureGroup;
-    //     map.on('draw:created', function (e) {
-    //         var layer = e.layer;
-    //         drawnItems.addLayer(layer);
-    //         console.log(JSON.stringify(layer.toGeoJSON()));
-    //     });
-    //     map.on('draw:edited', function(e){
-    //         debugger;
-    //         var layers = e.layers;
-    //         layers.eachLayer(function (layer) {
-    //             console.log(JSON.stringify(layer.toGeoJSON()));
-    //             debugger;
-    //         });
-    //     });
-    // });
-
 }];

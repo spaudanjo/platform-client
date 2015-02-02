@@ -32,7 +32,13 @@ module.exports = ['leafletData', function(leafletData){
                     }
                 },
                 controls: {
-                    draw: {}
+                    draw: {
+                        marker: true,
+                        polyline: false,
+                        polygon: false,
+                        rectangle: false,
+                        circle: false
+                    }
                 }
 
             });
