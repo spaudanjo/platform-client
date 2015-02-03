@@ -54,7 +54,7 @@
                             <input class="form-control" ng-if="isDate(attribute)" name="{{attribute.key}}" type="text" placeholder="{{attribute.label}}" ng-model="post.values[attribute.key][key]" ng-required="attribute.required">
 
                             <!-- type: location -->
-                            <post-location attribute="attribute" values="post.values" key="key" ng-if="isLocation(attribute)"></post-location>
+                            <post-location attribute="attribute" values="post.values[attribute.key][key]" key="key" ng-if="isLocation(attribute)"></post-location>
 
                             <!-- type: select -->
                             <select class="form-control" ng-if="isSelect(attribute)" name="{{attribute.key}}" ng-model="post.values[attribute.key][key]" ng-required="attribute.required">
