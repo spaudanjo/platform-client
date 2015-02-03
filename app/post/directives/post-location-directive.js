@@ -41,11 +41,10 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                         function(data, status, headers, config){
                             var lat = data[0].lat,
                             lon = data[0].lon;
+                            debugger;
+                            $scope.values['lat'] = lat;
                             leafletData.getMap($scope.attribute.key).then(function(map){
                                 var drawnItems = $scope.controls.edit.featureGroup;
-
-                                var j = lat;
-                                var i = lon;
 
                                 var newLatLng = new L.LatLng(lat, lon);
                                 if(marker)
@@ -74,6 +73,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     drawnItems.addLayer(layer);
 
                     marker = layer;
+                });
+                map.on('draw:deleted', function(e){
+                    marker = null;
+                    // var layers = e.layers;
+                    // layers.eachLayer(function (layer) {
+                    //     console.log(JSON.stringify(layer.toGeoJSON()));
+                    // });
                 });
                 map.on('draw:edited', function(e){
                     var layers = e.layers;
