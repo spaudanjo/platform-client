@@ -75,7 +75,6 @@ function(
         return attr.input === 'date';
     };
     $scope.isLocation = function(attr) {
-        // debugger;
         return attr.input === 'location';
     };
     $scope.isSelect = function(attr) {
