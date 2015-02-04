@@ -11,12 +11,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
         templateUrl: 'templates/posts/location.html',
         controller: ['$scope', '$geolocation', function($scope, $geolocation) {
 
-            // $geolocation.watchPosition({
-            //     timeout: 60000,
-            //     maximumAge: 250,
-            //     enableHighAccuracy: true
-            // });
-
             var marker = null;
 
             // leaflet map or location attribute
@@ -39,19 +33,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                         rectangle: false,
                         circle: false
                     }
-                },
-
-                getCurrentPosition: function(event){
-                    event.preventDefault();
-                    var that = this;
-                    $geolocation.getCurrentPosition({
-                        timeout: 60000
-                    }).then(function(geoposition){
-                        var lat = geoposition.coords.latitude;
-                        var lon = geoposition.coords.longitude;
-                        that.updateLatLon(lat, lon);
-                        that.updateMarkerPosition(lat, lon);
-                    });
                 },
 
                 updateLatLon: function(lat, lon){
@@ -82,18 +63,38 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     });
                 },
 
+                centerMapTo: function(lat, lon){
+                    leafletData.getMap($scope.attribute.key).then(function(map) {
+                        map.panTo(new L.LatLng(lat, lon));
+                    })
+                },
+
+                getCurrentPosition: function(event){
+                    event.preventDefault();
+                    var that = this;
+                    $geolocation.getCurrentPosition({
+                        timeout: 60000
+                    }).then(function(geoposition){
+                        var lat = geoposition.coords.latitude;
+                        var lon = geoposition.coords.longitude;
+                        that.updateLatLon(lat, lon);
+                        that.updateMarkerPosition(lat, lon);
+                        that.centerMapTo(lat, lon);
+                    });
+                },
+
                 searchLocation: function(event){
                     event.preventDefault();
                     var that = this;
                     $http.get('http://nominatim.openstreetmap.org/search?q=' + escape($scope.searchLocationTerm) + '&format=json').success(
                         function(data, status, headers, config){
+                            $scope.searchLocationTerm = "";
                             var lat = data[0].lat,
                             lon = data[0].lon;
 
                             that.updateLatLon(lat, lon);
                             that.updateMarkerPosition(lat, lon);
-                            // $scope.values['lat'] = lat;
-
+                            that.centerMapTo(lat, lon);
                         }
                     );
                 }
@@ -110,9 +111,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     drawnItems.addLayer(layer);
 
                     marker = layer;
+                    var lat = layer.getLatLng().lat,
+                    lon = layer.getLatLng().lng;
+                    $scope.updateLatLon(lat, lon);
                 });
                 map.on('draw:deleted', function(e){
                     marker = null;
+                    $scope.updateLatLon(null, null);
                     // var layers = e.layers;
                     // layers.eachLayer(function (layer) {
                     //     console.log(JSON.stringify(layer.toGeoJSON()));
@@ -121,6 +126,9 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                 map.on('draw:edited', function(e){
                     var layers = e.layers;
                     layers.eachLayer(function (layer) {
+                        var lat = layer.getLatLng().lat,
+                        lon = layer.getLatLng().lng;
+                        $scope.updateLatLon(lat, lon);
                         console.log(JSON.stringify(layer.toGeoJSON()));
                     });
                 });
