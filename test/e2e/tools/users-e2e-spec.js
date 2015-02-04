@@ -46,8 +46,9 @@ describe('users management', function() {
                 });
 
                 describe('with some existing users in the backend', function(){
-                    it('should list all users', function(){
-                        expect(element.all(by.repeater('user in users')).count()).toEqual(5);
+                    it('should list all users (but only 10 per page)', function(){
+                        expect(element.all(by.repeater('user in users')).count()).toEqual(10);
+                        // TODO: click page 2 and check if the remaining users are displayed there
                     });
 
                     describe('one user in the list (admin)', function(){
@@ -100,8 +101,8 @@ describe('users management', function() {
                                     });
 
                                     it('test', function(){
-                                        var alertDialog = ptor.switchTo().alert();
-                                        expect(alertDialog.getText()).toEqual("Are you sure you want to delete 3 users?");
+                                        var alertDialog = browser.switchTo().alert();
+                                        expect(alertDialog.getText()).toEqual('You cannot delete your own user');
                                     });
                                 });
                             });
