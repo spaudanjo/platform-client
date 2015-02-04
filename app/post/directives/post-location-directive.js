@@ -5,8 +5,7 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
         scope: {
             attribute: '=',
             values: '=',
-            key: '=',
-            mapId: '='
+            key: '='
         },
         templateUrl: 'templates/posts/location.html',
         controller: ['$scope', '$geolocation', function($scope, $geolocation) {
@@ -88,13 +87,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     var that = this;
                     $http.get('http://nominatim.openstreetmap.org/search?q=' + escape($scope.searchLocationTerm) + '&format=json').success(
                         function(data, status, headers, config){
-                            $scope.searchLocationTerm = "";
                             var lat = data[0].lat,
                             lon = data[0].lon;
 
                             that.updateLatLon(lat, lon);
                             that.updateMarkerPosition(lat, lon);
                             that.centerMapTo(lat, lon);
+                            $scope.searchLocationTerm = "";
                         }
                     );
                 }
@@ -118,10 +117,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                 map.on('draw:deleted', function(e){
                     marker = null;
                     $scope.updateLatLon(null, null);
-                    // var layers = e.layers;
-                    // layers.eachLayer(function (layer) {
-                    //     console.log(JSON.stringify(layer.toGeoJSON()));
-                    // });
                 });
                 map.on('draw:edited', function(e){
                     var layers = e.layers;
@@ -129,22 +124,9 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                         var lat = layer.getLatLng().lat,
                         lon = layer.getLatLng().lng;
                         $scope.updateLatLon(lat, lon);
-                        console.log(JSON.stringify(layer.toGeoJSON()));
                     });
                 });
             });
-
-
-
-            // // Replace tags with full tag object
-            // scope.post.tags = scope.post.tags.map(function (tag) {
-            //     return TagEndpoint.get({id: tag.id});
-            // });
-            //
-            // // Load the post author
-            // if (scope.post.user && scope.post.user.id) {
-            //     scope.post.user = UserEndpoint.get({id: scope.post.user.id});
-            // }
         }]
     };
 }];
