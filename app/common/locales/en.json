@@ -502,5 +502,9 @@
     },
     "workspace": {
         "recent_activity": "Recent Activity"
+    },
+    "location": {
+        "search_location": "Search location",
+        "get_current_position": "Get current position"
     }
 }
