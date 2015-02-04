@@ -18,6 +18,7 @@ require('angular-local-storage');
 require('checklist-model/checklist-model');
 require('angular-gravatar/build/md5');
 require('angular-gravatar/build/angular-gravatar');
+
 require('../bower_components/ngGeolocation/ngGeolocation.min.js');
 
 require('./post/post-module.js');
@@ -27,9 +28,6 @@ require('./workspace/workspace-module.js');
 
 // this 'environment variable' will be set within the gulpfile
 var backendUrl = process.env.backend_url;
-
-L.Icon.Default.imagePath = '/css/images';
-
 
 angular.module('app',
     [
