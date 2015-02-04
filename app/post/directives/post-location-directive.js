@@ -11,15 +11,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
         templateUrl: 'templates/posts/location.html',
         controller: ['$scope', '$geolocation', function($scope, $geolocation) {
 
-            $scope.getCurrentPosition = function(event){
-                event.preventDefault();
-                $geolocation.getCurrentPosition({
-                    timeout: 60000
-                }).then(function(geoposition){
-                    debugger;
-                });
-            };
-
             // $geolocation.watchPosition({
             //     timeout: 60000,
             //     maximumAge: 250,
@@ -50,6 +41,19 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     }
                 },
 
+                getCurrentPosition: function(event){
+                    event.preventDefault();
+                    var that = this;
+                    $geolocation.getCurrentPosition({
+                        timeout: 60000
+                    }).then(function(geoposition){
+                        var lat = geoposition.coords.latitude;
+                        var lon = geoposition.coords.longitude;
+                        that.updateLatLon(lat, lon);
+                        that.updateMarkerPosition(lat, lon);
+                    });
+                },
+
                 updateLatLon: function(lat, lon){
                     if($scope.values[$scope.attribute.key] !== null)
                         $scope.values[$scope.attribute.key] = {};
@@ -60,9 +64,25 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     $scope.values[$scope.attribute.key][$scope.key].lon = lon;
                 },
 
+
+                updateMarkerPosition: function(lat, lon){
+                    leafletData.getMap($scope.attribute.key).then(function(map){
+                        var drawnItems = $scope.controls.edit.featureGroup;
+
+                        var newLatLng = new L.LatLng(lat, lon);
+                        if(marker)
+                        {
+                            marker.setLatLng(newLatLng);
+                        }
+                        else
+                        {
+                            marker = L.marker(newLatLng);
+                            marker.addTo(drawnItems);
+                        }
+                    });
+                },
+
                 searchLocation: function(event){
-                    var jo = $geolocation;
-                    debugger;
                     event.preventDefault();
                     var that = this;
                     $http.get('http://nominatim.openstreetmap.org/search?q=' + escape($scope.searchLocationTerm) + '&format=json').success(
@@ -71,22 +91,9 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                             lon = data[0].lon;
 
                             that.updateLatLon(lat, lon);
+                            that.updateMarkerPosition(lat, lon);
                             // $scope.values['lat'] = lat;
 
-                            leafletData.getMap($scope.attribute.key).then(function(map){
-                                var drawnItems = $scope.controls.edit.featureGroup;
-
-                                var newLatLng = new L.LatLng(lat, lon);
-                                if(marker)
-                                {
-                                    marker.setLatLng(newLatLng);
-                                }
-                                else
-                                {
-                                    marker = L.marker(newLatLng);
-                                    marker.addTo(drawnItems);
-                                }
-                            });
                         }
                     );
                 }
