@@ -18,6 +18,7 @@ require('angular-local-storage');
 require('checklist-model/checklist-model');
 require('angular-gravatar/build/md5');
 require('angular-gravatar/build/angular-gravatar');
+require('../bower_components/ngGeolocation/ngGeolocation.min.js');
 
 require('./post/post-module.js');
 require('./tool/tool-module.js');
@@ -49,7 +50,8 @@ angular.module('app',
         'posts',
         'tools',
         'user-profile',
-        'workspace'
+        'workspace',
+        'ngGeolocation'
     ])
 
     .constant('CONST', {
