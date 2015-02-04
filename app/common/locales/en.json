@@ -505,6 +505,7 @@
     },
     "location": {
         "search_location": "Search location",
-        "get_current_position": "Get current position"
+        "get_current_position": "Get current position",
+        "update_location": "Update location"
     }
 }

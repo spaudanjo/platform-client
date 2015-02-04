@@ -68,6 +68,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     })
                 },
 
+                updateLocation: function(event){
+                    event.preventDefault();
+                    var latLon = $scope.values[$scope.attribute.key][$scope.key];
+                    this.updateMarkerPosition(latLon.lat, latLon.lon);
+                    this.centerMapTo(latLon.lat, latLon.lon);
+                },
+
                 getCurrentPosition: function(event){
                     event.preventDefault();
                     var that = this;
@@ -97,7 +104,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                         }
                     );
                 }
-
             });
 
             leafletData.getMap($scope.attribute.key).then(function(map) {

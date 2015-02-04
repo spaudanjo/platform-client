@@ -11,4 +11,8 @@ angular.module('posts', [])
 
 .controller('PostModifyController', require('./controllers/post-modify-controller.js'))
 
-.config(require('./post-routes.js'));
+.config(require('./post-routes.js'))
+
+.run(['$window', function($window){
+    $window.L.Icon.Default.imagePath = '/css/images';
+}]);
