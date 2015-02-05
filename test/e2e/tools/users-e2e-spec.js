@@ -77,33 +77,71 @@ describe('users management', function() {
                                 expect(adminLink.getText()).toEqual('admin');
                             });
                         });
+                    });
 
-                        describe('selecting some users', function(){
+                    describe('selecting some users, including the admin (which is currently signed in)', function(){
+                        beforeEach(function(){
+                            _.range(1,4).forEach(function(i){
+                                element(by.css('tr#user-' + i + ' input[type="checkbox"]')).click();
+                            });
+                            // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
+                            //
+                            // });
+                            element(by.css('tr#user-1 input[type="checkbox"]')).click();
+                        });
+
+                        describe('change role button', function(){
+                            var changeRoleButton;
                             beforeEach(function(){
-                                _.range(1,4).forEach(function(i){
-                                    element(by.css('tr#user-' + i + ' input[type="checkbox"]')).click();
-                                });
-                                // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
-                                //
-                                // });
-                                element(by.css('tr#user-1 input[type="checkbox"]')).click();
+                               changeRoleButton = element(by.css('button#change-role'));
                             });
 
-                            describe('delete button', function(){
-                                var deleteButton;
+                            describe('clicking the button', function(){
                                 beforeEach(function(){
-                                    deleteButton = element(by.css('button#delete-users'));
+                                   changeRoleButton.click();
                                 });
 
-                                describe('clicking the button', function(){
+                                describe('selecting "Guest" as new role', function(){
                                     beforeEach(function(){
-                                        deleteButton.click();
+                                        element(by.linkText('Guest')).click();
                                     });
-
-                                    it('test', function(){
+                                    it('shows an error alert that you cannot change your own role (the user as which your are signed in)', function(){
                                         var alertDialog = browser.switchTo().alert();
-                                        expect(alertDialog.getText()).toEqual('You cannot delete your own user');
+                                        expect(alertDialog.getText()).toEqual('You cannot change your own role');
+                                        browser.driver.switchTo().alert().then( // <- this fixes the problem
+                                            function (alert) {
+                                                alert.accept();
+                                            },
+                                            function (error) {
+                                            }
+                                        );
                                     });
+                                });
+
+                            });
+                        });
+
+                        describe('delete button', function(){
+                            var deleteButton;
+                            beforeEach(function(){
+                                deleteButton = element(by.css('button#delete-users'));
+                            });
+
+                            describe('clicking the button', function(){
+                                beforeEach(function(){
+                                    deleteButton.click();
+                                });
+
+                                it('shows an error alert that you cannot delete your own user (the user as which your are signed in)', function(){
+                                    var alertDialog = browser.switchTo().alert();
+                                    expect(alertDialog.getText()).toEqual('You cannot delete your own user');
+                                    browser.driver.switchTo().alert().then( // <- this fixes the problem
+                                        function (alert) {
+                                            alert.accept();
+                                        },
+                                        function (error) {
+                                        }
+                                    );
                                 });
                             });
                         });
