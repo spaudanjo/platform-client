@@ -1,18 +1,8 @@
 var _ = require('underscore');
 
-var getLastUrlPart = function(url){
-    // as an alternative to this custom regex approach,
-    // we could checkout http://medialize.github.io/URI.js
-    var urlRegex = /^https?:\/\/[A-Za-z0-9\-.]+(?::[0-9]+)?(.*)$/g;
-    var match = urlRegex.exec(url);
-    return match[1];
-};
-
 describe('users management', function() {
 
     describe('as a loggedin admin user', function(){
-
-        var userMenuLink;
 
         beforeEach(function() {
             browser.get('/login');
