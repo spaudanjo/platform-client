@@ -84,9 +84,6 @@ describe('users management', function() {
                             _.range(1,4).forEach(function(i){
                                 element(by.css('tr#user-' + i + ' input[type="checkbox"]')).click();
                             });
-                            // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
-                            //
-                            // });
                             element(by.css('tr#user-1 input[type="checkbox"]')).click();
                         });
 
@@ -135,6 +132,74 @@ describe('users management', function() {
                                 it('shows an error alert that you cannot delete your own user (the user as which your are signed in)', function(){
                                     var alertDialog = browser.switchTo().alert();
                                     expect(alertDialog.getText()).toEqual('You cannot delete your own user');
+                                    browser.driver.switchTo().alert().then( // <- this fixes the problem
+                                        function (alert) {
+                                            alert.accept();
+                                        },
+                                        function (error) {
+                                        }
+                                    );
+                                });
+                            });
+                        });
+                    });
+
+                    describe('selecting some users, without the admin (which is currently signed in)', function(){
+                        beforeEach(function(){
+                            _.range(3,6).forEach(function(i){
+                                element(by.css('tr#user-' + i + ' input[type="checkbox"]')).click();
+                            });
+                            // element.all(by.css('tr.user input[type="checkbox"]')).then(function(userCheckBoxes){
+                            //
+                            // });
+                            element(by.css('tr#user-1 input[type="checkbox"]')).click();
+                        });
+
+                        describe('change role button', function(){
+                            var changeRoleButton;
+                            beforeEach(function(){
+                               changeRoleButton = element(by.css('button#change-role'));
+                            });
+
+                            describe('clicking the button', function(){
+                                beforeEach(function(){
+                                   changeRoleButton.click();
+                                });
+
+                                describe('selecting "Guest" as new role', function(){
+                                    beforeEach(function(){
+                                        element(by.linkText('Guest')).click();
+                                    });
+                                    it('shows an alert which asks if you really want to change the roles', function(){
+                                        var alertDialog = browser.switchTo().alert();
+                                        expect(alertDialog.getText()).toEqual('Are you sure you want to change the role of 4 users to Guest?');
+                                        browser.driver.switchTo().alert().then( // <- this fixes the problem
+                                            function (alert) {
+                                                alert.accept();
+                                            },
+                                            function (error) {
+                                            }
+                                        );
+                                    });
+                                });
+
+                            });
+                        });
+
+                        describe('delete button', function(){
+                            var deleteButton;
+                            beforeEach(function(){
+                                deleteButton = element(by.css('button#delete-users'));
+                            });
+
+                            describe('clicking the button', function(){
+                                beforeEach(function(){
+                                    deleteButton.click();
+                                });
+
+                                it('shows an alert which asks if you really want to delete the users', function(){
+                                    var alertDialog = browser.switchTo().alert();
+                                    expect(alertDialog.getText()).toEqual('Are you sure you want to delete 4 users?');
                                     browser.driver.switchTo().alert().then( // <- this fixes the problem
                                         function (alert) {
                                             alert.accept();
