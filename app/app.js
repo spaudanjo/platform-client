@@ -1,5 +1,5 @@
 require('angular/angular');
-require('angular-route/angular-route');
+// require('angular-route/angular-route');
 require('leaflet/dist/leaflet');
 require('angular-leaflet-directive/dist/angular-leaflet-directive');
 require('angular-ui-router');
@@ -30,7 +30,7 @@ var backendUrl = process.env.backend_url;
 angular.module('app',
     [
         'checklist-model',
-        'ngRoute',
+        'ui.router',
         'ngResource',
         'LocalStorageModule',
         'pascalprecht.translate',
@@ -43,10 +43,10 @@ angular.module('app',
         'leaflet-directive',
         'angularMoment',
         'btford.markdown',
-        'posts',
-        'tools',
-        'user-profile',
-        'workspace'
+        'posts'
+        // 'tools',
+        // 'user-profile',
+        // 'workspace'
     ])
     .constant('CONST', {
         BACKEND_URL         : backendUrl,
