@@ -36,9 +36,17 @@ function(
                 })
                 .forEach(function(feature){
                     var marker = $window.L.marker(feature.geometry.coordinates).addTo(map);
+
+                    marker.bindPopup(feature.properties.title);
+                    marker.on('mouseover', function (e) {
+                        this.openPopup();
+                    });
+                    marker.on('mouseout', function (e) {
+                        this.closePopup();
+                    });
                 });
             });
-        })
+        });
 
 
 
