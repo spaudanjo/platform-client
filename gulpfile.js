@@ -147,7 +147,19 @@ gulp.task('rename-leaflet-draw', ['rename-leaflet'], function() {
         .pipe(gulp.dest('node_modules/leaflet-draw/dist/'))
         ;
 });
-gulp.task('rename', ['rename-leaflet-draw', 'rename-leaflet', 'rename-colorpicker'], function() {});
+
+/**
+ * Copy icon files for leaflet and leaflet-draw from node_modules into server/www/css/images
+ */
+gulp.task('copy-leaflet-icons', [], function() {
+    return gulp.src(['node_modules/leaflet/dist/images/*', 'node_modules/leaflet-draw/dist/images/*'])
+        .pipe(gulp.dest(options.www + '/css/images'));
+});
+
+
+
+
+gulp.task('rename', ['copy-leaflet-icons', 'rename-leaflet-draw', 'rename-leaflet', 'rename-colorpicker'], function() {});
 
 /**
  * Task: `font`
