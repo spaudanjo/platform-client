@@ -5,6 +5,10 @@ module.exports = [
     'PostEndpoint',
     'UserEndpoint',
     'TagEndpoint',
+    '$http',
+    'Util',
+    '$window',
+    'leafletData',
     'FormAttributeEndpoint',
 function(
     $scope,
@@ -13,6 +17,10 @@ function(
     PostEndpoint,
     UserEndpoint,
     TagEndpoint,
+    $http,
+    Util,
+    $window,
+    leafletData,
     FormAttributeEndpoint
 ) {
     $translate('post.post_details').then(function(postDetailsTranslation){
@@ -20,6 +28,20 @@ function(
     });
 
     $scope.post = PostEndpoint.get({id: $routeParams.id}, function() {
+        $http.get(Util.apiUrl('/posts/' + $routeParams.id + '/geojson')).
+        success(function(data, status, headers, config) {
+            leafletData.getMap().then(function(map){
+                data.features.filter(function(feature){
+                    return feature.geometry.type === "Point";
+                })
+                .forEach(function(feature){
+                    var marker = $window.L.marker(feature.geometry.coordinates).addTo(map);
+                });
+            });
+        })
+
+
+
         // Load the post author
         if ($scope.post.user && $scope.post.user.id) {
             $scope.user = UserEndpoint.get({id: $scope.post.user.id});
