@@ -31,22 +31,36 @@ function(
         $http.get(Util.apiUrl('/posts/' + $routeParams.id + '/geojson')).
         success(function(data, status, headers, config) {
             leafletData.getMap().then(function(map){
-                data.features.filter(function(feature){
-                    return feature.geometry.type === "Point";
-                })
+                data.features
+                // .filter(function(feature){
+                //     return feature.geometry.type === "Point";
+                // })
                 .forEach(function(feature){
-                    var marker = $window.L.marker(feature.geometry.coordinates).addTo(map);
 
-                    marker.bindPopup(feature.properties.title);
-                    marker.on('mouseover', function (e) {
-                        this.openPopup();
-                    });
-                    marker.on('mouseout', function (e) {
-                        this.closePopup();
+                    var geometry;
+
+                    switch (feature.geometry.type) {
+                        case 'Point':
+                            geometry = $window.L.marker(feature.geometry.coordinates);
+                            break;
+                        // case 'MultiPolygon':
+                        //     geometry = $window.L.polygon(feature.geometry.coordinates);
+                        //     break;
+                        default:
+                            return;
+                    }
+
+                            geometry.addTo(map);
+                            geometry.bindPopup(feature.properties.title);
+                            geometry.on('mouseover', function (e) {
+                                this.openPopup();
+                                geometry.on('mouseout', function (e) {
+                                    this.closePopup();
+                                });
+                            });
+                        });
                     });
                 });
-            });
-        });
 
 
 
