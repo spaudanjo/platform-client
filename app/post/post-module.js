@@ -7,6 +7,7 @@ angular.module('posts', [])
 .directive('postLocation', require('./directives/post-location-directive.js'))
 
 .service('PostEndpoint', require('./services/endpoints/post-endpoint.js'))
+.service('GeojsonEndpoint', require('./services/endpoints/geojson-endpoint.js'))
 .service('PostEntity', require('./services/entities/post-entity.js'))
 
 .controller('PostModifyController', require('./controllers/post-modify-controller.js'))

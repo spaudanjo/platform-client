@@ -5,8 +5,7 @@ module.exports = [
     'PostEndpoint',
     'UserEndpoint',
     'TagEndpoint',
-    '$http',
-    'Util',
+    'GeojsonEndpoint',
     '$window',
     'leafletData',
     'FormAttributeEndpoint',
@@ -17,8 +16,7 @@ function(
     PostEndpoint,
     UserEndpoint,
     TagEndpoint,
-    $http,
-    Util,
+    GeojsonEndpoint,
     $window,
     leafletData,
     FormAttributeEndpoint
@@ -28,10 +26,9 @@ function(
     });
 
     $scope.post = PostEndpoint.get({id: $routeParams.id}, function() {
-        $http.get(Util.apiUrl('/posts/' + $routeParams.id + '/geojson')).
-        success(function(data, status, headers, config) {
+        GeojsonEndpoint.get({id: $routeParams.id}, function(geojsonData) {
             leafletData.getMap().then(function(map){
-                data.features
+                geojsonData.features
                 // .filter(function(feature){
                 //     return feature.geometry.type === "Point";
                 // })
