@@ -17,7 +17,6 @@
   "dependencies": {
     "bourbon": "3.1",
     "bootstrap": "~3.3.2",
-    "font-awesome": "~4.3.0",
-    "ngGeolocation": ">=0.0.2"
+    "font-awesome": "~4.3.0"
   }
 }

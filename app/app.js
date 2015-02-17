@@ -27,7 +27,7 @@ require('angular-gravatar/build/angular-gravatar');
 window.jQuery = require('jquery');
 require('jasny-bootstrap/js/offcanvas');
 
-require('../bower_components/ngGeolocation/ngGeolocation.min.js');
+require('ngGeolocation/ngGeolocation.min.js');
 
 require('./post/post-module.js');
 require('./tool/tool-module.js');
