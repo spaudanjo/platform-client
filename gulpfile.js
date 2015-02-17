@@ -107,6 +107,7 @@ gulp.task('sass', ['rename'], function() {
                 'node_modules/leaflet/dist/',
                 'node_modules/jasny-bootstrap/dist/',
                 'node_modules/leaflet.markercluster/dist/',
+                'node_modules/leaflet-draw/dist/'
             ],
             sourceComments: 'map'
         }))
@@ -145,6 +146,12 @@ gulp.task('rename-leaflet', [], function() {
         .pipe(gulp.dest('node_modules/leaflet/dist/'))
         ;
 });
+gulp.task('rename-leaflet-draw', ['rename-leaflet'], function() {
+    return gulp.src(['node_modules/leaflet-draw/dist/leaflet.draw.css'])
+        .pipe(rename('_leaflet.draw.scss'))
+        .pipe(gulp.dest('node_modules/leaflet-draw/dist/'))
+        ;
+});
 gulp.task('rename-leaflet-markercluster', [], function() {
     return gulp.src(['node_modules/leaflet.markercluster/dist/MarkerCluster.css'])
         .pipe(rename('_MarkerCluster.scss'))
@@ -164,12 +171,23 @@ gulp.task('rename-jasny', function() {
         ;
 });
 gulp.task('rename', [
+    'copy-leaflet-icons',
     'rename-leaflet',
+    'rename-leaflet-draw',
     'rename-colorpicker',
     'rename-leaflet-markercluster',
     'rename-leaflet-markercluster-default',
     'rename-jasny'
     ], function() {});
+
+/**
+ * Copy icon files for leaflet and leaflet-draw from node_modules into server/www/css/images
+ */
+gulp.task('copy-leaflet-icons', [], function() {
+    return gulp.src(['node_modules/leaflet/dist/images/*', 'node_modules/leaflet-draw/dist/images/*'])
+        .pipe(gulp.dest(options.www + '/css/images'));
+});
+
 
 /**
  * Task: `font`
