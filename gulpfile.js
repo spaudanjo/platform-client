@@ -170,6 +170,15 @@ gulp.task('rename-jasny', function() {
         .pipe(gulp.dest('node_modules/jasny-bootstrap/dist'))
         ;
 });
+
+/**
+ * Copy icon files for leaflet and leaflet-draw from node_modules into server/www/css/images
+ */
+gulp.task('copy-leaflet-icons', [], function() {
+    return gulp.src(['node_modules/leaflet/dist/images/*', 'node_modules/leaflet-draw/dist/images/*'])
+        .pipe(gulp.dest(options.www + '/img'));
+});
+
 gulp.task('rename', [
     'copy-leaflet-icons',
     'rename-leaflet',
@@ -179,14 +188,6 @@ gulp.task('rename', [
     'rename-leaflet-markercluster-default',
     'rename-jasny'
     ], function() {});
-
-/**
- * Copy icon files for leaflet and leaflet-draw from node_modules into server/www/css/images
- */
-gulp.task('copy-leaflet-icons', [], function() {
-    return gulp.src(['node_modules/leaflet/dist/images/*', 'node_modules/leaflet-draw/dist/images/*'])
-        .pipe(gulp.dest(options.www + '/css/images'));
-});
 
 
 /**

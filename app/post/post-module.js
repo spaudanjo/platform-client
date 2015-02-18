@@ -14,5 +14,5 @@ angular.module('posts', [])
 .config(require('./post-routes.js'))
 
 .run(['$window', function($window){
-    $window.L.Icon.Default.imagePath = '/css/images';
+    $window.L.Icon.Default.imagePath = '/img';
 }]);
