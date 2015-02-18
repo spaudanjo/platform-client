@@ -26,12 +26,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
 
                 controls: {
                     draw: {
-                        marker: true,
+                        marker: false,
                         polyline: false,
                         polygon: false,
                         rectangle: false,
                         circle: false
-                    }
+                    },
+                    edit: false
                 },
 
                 updateLatLon: function(lat, lon){
@@ -41,7 +42,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     }
                     if($scope.values[$scope.attribute.key][$scope.key] !== null)
                     {
-
                         $scope.values[$scope.attribute.key][$scope.key] = {};
                     }
 
@@ -52,18 +52,14 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
 
                 updateMarkerPosition: function(lat, lon){
                     leafletData.getMap($scope.attribute.key).then(function(map){
-                        var drawnItems = $scope.controls.edit.featureGroup;
+                        if(marker !== null)
+                        {
+                            map.removeLayer(marker);
+                        }
 
-                        var newLatLng = new $window.L.LatLng(lat, lon);
-                        if(marker)
-                        {
-                            marker.setLatLng(newLatLng);
-                        }
-                        else
-                        {
-                            marker = $window.L.marker(newLatLng);
-                            marker.addTo(drawnItems);
-                        }
+                        marker = new L.Marker(new L.latLng(lat, lon), {draggable:true});
+                        map.addLayer(marker);
+
                     });
                 },
 
@@ -105,31 +101,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
             });
 
             leafletData.getMap($scope.attribute.key).then(function(map) {
-                var drawnItems = $scope.controls.edit.featureGroup;
-                map.on('draw:created', function (e) {
-                    var layer = e.layer;
-                    if(drawnItems && drawnItems.getLayers().length!==0){
-                        drawnItems.clearLayers();
-                    }
-                    drawnItems.addLayer(layer);
-
-                    marker = layer;
-                    var lat = layer.getLatLng().lat,
-                    lon = layer.getLatLng().lng;
+                map.on('click', onMapClick);
+                function onMapClick(e) {
+                    var lat = e.latlng.lat,
+                        lon = e.latlng.lng;
+                    $scope.updateMarkerPosition(lat, lon);
                     $scope.updateLatLon(lat, lon);
-                });
-                map.on('draw:deleted', function(e){
-                    marker = null;
-                    $scope.updateLatLon(null, null);
-                });
-                map.on('draw:edited', function(e){
-                    var layers = e.layers;
-                    layers.eachLayer(function (layer) {
-                        var lat = layer.getLatLng().lat,
-                        lon = layer.getLatLng().lng;
-                        $scope.updateLatLon(lat, lon);
-                    });
-                });
+                };
             });
         }]
     };
