@@ -3,6 +3,7 @@ require('angular-route/angular-route');
 require('leaflet/dist/leaflet');
 require('leaflet.markercluster/dist/leaflet.markercluster');
 require('leaflet-draw/dist/leaflet.draw');
+require('leaflet.locatecontrol/dist/L.Control.Locate.min.js');
 require('angular-leaflet-directive/dist/angular-leaflet-directive');
 require('angular-resource/angular-resource');
 require('angular-translate');

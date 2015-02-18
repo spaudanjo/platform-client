@@ -69,20 +69,6 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     });
                 },
 
-                getCurrentPosition: function(event){
-                    event.preventDefault();
-                    var that = this;
-                    $geolocation.getCurrentPosition({
-                        timeout: 60000
-                    }).then(function(geoposition){
-                        var lat = geoposition.coords.latitude;
-                        var lon = geoposition.coords.longitude;
-                        that.updateLatLon(lat, lon);
-                        that.updateMarkerPosition(lat, lon);
-                        that.centerMapTo(lat, lon);
-                    });
-                },
-
                 searchLocation: function(event){
                     event.preventDefault();
                     var that = this;
@@ -108,6 +94,13 @@ module.exports = ['leafletData', '$http', function(leafletData, $http){
                     $scope.updateMarkerPosition(lat, lon);
                     $scope.updateLatLon(lat, lon);
                 };
+
+                lc = L.control.locate({
+                    follow: true,
+                    strings: {
+                        title: "Show me where I am, yo!"
+                    }
+                }).addTo(map);
             });
         }]
     };
