@@ -1,5 +1,4 @@
 <div class="input-location">
-    <input class="form-control" name="{{key}}" type="text" placeholder="Label" ng-model="values[attribute.key][key]['label']" ng-required="attribute.required">
     <input class="form-control" name="{{attribute.key}}" type="text" placeholder="Search" ng-model="searchLocationTerm" ng-required="attribute.required">
     <button ng-click="searchLocation($event)" translate>location.search_location</button>
     <button ng-click="getCurrentPosition($event)" translate>location.get_current_position</button>
