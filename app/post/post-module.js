@@ -12,6 +12,8 @@ angular.module('posts', [])
 
 .config(require('./post-routes.js'))
 
+.constant('MapLayersBaseControllerConfig', require('./constants/map-layers-base-controller-config.js'))
+
 .run(['$window', function($window){
     $window.L.Icon.Default.imagePath = '/img';
 }]);
