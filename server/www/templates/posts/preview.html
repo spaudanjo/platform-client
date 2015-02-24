@@ -16,6 +16,9 @@
             <p>
                 {{post.content}}
             </p>
+            <a ng-if="!post.form || !post.form.id" class="btn btn-default btn-large" href="/posts/{{post.id}}/add-structure">
+                <i class="fa fa-arrow-circle-o-right"></i><span translate>TRANSLATE-STRUCTURE</span>
+            </a>
         </div>
         <div class="col-md-3">
             <p ng-if="post.allowed_privileges.indexOf('update') !== -1">
@@ -26,4 +29,3 @@
         </div>
     </div>
 </li>
-

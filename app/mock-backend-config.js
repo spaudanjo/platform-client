@@ -4,6 +4,8 @@ angular.module('e2e-mocks', ['ngMockE2E'])
 
     var resourceToJsonMapping = {
         'posts': require('../mocked_backend/api/v2/posts.json'),
+        'forms': require('../mocked_backend/api/v2/forms.json'),
+        'tags': require('../mocked_backend/api/v2/tags.json'),
         'config/features': require('../mocked_backend/api/v2/config/features.json'),
         'config/map': require('../mocked_backend/api/v2/config/map.json'),
         'users': require('../mocked_backend/api/v2/users.json'),
@@ -11,13 +13,28 @@ angular.module('e2e-mocks', ['ngMockE2E'])
         'config/site': require('../mocked_backend/api/v2/config/site.json'),
     };
 
-    var getResultForResource = function(resourceName, offset, limit){
+    var getResultForResources = function(resourceName, offset, limit){
         var resource = _.clone(resourceToJsonMapping[resourceName]);
-        if(resource.results)
+        if(resource.results && !isNaN(offset) && !isNaN(limit))
         {
             resource.results = resource.results.slice(offset, offset+limit);
         }
         return [200, resource, {}];
+    };
+
+    var getSingleResourceForResourceId = function(resourceName, resourceId){
+        var resources = _.clone(resourceToJsonMapping[resourceName]);
+        var singleResource = _.find(resources.results, function(resource){return resource.id === resourceId})
+        return [200, singleResource, {}];
+    };
+
+   // note: the nested resources must be part of the top resource, 
+   // directly inline in the same json file
+    var getNestedResourcesForSingleResourceId = function(resourceName, resourceId, nestedResourcesName){
+        var resources = _.clone(resourceToJsonMapping[resourceName]);
+        var singleResource = _.find(resources.results, function(resource){return resource.id === resourceId})
+        var nestedResource = singleResource[nestedResourcesName];
+        return [200, nestedResource, {}];
     };
 
     $httpBackend.whenPOST(CONST.BACKEND_URL + '/oauth/token').respond(function(method, url, data) {
@@ -43,7 +60,6 @@ angular.module('e2e-mocks', ['ngMockE2E'])
     });
 
 
-
     var matcher = new RegExp(CONST.API_URL + '/.*');
 
     $httpBackend.whenGET(matcher).respond(function(method, url/*, data*/) {
@@ -52,6 +68,47 @@ angular.module('e2e-mocks', ['ngMockE2E'])
             offset = parseInt(queryParams.offset),
             limit = parseInt(queryParams.limit),
             resourceName = uri.path().split('api/v2/')[1];
+
+        var matcher = new RegExp('([a-zA-Z]+)(?:\/([0-9]*))?(?:\/(.*))?');
+        var matches = resourceName.match(matcher);
+        matches = matches.splice(1);
+        matches = matches.filter(function(n){ return n != undefined });
+
+        if(matches.length === 1)
+        {
+            return getResultForResources(matches[0], offset, limit);
+        }
+        else if(matches.length === 2)
+        {
+            return getSingleResourceForResourceId(matches[0], matches[1]);
+        }
+        else if(matches.length === 3)
+        {
+            return getNestedResourcesForSingleResourceId(matches[0], matches[1], matches[2]);
+        }
+    });
+
+
+    $httpBackend.whenPOST(matcher).respond(function(method, url/*, data*/) {
+        var uri = URI(url),
+            queryParams = uri.query(true),
+            offset = parseInt(queryParams.offset),
+            limit = parseInt(queryParams.limit),
+            resourceName = uri.path().split('api/v2/')[1];
+
+        // check if request is for an specific single tag resource
+        if(resourceName.indexOf("tags/") >= 0)
+        {
+            var tagId = resourceName.split("tags/")[1];
+            return getSingleResourceForResourceId('tags', tagId);
+        }
+
+        // check if request is for an specific single post resource
+        if(resourceName.indexOf("posts/") >= 0)
+        {
+            var postId = resourceName.split("posts/")[1];
+            return getSingleResourceForResourceId('posts', postId);
+        }
 
         return getResultForResource(resourceName, offset, limit);
     });
