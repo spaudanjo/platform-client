@@ -209,11 +209,9 @@
         "edit" : "Edit"
     },
     "workspace": {
-        "posts" : "posts",
         "users" : "users",
         "tags" : "categories",
         "accordion" : {
-            "posts" : "Posts",
             "settings" : "Settings",
             "tools" : "Tools"
         }
@@ -232,6 +230,7 @@
         "draft" : "Draft",
         "edited_by" : "Edited by",
         "export" : "Export",
+        "select_all" : "Select All",
         "number_of_posts_shown" : "Number of posts shown",
         "per_page" : "{{count}} posts",
         "other_posts_tagged" : "Other posts categorized",

@@ -12,7 +12,10 @@ function(
         restrict: 'E',
         replace: true,
         scope: {
-            post:  '='
+            post: '=',
+            isToggled: '&',
+            togglePost: '&',
+            postsAreSelectable: '&'
         },
         templateUrl: 'templates/posts/preview.html',
         link: function(scope) {

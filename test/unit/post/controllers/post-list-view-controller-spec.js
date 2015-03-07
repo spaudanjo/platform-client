@@ -7,13 +7,30 @@ describe('posts list controller', function(){
         $controller,
         mockPostEndpoint,
         mockPostResponse,
-        mockGlobalFilter = { getPostQuery: function() { return {}; } }
-        ;
+        mockGlobalFilter = { getPostQuery: function() { return {}; } },
+        mockNotify,
+        mockedSessionData;
 
     beforeEach(function(){
         var testApp = angular.module('testApp', [
         'pascalprecht.translate'
-        ])
+        ]),
+        mockedSessionService =
+        {
+            getSessionData: function(){
+                return mockedSessionData;
+            },
+            getSessionDataEntry: function(key){
+                return mockedSessionData[key];
+            },
+            setSessionDataEntry: function(key, value){
+                mockedSessionData[key] = value;
+            }
+        };
+
+        testApp.service('Session', function(){
+            return mockedSessionService;
+        })
         .config(require(ROOT_PATH + 'app/common/configs/locale-config.js'))
         .controller('postListViewController', require(ROOT_PATH + 'app/post/controllers/views/post-list-view-controller.js'));
 
@@ -28,6 +45,7 @@ describe('posts list controller', function(){
         $scope = _$rootScope_.$new();
     }));
 
+
     beforeEach(function(){
         mockPostEndpoint = {
             query: function() {
@@ -37,9 +55,16 @@ describe('posts list controller', function(){
             }
         };
 
+        mockedSessionData = {};
+
+        mockNotify = {
+            showAlerts: function(/*alerts*/) {}
+        };
+
         $controller('postListViewController', {
             $scope: $scope,
             PostEndpoint: mockPostEndpoint,
+            Notify: mockNotify,
             GlobalFilter: mockGlobalFilter
         });
 
@@ -75,8 +100,9 @@ describe('posts list controller', function(){
 
             $controller('postListViewController', {
                 $scope: $scope,
-                PostEndpoint: mockPostEndpoint,
-                GlobalFilter: mockGlobalFilter
+                Notify: mockNotify,
+                GlobalFilter: mockGlobalFilter,
+                PostEndpoint: mockPostEndpoint
             });
 
             queryDeferred.resolve(mockPostResponse);
