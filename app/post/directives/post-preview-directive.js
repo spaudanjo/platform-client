@@ -13,9 +13,6 @@ function(
         replace: true,
         scope: {
             post: '=',
-            isToggled: '&',
-            togglePost: '&',
-            postsAreSelectable: '&'
         },
         templateUrl: 'templates/posts/preview.html',
         link: function(scope) {
@@ -23,6 +20,10 @@ function(
             scope.post.tags = scope.post.tags.map(function (tag) {
                 return TagEndpoint.get({id: tag.id});
             });
+
+            scope.togglePost = function(){
+                scope.post.selected = !scope.post.selected;
+            };
 
             FormEndpoint.get({formId: scope.post.form.id}, function(form) {
                 scope.form_name = form.name;

@@ -18,9 +18,15 @@ function(
     _
 ) {
 
-    $translate('post.posts').then(function(title) {
-        $scope.title = title;
-        $scope.$emit('setPageTitle', title);
+    $scope.stuff = [
+      {selected: false, label: 'Scotchy scotch'},
+      {selected: true, label: 'Monacle'},
+      {selected: true, label: 'Curly mustache'},
+      {selected: false, label: 'Top hat'}
+    ];
+
+    $translate('post.posts').then(function(postsTranslation) {
+        $scope.title = postsTranslation;
     });
 
     var getPostsForPagination = function(query) {
@@ -49,12 +55,22 @@ function(
     });
 
 
+    $scope.somePostsSelected = function(){
+		return _.any($scope.posts, function(post){
+			return post.selected;
+		})
+	};
+
 
     $scope.deleteSelectedPosts = function() {
 		// ask server to delete selected posts
 		// and refetch posts from server
-		var deletePostsPromises = _.map($scope.selectedPostIds, function(postId){
-			return PostEndpoint.delete({ id: postId }).$promise;
+		var deletePostsPromises = _.map(
+			_.filter($scope.posts, function(post){
+				return post.selected;
+			}),
+			function(post){
+			return PostEndpoint.delete({ id: post.id }).$promise;
 		});
 		$q.all(deletePostsPromises).then(getPostsForPagination, handleResponseErrors)
 		.finally(getPostsForPagination);
@@ -74,25 +90,6 @@ function(
     $scope.currentPage = 1;
     $scope.itemsPerPageOptions = [10, 20, 50];
     $scope.itemsPerPage = $scope.itemsPerPageOptions[0];
-
-    $scope.isToggled = function(post) {
-        return $scope.selectedPostIds.indexOf(post.id) > -1;
-    };
-
-    $scope.togglePost = function(post) {
-		// don't do anything if user has no bulk action permissions at all
-		if(!$scope.userHasBulkActionPermissions())
-		{
-			return;
-		}
-
-        var idx = $scope.selectedPostIds.indexOf(post.id);
-        if (idx > -1) {
-            $scope.selectedPostIds.splice(idx, 1);
-        } else {
-            $scope.selectedPostIds.push(post.id);
-        }
-    };
 
 	$scope.selectAllPosts = function(){
 		$scope.selectedPostIds = _.map($scope.posts, function(post){

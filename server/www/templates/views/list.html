@@ -3,9 +3,20 @@
 </div>
 <div class="panel panel-default">
 
+    <ul>
+        <li ng-repeat="post in posts"
+        selection-model
+        selection-model-type="checkbox"
+        selection-model-mode="multiple-additive"
+        >
+            <input type="checkbox">
+            {{$index+1}}: {{item.label}}
+        </li>
+    </ul>
+
     <button type="button" class="btn" id="delete-selected-posts"
         ng-if="userHasBulkActionPermissions()"
-        ng-disabled="!selectedPostIds.length"
+        ng-disabled="!somePostsSelected()"
         ng-class="{ 'btn-default': !selectedPostIds.length, 'btn-danger': selectedPostIds.length }"
         ng-click="deleteSelectedPosts()">
             <i class="fa  fa-trash-o"></i>
@@ -20,7 +31,11 @@
     </button>
 
     <ul class="list-group">
-        <post-preview ng-repeat="post in posts" post="post" is-toggled="isToggled(post)" toggle-post="togglePost(post)" posts-are-selectable="userHasBulkActionPermissions()"></post-preview>
+        <post-preview
+            ng-repeat="post in posts"
+            post="post"
+        >
+        </post-preview>
     </ul>
 
     <div class="panel-footer">
