@@ -41,7 +41,7 @@ function(
             $scope.totalItems = postsResponse.total_count;
         });
     },
-	handleResponseErrors = function(errorResponse){
+    handleResponseErrors = function(errorResponse){
         var errors = _.pluck(errorResponse.data && errorResponse.data.errors, 'message');
         errors && Notify.showAlerts(errors);
     };
