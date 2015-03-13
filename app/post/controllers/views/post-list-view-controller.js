@@ -81,9 +81,12 @@ function(
         getPostsForPagination();
     };
 
-    // TODO: probably a more fine grained role based condition check is necessary here
 	$scope.userHasBulkActionPermissions = function(){
-		return Session.getSessionDataEntry('role') === 'admin';
+		return _.any($scope.posts, function(post){
+			return _.any(post.allowed_privileges, function(priv){
+				return ['update', 'delete', 'change_status'].indexOf(priv) !== -1;
+			});
+		});
 	};
 
 	$scope.pageChanged = getPostsForPagination;
