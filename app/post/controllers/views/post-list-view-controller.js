@@ -58,7 +58,7 @@ function(
     $scope.somePostsSelected = function(){
 		return _.any($scope.posts, function(post){
 			return post.selected;
-		})
+		});
 	};
 
 
@@ -92,8 +92,8 @@ function(
     $scope.itemsPerPage = $scope.itemsPerPageOptions[0];
 
 	$scope.selectAllPosts = function(){
-		$scope.selectedPostIds = _.map($scope.posts, function(post){
-			return post.id;
+		_.forEach($scope.posts, function(post){
+			post.selected = true;
 		});
 	};
 

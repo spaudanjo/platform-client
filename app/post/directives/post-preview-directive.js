@@ -21,10 +21,6 @@ function(
                 return TagEndpoint.get({id: tag.id});
             });
 
-            scope.togglePost = function(){
-                scope.post.selected = !scope.post.selected;
-            };
-
             FormEndpoint.get({formId: scope.post.form.id}, function(form) {
                 scope.form_name = form.name;
             });

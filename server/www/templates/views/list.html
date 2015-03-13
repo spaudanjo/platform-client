@@ -3,17 +3,6 @@
 </div>
 <div class="panel panel-default">
 
-    <ul>
-        <li ng-repeat="post in posts"
-        selection-model
-        selection-model-type="checkbox"
-        selection-model-mode="multiple-additive"
-        >
-            <input type="checkbox">
-            {{$index+1}}: {{item.label}}
-        </li>
-    </ul>
-
     <button type="button" class="btn" id="delete-selected-posts"
         ng-if="userHasBulkActionPermissions()"
         ng-disabled="!somePostsSelected()"
@@ -33,6 +22,9 @@
     <ul class="list-group">
         <post-preview
             ng-repeat="post in posts"
+            selection-model
+            selection-model-type="checkbox"
+            selection-model-mode="multiple-additive"
             post="post"
         >
         </post-preview>
