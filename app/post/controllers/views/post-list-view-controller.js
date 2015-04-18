@@ -87,9 +87,6 @@ module.exports = [
             });
         };
 
-        $scope.selectAllPosts = function(){
-            _.forEach($scope.posts, function(post){
-
         $scope.selectAllPosts = function () {
             _.forEach($scope.posts, function (post) {
                 post.selected = true;
@@ -102,6 +99,7 @@ module.exports = [
         $scope.currentPage = 1;
         $scope.itemsPerPageOptions = [10, 20, 50];
         $scope.itemsPerPage = $scope.itemsPerPageOptions[0];
+
         // untill we have the correct total_count value from backend request:
         $scope.totalItems = $scope.itemsPerPage;
 

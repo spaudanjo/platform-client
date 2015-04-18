@@ -64,7 +64,7 @@ angular.module('app',
         'user-profile',
         'workspace',
         'ngGeolocation',
-        'nvd3'
+        'nvd3',
         'selectionModel'
     ])
 
