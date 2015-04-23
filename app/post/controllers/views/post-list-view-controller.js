@@ -73,9 +73,7 @@ module.exports = [
 
         $scope.userHasBulkActionPermissions = function () {
             return _.any($scope.posts, function (post) {
-                return _.any(post.allowed_privileges, function (priv) {
-                    return ['update', 'delete', 'change_status'].indexOf(priv) !== -1;
-                });
+                return _.intersection(post.allowed_privileges, ['update', 'delete', 'change_status']).length > 0;
             });
         };
 
