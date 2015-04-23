@@ -54,19 +54,11 @@ module.exports = [
             getPostsForPagination();
         });
 
-
-        $scope.somePostsSelected = function () {
-            return _.any(_.pluck($scope.posts, 'selected'));
-        };
-
-
         $scope.deleteSelectedPosts = function () {
             // ask server to delete selected posts
             // and refetch posts from server
             var deletePostsPromises = _.map(
-                _.filter($scope.posts, function (post) {
-                    return post.selected;
-                }),
+                $scope.selectedItems,
                 function (post) {
                     return PostEndpoint.delete({ id: post.id }).$promise;
             });
@@ -97,6 +89,7 @@ module.exports = [
         // --- start: initialization
         $scope.pageChanged = getPostsForPagination;
         $scope.currentPage = 1;
+        $scope.selectedItems = [];
         $scope.itemsPerPageOptions = [10, 20, 50];
         $scope.itemsPerPage = $scope.itemsPerPageOptions[0];
 

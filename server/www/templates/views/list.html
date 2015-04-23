@@ -5,7 +5,7 @@
 
     <button type="button" class="btn" id="delete-selected-posts"
         ng-if="userHasBulkActionPermissions()"
-        ng-disabled="!somePostsSelected()"
+        ng-disabled="selectedItems.length <= 0"
         ng-class="{ 'btn-default': !selectedPostIds.length, 'btn-danger': selectedPostIds.length }"
         ng-click="deleteSelectedPosts()">
             <i class="fa  fa-trash-o"></i>
@@ -25,6 +25,7 @@
             selection-model
             selection-model-type="checkbox"
             selection-model-mode="multiple-additive"
+            selection-model-selected-items="selectedItems"
             post="post"
         >
         </post-preview>
