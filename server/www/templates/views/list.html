@@ -13,10 +13,16 @@
     </button>
 
     <button type="button" class="btn btn-default" id="select-all-posts"
-        ng-if="userHasBulkActionPermissions()"
+        ng-if="userHasBulkActionPermissions() && !allSelectedOnCurrentPage()"
         ng-click="selectAllPosts()">
             <i class="fa  fa-trash-o"></i>
             <span translate>post.select_all</span>
+    </button>
+    <button type="button" class="btn btn-default" id="unselect-all-posts"
+        ng-if="userHasBulkActionPermissions() && allSelectedOnCurrentPage()"
+        ng-click="unselectAllPosts()">
+            <i class="fa  fa-trash-o"></i>
+            <span translate>post.unselect_all</span>
     </button>
 
     <ul class="list-group">

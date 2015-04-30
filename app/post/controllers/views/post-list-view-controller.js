@@ -17,14 +17,13 @@ module.exports = [
         $q,
         _
     ){
-
         $scope.stuff = [
           {selected: false, label: 'Scotchy scotch'},
           {selected: true, label: 'Monacle'},
           {selected: true, label: 'Curly mustache'},
           {selected: false, label: 'Top hat'}
         ];
-    
+
         $translate('post.posts').then(function(postsTranslation) {
             $scope.title = postsTranslation;
         });
@@ -77,12 +76,28 @@ module.exports = [
             });
         };
 
+        $scope.unselectAllPosts = function () {
+            _.forEach($scope.posts, function (post) {
+                post.selected = false;
+            });
+        };
+
         $scope.selectAllPosts = function () {
             _.forEach($scope.posts, function (post) {
                 post.selected = true;
             });
         };
-        
+
+        $scope.allSelectedOnCurrentPage = function () {
+            var numberOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
+            var itemsOnLastPage = $scope.totalItems % $scope.itemsPerPage;
+
+            return
+                ($scope.currentPage === (numberOfPages-1) && $scope.selectedItems.length === $scope.itemsPerPage)
+                ||
+                ($scope.selectedItems.length === itemsOnLastPage)
+                ;
+        };
 
         // --- start: initialization
         $scope.pageChanged = getPostsForPagination;
@@ -95,6 +110,5 @@ module.exports = [
         $scope.totalItems = $scope.itemsPerPage;
 
         getPostsForPagination();
-
     }
 ];
