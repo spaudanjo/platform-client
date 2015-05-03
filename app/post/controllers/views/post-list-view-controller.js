@@ -54,15 +54,19 @@ module.exports = [
         });
 
         $scope.deleteSelectedPosts = function () {
-            // ask server to delete selected posts
-            // and refetch posts from server
-            var deletePostsPromises = _.map(
-                $scope.selectedItems,
-                function (post) {
-                    return PostEndpoint.delete({ id: post.id }).$promise;
+            $translate('notify.post.destroy_confirm').then(function(message) {
+                if (window.confirm(message)) {
+                    // ask server to delete selected posts
+                    // and refetch posts from server
+                    var deletePostsPromises = _.map(
+                        $scope.selectedItems,
+                        function (post) {
+                            return PostEndpoint.delete({ id: post.id }).$promise;
+                    });
+                    $q.all(deletePostsPromises).then(getPostsForPagination, handleResponseErrors)
+                    .finally(getPostsForPagination);
+                }
             });
-            $q.all(deletePostsPromises).then(getPostsForPagination, handleResponseErrors)
-            .finally(getPostsForPagination);
         };
 
         $scope.itemsPerPageChanged = function (count) {
@@ -92,8 +96,7 @@ module.exports = [
             var numberOfPages = Math.ceil($scope.totalItems / $scope.itemsPerPage);
             var itemsOnLastPage = $scope.totalItems % $scope.itemsPerPage;
 
-            return
-                ($scope.currentPage === (numberOfPages-1) && $scope.selectedItems.length === $scope.itemsPerPage)
+            return ($scope.currentPage === (numberOfPages-1) && $scope.selectedItems.length === $scope.itemsPerPage)
                 ||
                 ($scope.selectedItems.length === itemsOnLastPage)
                 ;
