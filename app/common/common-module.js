@@ -25,6 +25,8 @@ angular.module('ushahidi.common', [
 .controller('navigation', require('./controllers/navigation.js'))
 .controller('PageMetadata', require('./controllers/page-metadata.js'))
 
+.directive('paralaxHeader', require('./directives/paralax-header-directive.js'))
+
 .config(require('./configs/authentication-interceptor.js'))
 .config(require('./configs/locale-config.js'))
 .config(require('./configs/ui-bootstrap-template-decorators.js'))
