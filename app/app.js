@@ -1,4 +1,6 @@
 require('angular');
+window.$ = document.$ = $ = require('jquery');
+debugger;
 require('angular-route');
 require('leaflet');
 require('leaflet.markercluster');
