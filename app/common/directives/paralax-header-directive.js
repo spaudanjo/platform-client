@@ -25,30 +25,29 @@ function (
 
                 headerScrollReact = function(headerHeight, lastScrollTop, parallaxReady) {
                     // When scrolling, fade content relative to scroll position and speed
-                    $window.scroll(function(event){
-                        debugger;
-                        var scrollAmt = angular.element(this).scrollTop();
+                    $(window).scroll(function(event){
+                        var scrollAmt = $(this).scrollTop();
 
                         if ((scrollAmt >= headerHeight) && (scrollAmt < headerHeight + 75)) {
                             // TRANSITION
-                            angular.element('.header').removeClass('header-full header-compact');
+                            $('.header').removeClass('header-full header-compact');
                             if (scrollAmt > lastScrollTop){
                                 // Scrolling down
-                                angular.element('.header').delay(1500).addClass('header-transition');
+                                $('.header').delay(1500).addClass('header-transition');
                             } else {
                                 // Scrolling up
-                                angular.element('.header').addClass('header-transition');
+                                $('.header').addClass('header-transition');
                             }
                         } else if (scrollAmt >= (headerHeight + 75)) {
                             // COMPACT
-                            angular.element('.header').removeClass('header-transition header-full').addClass('header-compact');
+                            $('.header').removeClass('header-transition header-full').addClass('header-compact');
                         } else {
                             // FULL
-                            angular.element('.header').removeClass('header-transition header-compact').addClass('header-full');
+                            $('.header').removeClass('header-transition header-compact').addClass('header-full');
 
                             if (parallaxReady == true) {
                                 var deltaS = scrollAmt - lastScrollTop;
-                                angular.element('.parallax').css({
+                                $('.parallax').css({
                                     bottom: "-=" + deltaS/4.5,
                                     opacity: "-=" + deltaS/200
                                 });
@@ -58,15 +57,16 @@ function (
                     });
                 }
 
-                if (!angular.element(document.querySelector('.header')).hasClass('no-dynamic')) {
-                    var headerHeight = angular.element(document.querySelector('.header-full')).outerHeight(),
-                    lastScrollTop = $window.scrollTop();
+                debugger;
+                if (!$('.header').hasClass('no-dynamic')) {
+                    var headerHeight = $('.header-full').outerHeight(),
+                    lastScrollTop = $(window).scrollTop();
 
-                    angular.element(document.querySelector('.parallax')).hide().fadeIn(400);
+                    $('.parallax').hide().fadeIn(400);
 
                     // If page loads with scroll position greater than 0
                     if (lastScrollTop != 0) {
-                        angular.element(document.querySelector('.header')).removeClass('header-transition header-full').addClass('header-compact');
+                        $('.header').removeClass('header-transition header-full').addClass('header-compact');
                         headerScrollReact(headerHeight, lastScrollTop, false);
                         /*
                         var delta = headerHeight - lastScrollTop;
@@ -76,7 +76,7 @@ function (
                     });
                     */
                 } else {
-                    angular.element(document.querySelector('.header')).height(headerHeight);
+                    $('.header').height(headerHeight);
                     headerScrollReact(headerHeight, lastScrollTop, true);
                 }
             }
